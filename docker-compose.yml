@@ -1,0 +1,80 @@
+version: "3.7"
+services:
+  fe:
+    image: untadee/comment-survey-fe-5:latest
+    networks:
+      - traefik-public
+    environment:
+      - VUE_APP_API_URL=https://survey.haxuanson.com/api
+    deploy:
+      # service resource management
+      # resources:
+      # Hard limit - Docker does not allow to allocate more
+      # limits:
+      #   cpus: '0.50'
+      #   memory: 512M
+      # Soft limit - Docker makes best effort to return to it
+      # reservations:
+      #   cpus: '0.50'
+      #   memory: 256M
+      # service restart policy
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      rollback_config:
+        parallelism: 0
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.comment-survey-fe-5.rule=Host(`survey.haxuanson.com`)
+        - traefik.http.routers.comment-survey-fe-5.entrypoints=http
+        - traefik.http.routers.comment-survey-fe-5.middlewares=https-redirect
+        - traefik.http.routers.comment-survey-fe-5.entrypoints=https
+        - traefik.http.routers.comment-survey-fe-5.tls=true
+        - traefik.http.services.comment-survey-fe-5.loadbalancer.server.port=3000
+
+        - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+        - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
+
+        - traefik.http.routers.comment-survey-fe-5.tls.certresolver=le
+
+  be:
+    image: untadee/comment-survey-be-5:latest
+    networks:
+      - mongodb_net
+      - traefik-public
+      - redis_net
+    environment:
+      - MONGODB_URL=mongodb://admin:123123@mongodb_container:27017/comment-survey?authSource=admin
+    deploy:
+      labels:
+        # Frontend
+        - "traefik.enable=true"
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - "traefik.http.routers.comment-survey-be-5.rule=Host(`survey.haxuanson.com`) && PathPrefix(`/api/`)"
+        - "traefik.http.routers.comment-survey-be-5.entrypoints=https"
+        - traefik.http.routers.comment-survey-be-5.tls=true
+        - "traefik.http.services.comment-survey-be-5.loadbalancer.server.port=3333"
+        - "traefik.http.routers.comment-survey-be-5.service=comment-survey-be-5"
+        - traefik.http.routers.comment-survey-be-5.middlewares=comment-survey-strip-prefix-5
+        - traefik.http.middlewares.comment-survey-strip-prefix-5.stripprefix.prefixes=/api
+networks:
+  traefik-public:
+    external: true
+  mongodb_net:
+    external: true
+  redis_net:
+    external: true
+volumes:
+  data:

@@ -1,0 +1,85 @@
+extends ../layout
+
+block content
+
+  a#button
+  .container-survey
+    .header
+    .wrap-survey
+      .wrap-content
+        ul.nav.nav-tabs
+          // Questions
+          li.nav-item
+            a.nav-link.active(data-toggle='tab', href='#questions') #{pageName || "Questions"}
+          //- li.nav-item
+          //-   a.nav-link(data-toggle='tab', href='#dap') DAP
+          //- li.nav-item
+          //-   a.nav-link(data-toggle='tab', href='#background') Background
+        // Tab panes
+        .tab-content
+          // Question
+          #questions.container.tab-pane.active
+            block survey-content
+            
+            
+          // tabs
+          //- #dap.container.tab-pane.fade
+          //-   br
+          //-   h3 Menu 1
+          //-   p
+          //-     | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          //- #background.container.tab-pane.fade
+          //-   br
+          //-   h3 Menu 2
+          //-   p
+          //-     | Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+      
+        
+    //- modal final question
+  #finalQuestion.modal.fade(tabindex='-1' role='dialog' aria-labelledby='finalQuestion' aria-hidden='true')
+    .modal-dialog.modal-dialog-centered(role='document')
+      .modal-content
+        .modal-header
+          h6#finalQuestionTitle.modal-title Are you satisfied with the system generated answer (i.e., the installation decision)? Please select the following options
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          form#final-question
+            button(type="submit" style="display='none';")
+            .anwsers.mt-2
+              label.container-radio
+                | Yes
+                input(type='radio' class="final-question" name="satisfaction" value="1" required)
+                span.checkmark
+
+              label.container-radio
+                | No
+                input(type='radio' class="final-question" name="satisfaction" value="0" )
+                span.checkmark
+
+              label.container-radio
+                | Maybe
+                input(type='radio' class="final-question" name="satisfaction" value="2")
+                span.checkmark
+            .anwsers.mt-2
+              div.font-weight-bold Can you explain about your option?
+              
+              textarea(style="width:100%", name="final-comment", cols="30", rows="5" required)
+
+
+        .modal-footer
+          button#final-question-button.btn.btn-primary(type='button') Continue
+
+
+
+  #descriptionQuestion.modal.fade(tabindex='-1' role='dialog' aria-labelledby='descriptionQuestion' aria-hidden='false')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h6#descriptionQuestionTitle.modal-title Description
+            button.close(type='button' data-dismiss='modal' aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            
+          .modal-footer
+            button#final-question-button.btn.btn-secondary(type='button' data-dismiss='modal') Close
