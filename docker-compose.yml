@@ -37,14 +37,14 @@ services:
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
         - traefik.http.routers.comment-survey-fe-5.rule=Host(`survey.haxuanson.com`)
-        # - traefik.http.routers.comment-survey-fe-5.entrypoints=http
-        # - traefik.http.routers.comment-survey-fe-5.middlewares=https-redirect
-        # - traefik.http.routers.comment-survey-fe-5.entrypoints=https
+        - traefik.http.routers.comment-survey-fe-5.entrypoints=http
+        - traefik.http.routers.comment-survey-fe-5.middlewares=https-redirect
+        - traefik.http.routers.comment-survey-fe-5.entrypoints=https
         - traefik.http.routers.comment-survey-fe-5.tls=true
         - traefik.http.services.comment-survey-fe-5.loadbalancer.server.port=3000
 
-        # - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
-        # - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
+        - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+        - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
 
         - traefik.http.routers.comment-survey-fe-5.tls.certresolver=le
 
@@ -63,7 +63,7 @@ services:
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
         - "traefik.http.routers.comment-survey-be-5.rule=Host(`survey.haxuanson.com`) && PathPrefix(`/api/`)"
-        # - "traefik.http.routers.comment-survey-be-5.entrypoints=https"
+        - "traefik.http.routers.comment-survey-be-5.entrypoints=https"
         - traefik.http.routers.comment-survey-be-5.tls=true
         - "traefik.http.services.comment-survey-be-5.loadbalancer.server.port=3333"
         - "traefik.http.routers.comment-survey-be-5.service=comment-survey-be-5"
