@@ -5,7 +5,7 @@ services:
     networks:
       - traefik-public
     environment:
-      - VUE_APP_API_URL=https://survey.haxuanson.com/api
+      - VUE_APP_API_URL=https://rais3.dista.uninsubria.it/api
     deploy:
       # service resource management
       # resources:
@@ -36,7 +36,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
-        - traefik.http.routers.comment-survey-fe-5.rule=Host(`survey.haxuanson.com`)
+        - traefik.http.routers.comment-survey-fe-5.rule=Host(`rais3.dista.uninsubria.it`)
         - traefik.http.routers.comment-survey-fe-5.entrypoints=http
         - traefik.http.routers.comment-survey-fe-5.middlewares=https-redirect
         - traefik.http.routers.comment-survey-fe-5.entrypoints=https
@@ -62,7 +62,7 @@ services:
         - "traefik.enable=true"
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
-        - "traefik.http.routers.comment-survey-be-5.rule=Host(`survey.haxuanson.com`) && PathPrefix(`/api/`)"
+        - "traefik.http.routers.comment-survey-be-5.rule=Host(`rais3.dista.uninsubria.it`) && PathPrefix(`/api/`)"
         - "traefik.http.routers.comment-survey-be-5.entrypoints=https"
         - traefik.http.routers.comment-survey-be-5.tls=true
         - "traefik.http.services.comment-survey-be-5.loadbalancer.server.port=3333"
