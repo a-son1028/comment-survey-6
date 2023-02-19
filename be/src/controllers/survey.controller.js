@@ -86,9 +86,11 @@ class SurveyController {
         );
       }
 
-      let apps = await Models.App.find({
-        _id: { $in: _.map(appSurvey.apps, "appId") }
-      });
+      let apps = await Promise.all(
+        _.map(appSurvey.apps, "appId").map(appId => {
+          return Models.App.findById(appId).cache(60 * 60 * 24 * 30);
+        })
+      );
 
       apps = apps.map((app, stt) => {
         app = app.toJSON();
