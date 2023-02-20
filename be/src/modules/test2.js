@@ -7,7 +7,7 @@ import Models from "../models";
 import { Promise } from "bluebird";
 import _ from "lodash";
 
-main();
+// main();
 async function main() {
   console.log(1);
 
@@ -58,10 +58,11 @@ async function main() {
   console.log("DONE");
 }
 
-// getAppSurvey();
+getAppSurvey();
 async function getAppSurvey() {
   const apps = await Models.App.find({
-    appInfo: { $exists: true }
+    appInfo: { $exists: true },
+    "appInfo.dataSafety.sections": { $exists: true, $ne: [] }
   });
 
   const appSurveys = _.chunk(apps, 5);

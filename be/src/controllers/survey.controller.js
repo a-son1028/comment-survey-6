@@ -88,7 +88,8 @@ class SurveyController {
 
       let apps = await Promise.all(
         _.map(appSurvey.apps, "appId").map(appId => {
-          return Models.App.findById(appId).cache(60 * 60 * 24 * 30);
+          return Models.App.findById(appId);
+          // .cache(60 * 60 * 24 * 30);
         })
       );
 

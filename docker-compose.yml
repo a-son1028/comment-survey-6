@@ -56,7 +56,7 @@ services:
       - redis_net
     environment:
       - MONGODB_URL=mongodb://admin:123123@mongodb_container:27017/comment-survey?authSource=admin
-      - REDIS_HOST=redis-server
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
     deploy:
       labels:
