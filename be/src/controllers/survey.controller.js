@@ -94,6 +94,10 @@ class SurveyController {
 
       apps = apps.map((app, stt) => {
         app = app.toJSON();
+
+        app.appInfo.dataSafety.sections = app.appInfo.dataSafety.sections.filter(
+          section => section.title !== "Security practices"
+        );
         app.stt = stt + 1;
         return app;
       });

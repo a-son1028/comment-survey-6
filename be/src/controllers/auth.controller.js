@@ -43,6 +43,7 @@ class AuthController {
         country,
         age,
         gender,
+        fieldOfWorkType,
         fieldOfWork,
         hasExperience
       } = req.body;
@@ -55,6 +56,7 @@ class AuthController {
         country,
         age,
         gender,
+        fieldOfWorkType,
         fieldOfWork,
         hasExperience,
         currentQuestion: 1,

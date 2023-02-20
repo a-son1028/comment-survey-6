@@ -7,7 +7,7 @@ import Models from "../models";
 import { Promise } from "bluebird";
 import _ from "lodash";
 
-// main();
+main();
 async function main() {
   console.log(1);
 
@@ -17,7 +17,8 @@ async function main() {
     // },
     // appIdCHPlay: { $exists: true },
     // appInfo: { $exists: false }
-    appInfo: { $exists: true }
+    appInfo: { $exists: true },
+    isUpdatedInfo: { $exists: false }
   });
   // .limit(1000);
   // console.log(apps.length)
@@ -38,6 +39,7 @@ async function main() {
           _id: app.id
         },
         {
+          isUpdatedInfo: true,
           appInfo: {
             ...appInfo,
             dataSafety
@@ -56,7 +58,7 @@ async function main() {
   console.log("DONE");
 }
 
-getAppSurvey();
+// getAppSurvey();
 async function getAppSurvey() {
   const apps = await Models.App.find({
     appInfo: { $exists: true }

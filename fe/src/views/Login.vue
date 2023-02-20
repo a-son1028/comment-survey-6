@@ -1,5 +1,6 @@
 <template>
   <div class="limiter">
+    <UILoader v-if="isLoading" />
     <div class="container-login100">
       <div class="wrap-login100">
         <div
@@ -43,22 +44,30 @@
 
 <script>
 import { LOGIN } from '@/store/modules/user/action.type.js'
+import UILoader from '@/components/UILoader.vue'
 
 export default({
+  components: {
+    UILoader,
+  },
   data() {
     return {
       email: '',
+      isLoading: false,
     }
   },
   methods: {
     submit(e) {
       e.preventDefault();
+      this.isLoading = true
 
       this.$store.dispatch(LOGIN, this.email)
       .then(() => {
+        this.isLoading = false
         this.$router.push('/')
       })
       .catch(({ response }) => {
+        this.isLoading = false
         this.$toast.error(response.data.message);
       })
     }

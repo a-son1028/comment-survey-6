@@ -21,6 +21,9 @@ var userSchema = new Schema(
       type: String,
       enum: ["male", "female"]
     },
+    fieldOfWorkType: {
+      type: String
+    },
     fieldOfWork: {
       type: String
     },

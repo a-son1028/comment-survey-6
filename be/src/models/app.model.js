@@ -54,7 +54,8 @@ var schema = new Schema(
     isGotCommentV2: Boolean,
     needRunBert: Boolean,
     isTest5: Boolean,
-    appInfo: Schema.Types.Mixed
+    appInfo: Schema.Types.Mixed,
+    isUpdatedInfo: Boolean
   },
   {
     timestamps: true,

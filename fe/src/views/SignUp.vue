@@ -1,5 +1,6 @@
 <template>
   <div class="limiter">
+    <UILoader v-if="isLoading" />
     <div class="container-login100">
       <div class="wrap-login100">
         <div
@@ -76,14 +77,41 @@
               for="inlineRadio2"
             >Female</label></div>
           </div><!-- The field of work: -->
+          <div class="wrap-input100 validate-input mt-3">
+            <b class="mr-2">The field of work*: </b>
+            <div class="form-check form-check-inline ml-4"><input
+              id="inlineRadio1"
+              v-model="fieldOfWorkType"
+              class="form-check-input"
+              type="radio"
+              value="computer-science"
+              required
+            ><label
+              class="form-check-label pl-2"
+              for="inlineRadio1"
+            >Computer science</label></div>
+            <div class="form-check form-check-inline ml-5">
+              <input
+                id="inlineRadio2"
+                v-model="fieldOfWorkType"
+                class="form-check-input"
+                type="radio"
+                value="other"
+              ><label
+                class="form-check-label pl-2"
+                for="inlineRadio2"
+              >Other</label>
+            </div>
+          </div>
           <div
+            v-if="fieldOfWorkType === 'other'"
             class="wrap-input100 validate-input"
             data-validate="The field of work is required"
           ><input
             v-model="fieldOfWork"
             class="input100"
             type="text"
-            placeholder="The field of work*"
+            placeholder="Please enter the field of work*"
             required
           ><span class="focus-input100" /><span class="symbol-input100"><i
             class="fa fa-graduation-cap"
@@ -134,18 +162,24 @@
 </template>
 
 <script>
+import UILoader from '@/components/UILoader.vue'
 import { SIGNUP } from '@/store/modules/user/action.type.js'
 export default({
+  components: {
+    UILoader,
+  },
   data() {
     return {
       fullName: '',
       email: '',
       age: '',
       gender: '',
+      fieldOfWorkType: '',
       fieldOfWork: '',
       education: '',
       country: '',
-      hasExperience: ''
+      hasExperience: '',
+      isLoading: false,
     }
   },
   watch: {
@@ -158,6 +192,7 @@ export default({
       this.email = ''
       this.age = ''
       this.gender = ''
+      this.fieldOfWorkType = ''
       this.fieldOfWork = ''
       this.education = ''
       this.country = ''
@@ -165,12 +200,14 @@ export default({
     },
     submit(e) {
       e.preventDefault();
+      this.isLoading = true
 
       const payload = {
         fullName: this.fullName,
         email: this.email,
         age: this.age,
         gender: this.gender,
+        fieldOfWorkType: this.fieldOfWorkType,
         fieldOfWork: this.fieldOfWork,
         education: this.education,
         country: this.country,
@@ -179,11 +216,13 @@ export default({
       
       this.$store.dispatch(SIGNUP, payload)
       .then((response) => {
+        this.isLoading = false
         this.$toast.success(response.data.message);
 
         this.clearFormData()
       })
       .catch(({ response }) => {
+        this.isLoading = false
         this.$toast.error(response.data.message);
       })
     }
