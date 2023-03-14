@@ -28,7 +28,7 @@
     "getcommentProd": "node --expose-gc --max_old_space_size=12192 dist/modules/getcomment.js",
     "test": "babel-watch src/modules/test.js",
     "test2": "babel-watch src/modules/test2.js",
-    "test2-node": "node --max_old_space_size=8192 dist/modules/test2.js"
+    "test2-node": "node --max_old_space_size=12192 dist/modules/test2.js"
   },
   "heroku-prebuild": "rm -rf node_modules",
   "dependencies": {
