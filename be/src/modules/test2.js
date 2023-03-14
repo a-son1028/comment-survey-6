@@ -255,7 +255,7 @@ async function updateHtmlPrivacyPolicy() {
         return;
       },
       {
-        concurrency: 4
+        concurrency: 10
       }
     );
   } while (apps.length);
@@ -334,6 +334,7 @@ async function checkSententIncludeSecurity(sentent) {
 
   return keywords.some(keyword => sententStem.includes(keyword));
 }
+
 // main();
 async function main() {
   console.log(1);
@@ -780,7 +781,7 @@ async function getContentFromUrl(url) {
     const browser = await puppeteer.launch({
       // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
       // executablePath: "/usr/bin/chromium-browser"
-      args: ["--no-sandbox"]
+      args: ["--disable-setuid-sandbox", "--no-sandbox"]
     });
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(1000 * 5);
