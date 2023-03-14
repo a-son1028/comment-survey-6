@@ -10,6 +10,8 @@ var schema = new Schema(
     updatedDate: String,
     description: String,
     contentPrivacyPolicy: String,
+    htmlPrivacyPolicy: String,
+    isUpdatedHtmlPrivacyPolicy: Boolean,
     currentVersion: String,
     size: String,
     installs: String,
