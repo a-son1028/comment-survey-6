@@ -255,7 +255,7 @@ async function updateHtmlPrivacyPolicy() {
         return;
       },
       {
-        concurrency: 10
+        concurrency: 4
       }
     );
   } while (apps.length);
