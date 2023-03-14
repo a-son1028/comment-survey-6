@@ -237,21 +237,21 @@ async function updateHtmlPrivacyPolicy() {
       async (app, i) => {
         console.log(`${i + 1}/${apps.length}`);
         const { privacyLink } = app;
-        // try {
-        const html = await getContentFromUrl(privacyLink);
+        try {
+          const html = await getContentFromUrl(privacyLink);
 
-        await Models.App.updateOne(
-          {
-            _id: app.id
-          },
-          {
-            isUpdatedHtmlPrivacyPolicy: true,
-            htmlPrivacyPolicy: html
-          }
-        );
-        // } catch (error) {
-        //   console.log(error.message);
-        // }
+          await Models.App.updateOne(
+            {
+              _id: app.id
+            },
+            {
+              isUpdatedHtmlPrivacyPolicy: true,
+              htmlPrivacyPolicy: html
+            }
+          );
+        } catch (error) {
+          console.log(error.message);
+        }
         return;
       },
       {
@@ -793,8 +793,8 @@ async function getContentFromUrl(url) {
 
     return data;
   } catch (err) {
-    throw err;
-    // console.error(err);
-    // return "";
+    // throw err;
+    console.error(err);
+    return "";
   }
 }
