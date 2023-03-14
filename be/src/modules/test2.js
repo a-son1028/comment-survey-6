@@ -228,8 +228,11 @@ async function updateHtmlPrivacyPolicy() {
 
   do {
     apps = await Models.App.find({
-      privacyLink: { $exists: true },
-      isUpdatedHtmlPrivacyPolicy: { $exists: false }
+      // privacyLink: { $exists: true },
+      // isUpdatedHtmlPrivacyPolicy: { $exists: false }
+
+      isUpdatedHtmlPrivacyPolicy: true,
+      htmlPrivacyPolicy: ""
     }).limit(500);
 
     await Promise.map(
@@ -275,15 +278,17 @@ async function getParagraphs() {
     const { htmlPrivacyPolicy, privacyLink } = app;
     const $ = await cheerio.load(htmlPrivacyPolicy);
 
+    console.log(privacyLink);
+
     $("p").each((index, element) => {
       const $element = $(element);
       const pTagContent = $element.text();
-      console.log(pTagContent);
       const $nextElement = $element.next();
+
       const $nextParentElement = $element.parent().next();
       if ($nextElement.is("ul")) {
         const ulTagContent = $nextElement.html();
-        console.log(ulTagContent);
+        // console.log(ulTagContent);
       }
     });
   }
