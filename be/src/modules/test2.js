@@ -237,21 +237,21 @@ async function updateHtmlPrivacyPolicy() {
       async (app, i) => {
         console.log(`${i + 1}/${apps.length}`);
         const { privacyLink } = app;
-        try {
-          const html = await getContentFromUrl(privacyLink);
+        // try {
+        const html = await getContentFromUrl(privacyLink);
 
-          await Models.App.updateOne(
-            {
-              _id: app.id
-            },
-            {
-              isUpdatedHtmlPrivacyPolicy: true,
-              htmlPrivacyPolicy: html
-            }
-          );
-        } catch (error) {
-          console.log(error.message);
-        }
+        await Models.App.updateOne(
+          {
+            _id: app.id
+          },
+          {
+            isUpdatedHtmlPrivacyPolicy: true,
+            htmlPrivacyPolicy: html
+          }
+        );
+        // } catch (error) {
+        //   console.log(error.message);
+        // }
         return;
       },
       {
@@ -779,7 +779,7 @@ async function getContentFromUrl(url) {
   try {
     const browser = await puppeteer.launch({
       // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-      executablePath: "/usr/bin/chromium-browser"
+      // executablePath: "/usr/bin/chromium-browser"
     });
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(1000 * 5);
