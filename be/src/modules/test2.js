@@ -780,6 +780,7 @@ async function getContentFromUrl(url) {
     const browser = await puppeteer.launch({
       // executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
       // executablePath: "/usr/bin/chromium-browser"
+      args: ["--no-sandbox"]
     });
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(1000 * 5);
