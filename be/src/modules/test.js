@@ -7,6 +7,7 @@ import axios from "axios";
 import fs from "fs";
 import { truncate } from "lodash";
 import { execSync } from "child_process";
+const isEnglish = require("is-english");
 
 const activities = [
   "playing sport",
@@ -27,7 +28,13 @@ const people = [
   "Colleague"
 ];
 
-// createQuestions();
+// main();
+async function main() {
+  await createQuestions();
+
+  await createSurvey();
+  console.log("DONE");
+}
 async function createQuestions() {
   await Models.Question.deleteMany({});
 
@@ -54,6 +61,7 @@ async function createQuestions() {
   apps.forEach(app => {
     const { appName, staticApis = [], thirdPartiesHP = [], purposesHP = [] } = app;
     const personalData = getPersionalDataByApis(staticApis, DataItemLabel);
+    if (!isEnglish(appName)) return;
 
     // type 1
     activities.forEach(activity => {
@@ -125,10 +133,8 @@ async function createQuestions() {
   console.log(`type4: ${questions.filter(item => item.type === "type4").length}`);
   console.log(`type5: ${questions.filter(item => item.type === "type5").length}`);
   await Models.Question.insertMany(questions);
-
-  console.log("DONE");
 }
-createSurvey();
+
 async function createSurvey() {
   await Models.AppSurvey.deleteMany({});
 
