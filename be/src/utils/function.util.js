@@ -8,7 +8,8 @@ import qs from "qs";
 import slug from "slug";
 import Models from "../models";
 import Services from "../services";
-import constants from "./constants";
+import * as constants from "./constants";
+
 const dir = bluebird.promisifyAll(require("node-dir"));
 
 const apiGroups = [
@@ -32,8 +33,7 @@ const apiGroups = [
       "By accessing this data, the app can manage image capture settings, start/stop the image preview, snap pictures, and retrieve frames that are used as the interfaces to preview the displayed pictures."
   },
   {
-    groupName:
-      "Collection of user data based on peripherals connection via USB port",
+    groupName: "Collection of user data based on peripherals connection via USB port",
     apis: ["android.hardware.usb"],
     mean:
       "By accessing this data, the app can access the state of the USB and communicate with connected hardware peripherals."
@@ -59,8 +59,7 @@ const apiGroups = [
   {
     groupName: "Hardware display devices",
     apis: ["android.hardware.display"],
-    mean:
-      "By accessing this data, the app can change available display devices."
+    mean: "By accessing this data, the app can change available display devices."
   },
   {
     groupName: "Health and Fitness info",
@@ -186,8 +185,7 @@ const apiGroups = [
       "androidx.media.app",
       "androidx.media.utils"
     ],
-    mean:
-      "By accessing this data, the app can share media contents and controls with other apps."
+    mean: "By accessing this data, the app can share media contents and controls with other apps."
   },
   {
     groupName: "Metadata of media file",
@@ -297,16 +295,7 @@ function getPersonalDataType(personalDataType) {
   return personalDataTypes.find(item => item.name === personalDataType.name);
 }
 function getDAPFile(treeName, subFolder) {
-  return (
-    folderCSVBaseLineOutput +
-    "/" +
-    subFolder +
-    "/" +
-    treeName +
-    "_" +
-    folderName +
-    ".csv"
-  );
+  return folderCSVBaseLineOutput + "/" + subFolder + "/" + treeName + "_" + folderName + ".csv";
 }
 
 async function getBaseLineByKey(key, firstLevelName, subFolderName) {
@@ -323,9 +312,7 @@ async function getBaseLineByKey(key, firstLevelName, subFolderName) {
 }
 
 async function getAPIFromNode(node) {
-  const parent = await Models.Tree.findById(node.parent).cache(
-    60 * 60 * 24 * 30
-  ); // 1 month;
+  const parent = await Models.Tree.findById(node.parent).cache(60 * 60 * 24 * 30); // 1 month;
 
   if (
     parent.name === "root" ||
@@ -368,11 +355,7 @@ async function creatingTrees(rows, DAP_PATH) {
     // exist
     if (firstLevel) {
       // ================== check existing (first) ==================
-      var [firstLevelIsExist] = checkExistingInTrees(
-        trees,
-        firstLevel,
-        "first"
-      );
+      var [firstLevelIsExist] = checkExistingInTrees(trees, firstLevel, "first");
       if (!firstLevelIsExist) {
         const firstLevelIndex = trees.children.length;
 
@@ -388,16 +371,16 @@ async function creatingTrees(rows, DAP_PATH) {
       // exist
       if (secondLevel) {
         // ================== check existing (second) ==================
-        var [
-          secondLevelIsExist,
-          firstLevelIndex,
-          secondLevelIndex
-        ] = checkExistingInTrees(trees, secondLevel, "second", firstLevel);
+        var [secondLevelIsExist, firstLevelIndex, secondLevelIndex] = checkExistingInTrees(
+          trees,
+          secondLevel,
+          "second",
+          firstLevel
+        );
         if (!secondLevelIsExist) {
           const details = detail ? [detail.trim()] : [];
 
-          const secondLevelIndex =
-            trees.children[firstLevelIndex]["children"].length;
+          const secondLevelIndex = trees.children[firstLevelIndex]["children"].length;
 
           // push to first level children array
           trees.children[firstLevelIndex]["children"].push({
@@ -410,9 +393,7 @@ async function creatingTrees(rows, DAP_PATH) {
           });
         } else {
           // add detail
-          const details =
-            trees.children[firstLevelIndex]["children"][secondLevelIndex]
-              .details;
+          const details = trees.children[firstLevelIndex]["children"][secondLevelIndex].details;
 
           // check detail exist
           if (detail && _.indexOf(details, detail) === -1) {
@@ -429,23 +410,13 @@ async function creatingTrees(rows, DAP_PATH) {
           firstLevelIndex,
           secondLevelIndex,
           thirdLevelIndex
-        ] = checkExistingInTrees(
-          trees,
-          thirdLevel,
-          "third",
-          firstLevel,
-          secondLevel
-        );
+        ] = checkExistingInTrees(trees, thirdLevel, "third", firstLevel, secondLevel);
         if (!thirdLevelIsExist) {
           const details = detail ? [detail.trim()] : [];
           const thirdLevelIndex =
-            trees.children[firstLevelIndex]["children"][secondLevelIndex][
-              "children"
-            ].length;
+            trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"].length;
           // push to second level children array
-          trees.children[firstLevelIndex]["children"][secondLevelIndex][
-            "children"
-          ].push({
+          trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"].push({
             name: thirdLevel,
             group,
             details,
@@ -456,9 +427,9 @@ async function creatingTrees(rows, DAP_PATH) {
         } else {
           // add detail
           const details =
-            trees.children[firstLevelIndex]["children"][secondLevelIndex][
-              "children"
-            ][thirdLevelIndex].details;
+            trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"][
+              thirdLevelIndex
+            ].details;
 
           // check detail exist
           if (detail && _.indexOf(details, detail) === -1) {
@@ -487,14 +458,14 @@ async function creatingTrees(rows, DAP_PATH) {
             // add detail
             const details = detail ? [detail.trim()] : [];
             const fourthLevelIndex =
-              trees.children[firstLevelIndex]["children"][secondLevelIndex][
-                "children"
-              ][thirdLevelIndex]["children"].length;
+              trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"][
+                thirdLevelIndex
+              ]["children"].length;
 
             // push to third level children array
-            trees.children[firstLevelIndex]["children"][secondLevelIndex][
-              "children"
-            ][thirdLevelIndex]["children"].push({
+            trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"][
+              thirdLevelIndex
+            ]["children"].push({
               name: fourthLevel,
               details,
               group,
@@ -505,9 +476,9 @@ async function creatingTrees(rows, DAP_PATH) {
           } else {
             // add detail
             const details =
-              trees.children[firstLevelIndex]["children"][secondLevelIndex][
-                "children"
-              ][thirdLevelIndex]["children"][fourthLevelIndex].details;
+              trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"][
+                thirdLevelIndex
+              ]["children"][fourthLevelIndex].details;
 
             // check detail exist
             if (detail && _.indexOf(details, detail) === -1) {
@@ -544,11 +515,7 @@ async function creatingTreesWithGroup(rows, DAP_PATH) {
     // exist
     if (firstLevel) {
       // ================== check existing (first) ==================
-      var [firstLevelIsExist] = checkExistingInTrees(
-        trees,
-        firstLevel,
-        "first"
-      );
+      var [firstLevelIsExist] = checkExistingInTrees(trees, firstLevel, "first");
       if (!firstLevelIsExist) {
         // push to children array
         trees.children.push({
@@ -561,11 +528,12 @@ async function creatingTreesWithGroup(rows, DAP_PATH) {
       // exist
       if (secondLevel) {
         // ================== check existing (second) ==================
-        var [
-          secondLevelIsExist,
-          firstLevelIndex,
-          secondLevelIndex
-        ] = checkExistingInTrees(trees, secondLevel, "second", firstLevel);
+        var [secondLevelIsExist, firstLevelIndex, secondLevelIndex] = checkExistingInTrees(
+          trees,
+          secondLevel,
+          "second",
+          firstLevel
+        );
         if (!secondLevelIsExist) {
           // push to first level children array
           trees.children[firstLevelIndex]["children"].push({
@@ -584,18 +552,10 @@ async function creatingTreesWithGroup(rows, DAP_PATH) {
           firstLevelIndex,
           secondLevelIndex,
           thirdLevelIndex
-        ] = checkExistingInTrees(
-          trees,
-          thirdLevel,
-          "third",
-          firstLevel,
-          secondLevel
-        );
+        ] = checkExistingInTrees(trees, thirdLevel, "third", firstLevel, secondLevel);
         if (!thirdLevelIsExist) {
           // push to second level children array
-          trees.children[firstLevelIndex]["children"][secondLevelIndex][
-            "children"
-          ].push({
+          trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"].push({
             name: thirdLevel,
             group,
             children: []
@@ -622,9 +582,9 @@ async function creatingTreesWithGroup(rows, DAP_PATH) {
           if (!fourthLevelIsExist) {
             // console.log(fourthLevel, group);
             // push to third level children array
-            trees.children[firstLevelIndex]["children"][secondLevelIndex][
-              "children"
-            ][thirdLevelIndex]["children"].push({
+            trees.children[firstLevelIndex]["children"][secondLevelIndex]["children"][
+              thirdLevelIndex
+            ]["children"].push({
               name: fourthLevel,
               group
               // children: []
@@ -658,9 +618,7 @@ function checkExistingInTrees(
     case "second": {
       // first loop
       for (let i = 0; i < children.length; i++) {
-        const { name: firstLevelName, children: firstLevelchildren } = children[
-          i
-        ];
+        const { name: firstLevelName, children: firstLevelchildren } = children[i];
 
         // finding parent position
         if (firstLevelName === firstLevelKey) {
@@ -680,17 +638,14 @@ function checkExistingInTrees(
     case "third": {
       // first loop
       for (let i = 0; i < children.length; i++) {
-        const { name: firstLevelName, children: firstLevelchildren } = children[
-          i
-        ];
+        const { name: firstLevelName, children: firstLevelchildren } = children[i];
 
         // finding first level position
         if (firstLevelName === firstLevelKey) {
           for (let j = 0; j < firstLevelchildren.length; j++) {
-            const {
-              name: sencondLevelName,
-              children: sencondLevelchildren
-            } = firstLevelchildren[j];
+            const { name: sencondLevelName, children: sencondLevelchildren } = firstLevelchildren[
+              j
+            ];
 
             // finding second level position
             if (sencondLevelName === secondLevelKey) {
@@ -712,31 +667,26 @@ function checkExistingInTrees(
     case "fourth": {
       // first loop
       for (let i = 0; i < children.length; i++) {
-        const { name: firstLevelName, children: firstLevelchildren } = children[
-          i
-        ];
+        const { name: firstLevelName, children: firstLevelchildren } = children[i];
 
         // finding first level position
         if (firstLevelName === firstLevelKey) {
           for (let j = 0; j < firstLevelchildren.length; j++) {
-            const {
-              name: sencondLevelName,
-              children: sencondLevelchildren
-            } = firstLevelchildren[j];
+            const { name: sencondLevelName, children: sencondLevelchildren } = firstLevelchildren[
+              j
+            ];
 
             // finding second level position
             if (sencondLevelName === secondLevelKey) {
               for (let k = 0; k < sencondLevelchildren.length; k++) {
-                const {
-                  name: thirdLevelName,
-                  children: thirdLevelchildren
-                } = sencondLevelchildren[k];
+                const { name: thirdLevelName, children: thirdLevelchildren } = sencondLevelchildren[
+                  k
+                ];
 
                 if (thirdLevelName === thirdLevelKey) {
                   const fourthLevelKeys = _.map(thirdLevelchildren, "name");
 
-                  if (!_.includes(fourthLevelKeys, key))
-                    return [false, i, j, k];
+                  if (!_.includes(fourthLevelKeys, key)) return [false, i, j, k];
                   else {
                     return [true, i, j, k, _.indexOf(fourthLevelKeys, key)];
                   }
@@ -762,11 +712,7 @@ function getRootNamesInTree(tree) {
   return tree.children.map(item => item.name);
 }
 
-function getBuildTreeForQuestion(
-  rootNames,
-  buildTreeHeaders,
-  buildTreeRowInApp
-) {
+function getBuildTreeForQuestion(rootNames, buildTreeHeaders, buildTreeRowInApp) {
   const results = [];
   // loop root names
   for (let i = 0; i < rootNames.length; i++) {
@@ -786,13 +732,7 @@ function getBuildTreeForQuestion(
   return results;
 }
 
-async function createQuestion(
-  distanceHeaders,
-  distanceRow,
-  tree,
-  appNameData,
-  buildTreeData
-) {
+async function createQuestion(distanceHeaders, distanceRow, tree, appNameData, buildTreeData) {
   // ================ DATA =======================
   // build tree
   const [buildTreeHeaders, ...buildTreeRows] = buildTreeData;
@@ -809,11 +749,7 @@ async function createQuestion(
   const rootNames = getRootNamesInTree(tree);
 
   // get build tree for question
-  question.builTree = getBuildTreeForQuestion(
-    rootNames,
-    buildTreeHeaders,
-    buildTreeRowInApp
-  );
+  question.builTree = getBuildTreeForQuestion(rootNames, buildTreeHeaders, buildTreeRowInApp);
 
   // console.log(question.builTree);
   // console.log(rootNames);
@@ -958,31 +894,16 @@ function getLeafNodesRequiredDetails(nodes, result = []) {
   }
   return result;
 }
-function getDataForLeafNodesDistance(
-  appId,
-  leafNodes,
-  distanceHeaders,
-  distanceRows
-) {
+function getDataForLeafNodesDistance(appId, leafNodes, distanceHeaders, distanceRows) {
   const data = [];
 
   for (let i = 0; i < leafNodes.length; i++) {
     const leafNode = leafNodes[i];
     const { name, details } = leafNode;
 
-    const distanceValue = getDistanceValue(
-      appId,
-      name,
-      distanceHeaders,
-      distanceRows
-    );
+    const distanceValue = getDistanceValue(appId, name, distanceHeaders, distanceRows);
 
-    if (
-      details.length === 0 ||
-      distanceValue === undefined ||
-      distanceValue == 0
-    )
-      continue;
+    if (details.length === 0 || distanceValue === undefined || distanceValue == 0) continue;
 
     data.push({
       name,
@@ -994,23 +915,14 @@ function getDataForLeafNodesDistance(
   return data;
 }
 
-function getDataForLeafNodesBuilTree(
-  appId,
-  leafNodes,
-  [distanceHeaders, ...distanceRows]
-) {
+function getDataForLeafNodesBuilTree(appId, leafNodes, [distanceHeaders, ...distanceRows]) {
   const data = [];
 
   for (let i = 0; i < leafNodes.length; i++) {
     const leafNode = leafNodes[i];
     const { name, details, group, replacedName } = leafNode;
 
-    const buildTreeValue = getDistanceValue(
-      appId,
-      name,
-      distanceHeaders,
-      distanceRows
-    );
+    const buildTreeValue = getDistanceValue(appId, name, distanceHeaders, distanceRows);
 
     if (details.length === 0 || buildTreeValue == 0) continue;
 
@@ -1025,13 +937,7 @@ function getDataForLeafNodesBuilTree(
 
   return data;
 }
-async function getDataForLeafNodesDAP(
-  appId,
-  leafNodes,
-  rootName,
-  categoryName,
-  DAP_PATH
-) {
+async function getDataForLeafNodesDAP(appId, leafNodes, rootName, categoryName, DAP_PATH) {
   const data = [];
 
   const filePaths = await dir.filesAsync(DAP_PATH + "/" + categoryName);
@@ -1108,8 +1014,7 @@ async function getPermissions(
     const fileName = getFileNameByAppId(appId, appNameRows);
     if (!fileName) throw Error(`Cannot find out file by app id ${appId}`);
 
-    const permissionFilePath =
-      PERRMISSION_FOLDER_PATH + "/" + categoryName + "/" + fileName;
+    const permissionFilePath = PERRMISSION_FOLDER_PATH + "/" + categoryName + "/" + fileName;
 
     let content = await getContentTxtFile(permissionFilePath);
     content = content.split("/n");
@@ -1220,10 +1125,7 @@ async function getDataForQuestion(appId, tree, buildTreeData, meta) {
     const rootNames = getRootNamesInTree(tree);
     for (let i = 0; i < rootNames.length; i++) {
       const rootName = rootNames[i];
-      const dateForNode = _.filter(
-        dataForFirstLevel,
-        item => item.node == rootName
-      )[0];
+      const dateForNode = _.filter(dataForFirstLevel, item => item.node == rootName)[0];
 
       const { keywordGroup: group, descGroup: description } = dateForNode;
 
@@ -1267,11 +1169,7 @@ async function getDataForQuestion(appId, tree, buildTreeData, meta) {
       //   DAP_PATH
       // );
       // data for leaf nodes distance
-      let leafNodeDataBuildTree = getDataForLeafNodesBuilTree(
-        appId,
-        leafNodes,
-        buildTreeData
-      );
+      let leafNodeDataBuildTree = getDataForLeafNodesBuilTree(appId, leafNodes, buildTreeData);
       leafNodeDataBuildTree = _.uniqBy(leafNodeDataBuildTree, "replacedName");
       // console.log(leafNodeDataBuildTree);
       // node
@@ -1419,10 +1317,7 @@ async function createRows(apps, categoryNameData, headers) {
     const row = [];
     const { name: appName, nodes, appId, response: appValue } = apps[i];
     const appData = await Models.App.findById(appId).cache(60 * 60 * 24 * 30);
-    const categoryId = getCategortIdByName(
-      appData.categoryName,
-      categoryNameData
-    );
+    const categoryId = getCategortIdByName(appData.categoryName, categoryNameData);
 
     row[slug("AppId")] = appData.appId;
     // loop leaf nodes
@@ -1440,8 +1335,7 @@ async function createRows(apps, categoryNameData, headers) {
       // row[slug(nodeName)] =
       //   nodeValue == 1 || nodeValue == 2 ? 1 : nodeValue == 3 ? 2 : 3; // first level
     }
-    row[slug("app")] =
-      appValue == 1 || appValue == 2 ? 1 : appValue == 3 ? 2 : 3; // label
+    row[slug("app")] = appValue == 1 || appValue == 2 ? 1 : appValue == 3 ? 2 : 3; // label
     row[slug("categories")] = categoryId; // categories
 
     rows.push(row);
@@ -1464,9 +1358,7 @@ async function findGroupForLeafNode(nodeName, leafNodes) {
       return item.name === leafNode.name;
     })[0];
     // get group data
-    const groupData = await Models.Group.findById(leafNodeData.group).cache(
-      60 * 60 * 24 * 30
-    );
+    const groupData = await Models.Group.findById(leafNodeData.group).cache(60 * 60 * 24 * 30);
 
     leafNodesWithGroup.push({
       name: leafNode.name,
@@ -1477,12 +1369,7 @@ async function findGroupForLeafNode(nodeName, leafNodes) {
 
   return leafNodesWithGroup;
 }
-async function createRowsFirstLevelAndOneLeafNode(
-  apps,
-  categoryNameData,
-  headers,
-  isDefaultRange
-) {
+async function createRowsFirstLevelAndOneLeafNode(apps, categoryNameData, headers, isDefaultRange) {
   const rows = [];
 
   const representNodeInGroup = [];
@@ -1491,10 +1378,7 @@ async function createRowsFirstLevelAndOneLeafNode(
     const row = [];
     const { name: appName, nodes, appId, response: appValue } = apps[i];
     const appData = await Models.App.findById(appId).cache(60 * 60 * 24 * 30);
-    const categoryId = getCategortIdByName(
-      appData.categoryName,
-      categoryNameData
-    );
+    const categoryId = getCategortIdByName(appData.categoryName, categoryNameData);
 
     row[slug("AppId")] = appData.appId;
     // loop leaf nodes
@@ -1502,10 +1386,7 @@ async function createRowsFirstLevelAndOneLeafNode(
       const { name: nodeName, response: nodeValue, leafNodes } = nodes[j];
       // loop leaf nodes
 
-      const leafNodesWithGroup = await findGroupForLeafNode(
-        nodeName,
-        leafNodes
-      );
+      const leafNodesWithGroup = await findGroupForLeafNode(nodeName, leafNodes);
 
       const leafNodeByGroups = _.groupBy(leafNodesWithGroup, "group");
 
@@ -1723,9 +1604,7 @@ function getComparedNodesBigValue(comparingNode, tree) {
       node = node.children[arrayPath];
     }
 
-    const childrenNodeValues = node.children.map(item =>
-      parseFloat(item.baseLine)
-    );
+    const childrenNodeValues = node.children.map(item => parseFloat(item.baseLine));
 
     const bigValue = Math.max(...childrenNodeValues);
     if (bigValue != 0) {
@@ -1823,15 +1702,14 @@ function getCommonNode(comparingNode, comparedNode, tree) {
       ) {
         return {
           name:
-            tree.children[comparingPathArray[0]].children[comparingPathArray[1]]
-              .children[comparingPathArray[2]].name,
+            tree.children[comparingPathArray[0]].children[comparingPathArray[1]].children[
+              comparingPathArray[2]
+            ].name,
           path: `${comparingPathArray[0]}.${comparingPathArray[1]}.${comparingPathArray[2]}`
         };
       } else {
         return {
-          name:
-            tree.children[comparingPathArray[0]].children[comparingPathArray[1]]
-              .name,
+          name: tree.children[comparingPathArray[0]].children[comparingPathArray[1]].name,
           path: `${comparingPathArray[0]}.${comparingPathArray[1]}`
         };
       }
@@ -1880,10 +1758,7 @@ function getDistanceFromNodeToCommonNode(node, commonNode) {
 
   return node.path.split(".").length - commonNode.path.split(".").length;
 }
-async function createRowsDistance(
-  apps,
-  { categoryNameData, headers, trees, DAP_PATH }
-) {
+async function createRowsDistance(apps, { categoryNameData, headers, trees, DAP_PATH }) {
   const rows = [];
 
   // loop app
@@ -1892,10 +1767,7 @@ async function createRowsDistance(
     const { name: appName, nodes, appId, response: appValue } = apps[i];
 
     const appData = await Models.App.findById(appId).cache(60 * 60 * 24 * 30);
-    const categoryId = getCategortIdByName(
-      appData.categoryName,
-      categoryNameData
-    );
+    const categoryId = getCategortIdByName(appData.categoryName, categoryNameData);
 
     row[slug("AppId")] = appData.appId;
     // loop leaf nodes
@@ -1905,19 +1777,10 @@ async function createRowsDistance(
       const baseLineData = await csv({
         noheader: true,
         output: "csv"
-      }).fromFile(
-        DAP_PATH +
-          "/" +
-          appData.categoryName +
-          "/" +
-          nodeName +
-          "_GenCSVFile4ML.csv"
-      );
+      }).fromFile(DAP_PATH + "/" + appData.categoryName + "/" + nodeName + "_GenCSVFile4ML.csv");
 
       const indexChildTree = _.findIndex(trees.children, ["name", nodeName]);
-      const childTree = JSON.parse(
-        JSON.stringify(trees.children[indexChildTree])
-      );
+      const childTree = JSON.parse(JSON.stringify(trees.children[indexChildTree]));
       initBaseLineValueForTree(childTree, baseLineData);
 
       // loop leaf nodes
@@ -1934,11 +1797,7 @@ async function createRowsDistance(
           if (leafNodeInTree.path === comparedNode.path) {
             leafNodeValue = 0;
           } else {
-            const commonNode = getCommonNode(
-              leafNodeInTree,
-              comparedNode,
-              childTree
-            );
+            const commonNode = getCommonNode(leafNodeInTree, comparedNode, childTree);
 
             const vRoot = childTree.baseLine;
             const vCaa = getBaseLineVaLueOfNode(commonNode, childTree);
@@ -1946,20 +1805,12 @@ async function createRowsDistance(
             const vN1 = getBaseLineVaLueOfNode(leafNodeInTree, childTree);
             const vN2 = getBaseLineVaLueOfNode(comparedNode, childTree);
 
-            const disN1 = getDistanceFromNodeToCommonNode(
-              leafNodeInTree,
-              commonNode
-            );
-            const disN2 = getDistanceFromNodeToCommonNode(
-              comparedNode,
-              commonNode
-            );
+            const disN1 = getDistanceFromNodeToCommonNode(leafNodeInTree, commonNode);
+            const disN2 = getDistanceFromNodeToCommonNode(comparedNode, commonNode);
 
             leafNodeValue =
               (2 * (1 - vRoot) * (1 - vCaa) * depthCaa) /
-              ((1 - vN1) * disN1 +
-                (1 - vN2) * disN2 +
-                2 * (1 - vRoot) * (1 - vCaa) * depthCaa);
+              ((1 - vN1) * disN1 + (1 - vN2) * disN2 + 2 * (1 - vRoot) * (1 - vCaa) * depthCaa);
             // recordForTree[slug(comparingNode.name)] = result;
           }
         } else {
@@ -1970,8 +1821,7 @@ async function createRowsDistance(
       }
       row[slug(nodeName)] = nodeValue / 5; // first level
 
-      row[slug(nodeName)] =
-        nodeValue == 1 || nodeValue == 2 ? 1 : nodeValue == 3 ? 2 : 3; // first level
+      row[slug(nodeName)] = nodeValue == 1 || nodeValue == 2 ? 1 : nodeValue == 3 ? 2 : 3; // first level
     }
     row[slug("app")] = appValue; // label
     row[slug("categories")] = categoryId; // categories
@@ -1982,10 +1832,7 @@ async function createRowsDistance(
   return result;
 }
 
-async function createRowsDistanceFirstLevel(
-  apps,
-  { categoryNameData, headers, trees, DAP_PATH }
-) {
+async function createRowsDistanceFirstLevel(apps, { categoryNameData, headers, trees, DAP_PATH }) {
   const rows = [];
 
   // loop app
@@ -1994,10 +1841,7 @@ async function createRowsDistanceFirstLevel(
     const { name: appName, nodes, appId, response: appValue } = apps[i];
 
     const appData = await Models.App.findById(appId);
-    const categoryId = getCategortIdByName(
-      appData.categoryName,
-      categoryNameData
-    );
+    const categoryId = getCategortIdByName(appData.categoryName, categoryNameData);
 
     row[slug("AppId")] = appData.appId;
     // loop leaf nodes
@@ -2007,19 +1851,10 @@ async function createRowsDistanceFirstLevel(
       const baseLineData = await csv({
         noheader: true,
         output: "csv"
-      }).fromFile(
-        DAP_PATH +
-          "/" +
-          appData.categoryName +
-          "/" +
-          nodeName +
-          "_GenCSVFile4ML.csv"
-      );
+      }).fromFile(DAP_PATH + "/" + appData.categoryName + "/" + nodeName + "_GenCSVFile4ML.csv");
 
       const indexChildTree = _.findIndex(trees.children, ["name", nodeName]);
-      const childTree = JSON.parse(
-        JSON.stringify(trees.children[indexChildTree])
-      );
+      const childTree = JSON.parse(JSON.stringify(trees.children[indexChildTree]));
       initBaseLineValueForTree(childTree, baseLineData);
 
       // loop leaf nodes
@@ -2036,11 +1871,7 @@ async function createRowsDistanceFirstLevel(
           if (leafNodeInTree.path === comparedNode.path) {
             leafNodeValue = 0;
           } else {
-            const commonNode = getCommonNode(
-              leafNodeInTree,
-              comparedNode,
-              childTree
-            );
+            const commonNode = getCommonNode(leafNodeInTree, comparedNode, childTree);
 
             const vRoot = childTree.baseLine;
             const vCaa = getBaseLineVaLueOfNode(commonNode, childTree);
@@ -2048,20 +1879,12 @@ async function createRowsDistanceFirstLevel(
             const vN1 = getBaseLineVaLueOfNode(leafNodeInTree, childTree);
             const vN2 = getBaseLineVaLueOfNode(comparedNode, childTree);
 
-            const disN1 = getDistanceFromNodeToCommonNode(
-              leafNodeInTree,
-              commonNode
-            );
-            const disN2 = getDistanceFromNodeToCommonNode(
-              comparedNode,
-              commonNode
-            );
+            const disN1 = getDistanceFromNodeToCommonNode(leafNodeInTree, commonNode);
+            const disN2 = getDistanceFromNodeToCommonNode(comparedNode, commonNode);
 
             leafNodeValue =
               (2 * (1 - vRoot) * (1 - vCaa) * depthCaa) /
-              ((1 - vN1) * disN1 +
-                (1 - vN2) * disN2 +
-                2 * (1 - vRoot) * (1 - vCaa) * depthCaa);
+              ((1 - vN1) * disN1 + (1 - vN2) * disN2 + 2 * (1 - vRoot) * (1 - vCaa) * depthCaa);
             // recordForTree[slug(comparingNode.name)] = result;
           }
         } else {
@@ -2072,8 +1895,7 @@ async function createRowsDistanceFirstLevel(
       }
       row[slug(nodeName)] = nodeValue / 5; // first level
 
-      row[slug(nodeName)] =
-        nodeValue == 1 || nodeValue == 2 ? 1 : nodeValue == 3 ? 2 : 3; // first level
+      row[slug(nodeName)] = nodeValue == 1 || nodeValue == 2 ? 1 : nodeValue == 3 ? 2 : 3; // first level
     }
     row[slug("app")] = appValue; // label
     row[slug("categories")] = categoryId; // categories
@@ -2104,21 +1926,15 @@ const getAppsCategories = async appIds => {
   return result;
 };
 const getTranningData = async (tranningAppIds, userAnswer) => {
-  const tranningApps = await Promise.all(
-    tranningAppIds.map(appId => Models.App.findById(appId))
-  );
+  const tranningApps = await Promise.all(tranningAppIds.map(appId => Models.App.findById(appId)));
 
   const traningSet = tranningApps.map(tranningApp => {
     let { PPModel, apisModel, id } = tranningApp;
     PPModel = JSON.parse(PPModel);
     apisModel = JSON.parse(apisModel);
 
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2131,14 +1947,8 @@ const getTranningData = async (tranningAppIds, userAnswer) => {
   return traningSet;
 };
 
-const getOurPredictionApproach3 = async (
-  tranningAppIds,
-  userAnswer,
-  question
-) => {
-  const tranningApps = await Promise.all(
-    tranningAppIds.map(appId => Models.App.findById(appId))
-  );
+const getOurPredictionApproach3 = async (tranningAppIds, userAnswer, question) => {
+  const tranningApps = await Promise.all(tranningAppIds.map(appId => Models.App.findById(appId)));
   const category = Object.entries(constants.categoryGroups).find(item => {
     const subCategories = item[1];
 
@@ -2158,12 +1968,8 @@ const getOurPredictionApproach3 = async (
       return false;
     })[0];
 
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2212,12 +2018,8 @@ const getOurPredictionApproach3 = async (
     collectionData = JSON.parse(collectionData || "[]");
     thirdPartyData = JSON.parse(thirdPartyData || "[]");
 
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2261,12 +2063,8 @@ const getOurPredictionApproach3 = async (
     collectionData = JSON.parse(collectionData || "[]");
     thirdPartyData = JSON.parse(thirdPartyData || "[]");
 
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2324,12 +2122,8 @@ const getOurPredictionApproach3 = async (
 
   const tranningSet = Array.from({ length: tranningApps.length }, (v, i) => {
     const { id } = tranningApps[i];
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2337,12 +2131,7 @@ const getOurPredictionApproach3 = async (
     if (!questionInstallation) throw Error("Answer not found");
     const label = questionInstallation.value;
 
-    return [
-      data[0][i][0].toString(),
-      data[1][i][0].toString(),
-      data[2][i][0].toString(),
-      label
-    ];
+    return [data[0][i][0].toString(), data[1][i][0].toString(), data[2][i][0].toString(), label];
   });
 
   const testSet = [
@@ -2354,11 +2143,7 @@ const getOurPredictionApproach3 = async (
     ]
   ];
   // eslint-disable-next-line no-console
-  console.log(
-    "Step 2 in approach 3 with tranning and test: ",
-    tranningSet,
-    testSet
-  );
+  console.log("Step 2 in approach 3 with tranning and test: ", tranningSet, testSet);
 
   const predict = await Services.Prediction.getPredictEM({
     train: tranningSet,
@@ -2371,14 +2156,8 @@ const getOurPredictionApproach3 = async (
   return predict[0];
 };
 
-const getOurPredictionApproach4 = async (
-  tranningAppIds,
-  userAnswer,
-  question
-) => {
-  const tranningApps = await Promise.all(
-    tranningAppIds.map(appId => Models.App.findById(appId))
-  );
+const getOurPredictionApproach4 = async (tranningAppIds, userAnswer, question) => {
+  const tranningApps = await Promise.all(tranningAppIds.map(appId => Models.App.findById(appId)));
   const category = Object.entries(constants.categoryGroups).find(item => {
     const subCategories = item[1];
 
@@ -2397,12 +2176,8 @@ const getOurPredictionApproach4 = async (
       return false;
     })[0];
 
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2410,11 +2185,7 @@ const getOurPredictionApproach4 = async (
     if (!questionInstallation) throw Error("Answer not found");
     const label = questionInstallation.value;
 
-    return [
-      index + 1,
-      Object.keys(constants.categoryGroups).indexOf(category) + 1,
-      label
-    ];
+    return [index + 1, Object.keys(constants.categoryGroups).indexOf(category) + 1, label];
   });
   // app and categor(view 1)
   const view1Test = tranningApps.map((tranningApp, index) => {
@@ -2426,11 +2197,7 @@ const getOurPredictionApproach4 = async (
       return false;
     })[0];
 
-    return [
-      index + 1,
-      Object.keys(constants.categoryGroups).indexOf(category) + 1,
-      -1
-    ];
+    return [index + 1, Object.keys(constants.categoryGroups).indexOf(category) + 1, -1];
   });
   view1Test.push([
     view1Test.length + 1,
@@ -2444,12 +2211,8 @@ const getOurPredictionApproach4 = async (
 
     apisModel = JSON.parse(apisModel);
 
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2475,12 +2238,8 @@ const getOurPredictionApproach4 = async (
     collectionData = JSON.parse(collectionData || "[]");
     thirdPartyData = JSON.parse(thirdPartyData || "[]");
 
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2534,12 +2293,8 @@ const getOurPredictionApproach4 = async (
 
   const tranningSet = Array.from({ length: tranningApps.length }, (v, i) => {
     const { id } = tranningApps[i];
-    const userAnswerQuestion = userAnswer.questions.find(
-      question => question.id === id
-    );
-    let questionInstallation = userAnswerQuestion.responses.find(
-      item => item.name === "install"
-    );
+    const userAnswerQuestion = userAnswer.questions.find(question => question.id === id);
+    let questionInstallation = userAnswerQuestion.responses.find(item => item.name === "install");
     if (!questionInstallation)
       questionInstallation = userAnswerQuestion.responses.find(
         item => item.name === "agreePredict"
@@ -2547,12 +2302,7 @@ const getOurPredictionApproach4 = async (
     if (!questionInstallation) throw Error("Answer not found");
     const label = questionInstallation.value;
 
-    return [
-      data[0][i][0].toString(),
-      data[1][i][0].toString(),
-      data[2][i][0].toString(),
-      label
-    ];
+    return [data[0][i][0].toString(), data[1][i][0].toString(), data[2][i][0].toString(), label];
   });
 
   const testSet = [
@@ -2564,11 +2314,7 @@ const getOurPredictionApproach4 = async (
     ]
   ];
   // eslint-disable-next-line no-console
-  console.log(
-    "Step 2 in approach 3 with tranning and test: ",
-    tranningSet,
-    testSet
-  );
+  console.log("Step 2 in approach 3 with tranning and test: ", tranningSet, testSet);
 
   const predict = await Services.Prediction.getPredictEM({
     train: tranningSet,
@@ -2632,7 +2378,181 @@ const retry = async (func, time) => {
 
   return result;
 };
+
+function getNextStage(current) {
+  const STAGES = constants.STAGES;
+  switch (current) {
+    case STAGES.training1:
+      return STAGES.testing1;
+    case STAGES.testing1:
+      return STAGES.training2;
+    case STAGES.training2:
+      return STAGES.testing2;
+    case STAGES.testing2:
+      return STAGES.training3;
+    case STAGES.training3:
+      return STAGES.testing3;
+    case STAGES.testing3:
+      return STAGES.training4;
+    case STAGES.training4:
+      return STAGES.testing4;
+    case STAGES.testing4:
+      return STAGES.training5;
+    case STAGES.training5:
+      return STAGES.testing5;
+    case STAGES.testing5:
+      return STAGES.testing5;
+  }
+}
+
+function mapTrainingType1(question) {
+  const {
+    params: [activity, app, personalData]
+  } = question;
+
+  return [
+    ...constants.ACTIVITIES.map(item => (item === activity ? 1 : 0)),
+    ...constants.APP_CATEGORIES.map(item => (item === app.categoryName ? 1 : 0)),
+    ...constants.PERSONAL_DATA_TYPE.map(item => (item === personalData ? 1 : 0))
+  ];
+}
+
+function mapTrainingType2(question) {
+  const {
+    params: [activity, app, personalData, thirdParty]
+  } = question;
+
+  return [
+    ...constants.ACTIVITIES.map(item => (item === activity ? 1 : 0)),
+    ...constants.APP_CATEGORIES.map(item => (item === app.categoryName ? 1 : 0)),
+    ...constants.PERSONAL_DATA_TYPE.map(item => (item === personalData ? 1 : 0)),
+    ...constants.THIRD_PARTIES.map(item => (item === thirdParty ? 1 : 0))
+  ];
+}
+
+function mapTrainingType3(question) {
+  const {
+    params: [activity, personalData, person]
+  } = question;
+
+  return [
+    ...constants.ACTIVITIES.map(item => (item === activity ? 1 : 0)),
+    ...constants.PERSONAL_DATA_TYPE.map(item => (item === personalData ? 1 : 0)),
+    ...constants.PEOPLE.map(item => (item === person ? 1 : 0))
+  ];
+}
+
+function mapTrainingType4(question) {
+  const {
+    params: [personalData, app, purpose]
+  } = question;
+
+  return [
+    ...constants.PERSONAL_DATA_TYPE.map(item => (item === personalData ? 1 : 0)),
+    ...constants.APP_CATEGORIES.map(item => (item === app.categoryName ? 1 : 0)),
+    ...constants.PURPOSES.map(item => (item === purpose ? 1 : 0))
+  ];
+}
+
+function mapTrainingType5(question) {
+  const {
+    params: [personalData, thirdParty, purpose]
+  } = question;
+
+  return [
+    ...constants.PERSONAL_DATA_TYPE.map(item => (item === personalData ? 1 : 0)),
+    ...constants.THIRD_PARTIES.map(item => (item === thirdParty ? 1 : 0)),
+    ...constants.PURPOSES.map(item => (item === purpose ? 1 : 0))
+  ];
+}
+
+async function getOurPredictionType(traningQuestionIds, testingQuestions, answer, type) {
+  const trainingQuestions = await Models.Question.find({
+    _id: { $in: traningQuestionIds }
+  });
+
+  let mapTrainingFunction;
+  switch (type) {
+    case "type1": {
+      mapTrainingFunction = mapTrainingType1;
+      break;
+    }
+    case "type2": {
+      mapTrainingFunction = mapTrainingType2;
+      break;
+    }
+    case "type3": {
+      mapTrainingFunction = mapTrainingType3;
+      break;
+    }
+    case "type4": {
+      mapTrainingFunction = mapTrainingType4;
+      break;
+    }
+    case "type5": {
+      mapTrainingFunction = mapTrainingType5;
+      break;
+    }
+  }
+  const typeNumber = type.replace("type", "");
+  const trainingSet = trainingQuestions.map(question => {
+    const label = answer[`training${typeNumber}`][question._id].allow;
+    return [...mapTrainingFunction(question), label].map(item => item.toString());
+  });
+
+  const testingSet = testingQuestions.map(question => {
+    return [...mapTrainingFunction(question), -1].map(item => item.toString());
+  });
+
+  const EMTesting = testingSet.slice(0, 3);
+  const SVMTesting = testingSet.slice(3, 6);
+  const ADATesting = testingSet.slice(6, 9);
+
+  const EMResult = await Promise.allSettled(
+    EMTesting.map(testingItem => {
+      return Services.Prediction.getPredictEM({
+        train: trainingSet,
+        test: [testingItem]
+      });
+    })
+  ).then(arr => {
+    return arr.map(item => (item.value ? item.value[0][0] : 0));
+  });
+
+  const SVMResult = await Promise.allSettled(
+    SVMTesting.map(testingItem => {
+      return Services.Prediction.getPredictSVM({
+        train: trainingSet,
+        test: [testingItem]
+      });
+    })
+  ).then(arr => {
+    return arr.map(item => (item.value ? item.value[0][0] : 0));
+  });
+
+  const ADAResult = await Promise.allSettled(
+    ADATesting.map(testingItem => {
+      return Services.Prediction.getPredictAdaBoostClassifier({
+        train: trainingSet,
+        test: [testingItem]
+      });
+    })
+  ).then(arr => {
+    return arr.map(item => (item.value ? item.value[0][0] : 0));
+  });
+
+  const predictions = [...EMResult, ...SVMResult, ...ADAResult];
+  return testingQuestions.map((testingQuestion, index) => {
+    testingQuestion = testingQuestion.toJSON();
+
+    testingQuestion.ourPrediction = predictions[index];
+
+    return testingQuestion;
+  });
+}
+
 export default {
+  getOurPredictionType,
   retry,
   getAppsCategories,
   createRows,
@@ -2660,5 +2580,6 @@ export default {
   getPersonalDataType,
   getTranningData,
   getOurPredictionApproach3,
-  getOurPredictionApproach4
+  getOurPredictionApproach4,
+  getNextStage
 };

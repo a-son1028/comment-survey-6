@@ -10,23 +10,33 @@ var answerSchema = new Schema(
     isHasComment: Schema.Types.Number,
     comment: Schema.Types.String,
     survey: Schema.Types.Mixed,
-    questions: [
-      {
-        appId: {
-          type: Schema.Types.ObjectId,
-          required: true
-        },
-        stt: {
-          type: Number,
-          required: true
-        },
-        time: {
-          type: Number,
-          required: true
-        },
-        responses: Schema.Types.Mixed
-      }
-    ]
+    training1: Schema.Types.Mixed,
+    training1Time: Schema.Types.Number,
+    testing1: Schema.Types.Mixed,
+    testing1Time: Schema.Types.Number,
+
+    training2: Schema.Types.Mixed,
+    training2Time: Schema.Types.Number,
+    testing2: Schema.Types.Mixed,
+    testing2Time: Schema.Types.Number,
+
+    training3: Schema.Types.Mixed,
+    training3Time: Schema.Types.Number,
+    testing3: Schema.Types.Mixed,
+    testing3Time: Schema.Types.Number,
+
+    training4: Schema.Types.Mixed,
+    training4Time: Schema.Types.Number,
+    testing4: Schema.Types.Mixed,
+    testing4Time: Schema.Types.Number,
+
+    training5: Schema.Types.Mixed,
+    training5Time: Schema.Types.Number,
+    testing5: Schema.Types.Mixed,
+    testing5Time: Schema.Types.Number,
+    isSatisfied: Schema.Types.Boolean,
+    isHasComment: Schema.Types.Boolean,
+    comment: Schema.Types.String
   },
   {
     timestamps: true,
@@ -41,4 +51,4 @@ answerSchema.virtual("user", {
   foreignField: "userId"
 });
 
-export default mongoose.model("answer5", answerSchema);
+export default mongoose.model("answerv2", answerSchema);

@@ -1,307 +1,676 @@
-// const questions = `The app has recently been updated or changed so as to no longer respect Android privacy settings. In order to schedule curbside pickup the app demands you change your settings to allow Amazon to monitor your location 24x7, even when the app is not in use. Previously it could be set to only get location access when the app was in use. This surveillance is highly disconcerting.
-// I'm not sure if Google is listening to my conversations or tracking everything happening near my fingertips and across all devices linked to my common networks but I'm thankful the news are quite relevant and best of all, free! Google does a way better job at showing relevant feeds than Facebook. As to privacy, I guess I just have to trust that Google won't abuse it. Huawei seems to be catching up pretty well too. Hopefully neither will put me behind bars for funny speculative reasons. Haha.. üòÖ
-// Chrome is where it's at, took me a long time to switch over from Firefox cause I've been a Firefox fan since like forever so finally I decided to give Chrome a shot. That was almost 5 year's ago I've pushed on ahead with Chrome and never looked back. I originally loved it cause I didn't have to always type in my google password but they have since changed this feature due to security concerns which bummed me out a lil bit. All and all a #1 browser for me.
-// App doesn't work. Can't sign in on the app or the website via a laptop, yet I can sign in online via my phone - regardless of how often I reset passwords. This website and app has a significant amount of issues. Makes me concerned about their online security and whether they have any.
-// Do. Not. Use. This. It's just a remote connection to a single virtual desktop running old style gimp. Anything you save and actually can make will be saved on the public server and anybody can view it. Do not download. Lots of security problems possible here.
-// This app is great I got to agree, it makes my screen look bigger, somehow. But, it doesn't work sometimes. So it's low security. Like anyone can access my phone anytime it stops working. Plus, I'd like it more if there was an option to remove the status bar and make the pin code circles bigger.                                    overall, it's a good app.
-// I tried this app and it is really good functionality and concept-wise. However, my deal breaker is the absence of client-side encryption. Right now, a staff member from workflowy/hacker who has access to servers can read my notes. That is a HUGE no-no, from privacy perspective. Another bad thing is that my data might be used for advertising, even when I've paid for the premium. Due to this, I'm only going to use this app once client-side encryption is added.
-// This app is pretty novel, but the author does not adequately explain how it works. GIMP is not run locally - it is run on the author's private server in the cloud via VNC and any image you open gets uploaded to him. This also uses a lot of bandwidth without warning the user. I would give 5 stars if this was communicated, but I value privacy and security too much to give any higher rating than this.
-// I like the features of this app but it concerns me that there is no security information. The only information it gives you is telling you to read the Microsoft privacy statement which does not state anything about the your phone app. For an app that's designed to send personal data from one device to another I expect some explanation on how that information is being secured. For that reason I can't recommend this app at the moment.
-// I very much enjoy this app and when I look on these ratings I feel like the only good ones are from people who accually work for this app but I can assure you that I am not a person that works for this company *I promise!!**anyway I thought that this app is exellent and I love having the privacy of a lock on my considering that I have a small one at home that would go on my phone and play on it I got tired of it so I got this app and it has done me good
-// Very handy to schedule multiple SMS texts. Always works as advertised (nothing more, nothing less), and I'm extremely careful about security and privacy. This app appears squeeky clean to me, after a year of regular use, and even multiple app updates. Google: DO NOT REMOVE THIS APP! It shows the very body and spirit of apps that should be allowed to continue providing safe, robust options for Android users. Customizability is one of the few remaining features that sets Android above iOS.
-// Anyone can hack this app. The only security question  it ask is... what city where you born in, and I didn't even know that I was answering a freaking security Question  otherwise I would have put Tim Buck Two, But UNLESS YOU Want your PRIVACY invaded, DO NOT DOWNLOAD
-// Probably one of the worst apps I've used. I just got suspended for absolutely no reason at all and there's no way to tell why this happened. Only a message that says my account was disabled but not exactly why. I've seen a lot of people complaining about this and it seems like the devs have implememted (very poorly) an automatic response to user messages (which raises a lot of privacy related questions) that disables accounts even if nobody has reported or has a problem with you. NOT RECOMMENDED
-// The app seems like good in user experience but for my device it doesn't work at all. It runs Android lollipop and it's a xioami mi4i. I can move the slider but nothing happens. UPDATE! Turned on Display popup window permission in system settings. You should mention that in the app. Sone phones automatically disables security permissions. Now it works fine :)
-// It turns out that there is no way to keep the PC side of this application from running in the background. It is truly a shame that the developers, for all their posturing about respecting privacy and security, can't give the user control over this fairly essential aspect. Hence, I will uninstall. The app is otherwise ok. Access to pictures on the phone is a useful feature. The idea of controlling the phone from the PC is a bit odd. For most people, the phone is central and the PC is peripheral
-// Negative stars would be given if possible, do NOT use this app. Safety/security is AWFUL! Within an hour of starting to use the app, got a google notification another device had accessed my account!! As if that isn't bad enough, you can send a message to someone who has a listing you're interested in, but you can't access the reply unless you PAY! I'll stick with craigslist.
-// It such a good application for me to learn English not only English but many languages and meet people all around the world. It is save and will keep our privacy if we need it. We can accept and neglect people who disagree with our passion
-// Unusable. Can't use it on a tablet. Does not work on wifi. MUST be connected to internet via 4g. Can't login to Tel$Tra account as keep getting 'turn off private mode' error message. I'm not in private mode', and what business does scumbag Telstra have telling me how to browse the web anyway. Typical over permissioned app that just never stops wanting to breach my privacy and suck private information out of you. Deleted and moving from boost.
-// I really like this app. It connects and plays as soon as I get in my car. It sounds so much better than other music apps that I have downloaded on my phone. Recently I received a Privacy Alert from my Anti Virus stating that this app was sending some of my information to Facebook! NOT GOOD AT ALL!! What happened to the Shuffle and Repeat icons?
-// MAKE SURE YOU WINDOWS share settings are enabled for sync to work. If you were like me and wanted to protect your privacy. You may have turned off that key feature that is required for the app to work. But not even the app knew that, I had to find it buried on the Microsoft website after 1hrs looking for a solution. However, when it does sync, having the ability to copy and past pictures right from your phone into documents is exceptionally convenient.
-// True Key has been a security time-saver for at least a year. It's always been a five star. I just had to uninstall to fix an andriod error on January 5th. And Google Store won't allow me to re-install because it states that I already have it downloaded and installed already. Google Play Store is making me to jump a hurdle.
-// THIS APP IS A CLIPBOARD SNOOPER. The new version of Android implements a security feature that notifies you when an application accesses the contents of your clipboard. Almost every time I start this app I get a pop-up stating that "Krazy Coupon Lady pasted from your clipboard." There is absolutely no legit reason for this to be happening, and it's not trustworthy app behaviour. ETA: Clipboard access does NOT require any special permissions to be granted, as it's a basic OS function. The issue is that it's being accessed on startup, unexpectedly and unnecessarily. I'd paste a screenshot if I could, but anyone running Android 12 will see the same notification that their clipboard has been accessed. I'm not arguing that this app is necessarily misusing this feature, but as I have no way of knowing what it's doing with my data, I cannot trust it.
-// At the beginning I had to figure out how to have no security whatsoever. Then I firgued it out and now I am loving it. Easy and simple to use. But the only thing That I don't really like is the buttons. You can't really see them properly‚ù§
-// Perfect. I mean, It has a email as recovery. Not security questions. So I don't forget the security Questions. I can just type the code from my VIA Email
-// after missing with it and crashing, conflicts with systems I had to install it to my sd card and bypass Google security install from unknown places, if you download your videos thin use this app it should work for you but after that or before that I don't know, this app is really neat. Be careful not to delete it your systems my steal it by not reading your sd correctly, again a nice job.
-// Very invasive, intrusive app. You can only log in with facebook, and the app pulls all your private info from your facebook that you would normally share with your close friends, and displays it on your roomster profile for all to see. This is a gross breach of privacy. I would advise others not to use this app.
-// Only App that gives an Air Index forecast. And, it's as reliable as most weather forecasts. I like the simplicity and ease of navigating across the various menu options. A quick scan of, yet not a deep dive into, the Privacy Policy looked acceptable. I'm gonna keep it. Check w/me in Fifteen minutes, hours, days et cetera. More is often revealed, in time... 8>)
-// While the app itself loads and seems useful, it is supposed to be a Radar Widget. In this regard, it will load data and gives me the retry attempt which has failed each time. Please work to fix as this and it will be amazing, because you cannot find Apps that do this other than Rain Viewer which is good, but has its own glitches. (Dvlpr Note: Samsung A50 w/ Android 10++ Verizon Security Updates)
-// Its easy to use and the wallpapers are lovely. Although i think a security measure  setting should be added in the case that someone attempts to delete the app.
-// I thought it was very nicely designed. I wish I was able to trust it to secure my phone. It doesn't.... it does a few times here and there but its pretty useless for security. Only thing is nice is the design. I will uninstall until it can be a reliable app to lock my phone.
-// Junk! Main purpose seems to get you to accept their SPAM and automated billing. Their Network Troubleshooting is a invasion of your privacy as it requires their router and logs into it. This would grant them access to anything on your network. There's more to network diagnostics then router configurations and should warn users before attempting anything this intrusive.
-// Music sounds amazing no matter what device I'm using and love the security! It I don't use the app for a while I can choose what accesses my equalizer! Love this app!
-// i have sold cars and also bought cars through this jiji app, it is the best place of selling and buying, my advice to you, don't give rooms to 419 people, make your security stronger. I am giving you my 5 Star...thanks to the producer of the app.
-// I will never use this app again! It is the most confusing app I have ever used. I went around and around registering the app so that I could retrieve e-tickets to a spring training baseball game that I paid for.  My credit card had been charged. I created a new account on VividSeats and went to retrieve the tickets. the app asked for my user name & password (that I had just created). I entered it and received a message of "invalid email address" (I also received a verification of registering in my normal email so I know that I entered the email address correctly.) I contacted support and was told that I had a "security problem" in my computer. I tried again from the Macintosh, from a cell phone, then from an iPad. I received the same error on all three devices. Support then said that I have a "security problem" in my network. In the cell phone, I switched off wi-fi so that I was now using the cell company's network.  Same problem. Support suggested I have somebody look at my network problem. On all 3 devices, using 2 different networks?   I managed to transfer the messages to my account, according to a message on screen. But the tickets still do not show in my app.
-// Was not sure how this would compare to PasswordBox which was my previous app for this type of stuff.  So far not as bad as I thought.  Still does all the things I used to do,  but now with a better choice of Internet apps to use to open logins in (previous app was just inapp or in Chrome).  The PC version won't work on company laptop however due to internal IT security settings (Not Intel's issue!)   Overall have to say this is a good app which just takes getting used to (no one likes change!)
-// Very good app, fairly easy to use. The company behind it can at times have less than ideal practices such as agressive online tracking and advertising, but people who are a little privacy focused can easily adjust that, so I use it with pleasure.
-// Worked great before update, Doesn't work ever since update. Tried reinstalling several times, double checking privacy settings, clearing cache, clearing data... And because of covid this is the only easy to order panda and they never answer their phone. Guess I'm not ordering panda ever again until app is fixed.
-// Recent version of app intrudes privacy, location permissions are required to enable Bluetooth, a serious non-voluntary privacy violation. Please revert to old app permissions, so my daughter can keep using her Sonicare!
-// Too many scams. You'd think that because it's a paid service their security and account verification would be optimal, but in my week of using it I have yet to actually be in contact with a real person actually renting. And I paid for premium.
-// The search depth is vary good. The only thing I don't like is the third party advertising companies who also track my searches and target me to sell my data. Effective privacy issues are convoluted enough to be almost nonexistent. But that is the world we trufally have no REAL control over with any search program.
-// Basic app for password management and lacks some freatures which are offered by other opensource apps like keypass. E.g: Passwords copied from True Key are stored clipboard until they are replaced. The Android App has no support for Firefox. In my view, a security app which does not have support for firefox os a joke. Cannot save a generated password directly in the same window of password generator. Obe has to copy password and go back to homescreen to save.
-// This app is full of scammers. I've had multiple people tell me that they had what I was looking for and told me that I needed to give them a security deposit of whatever amount before they can "save the room for me". Fortunatly I never ended up giving them a deposit. I just want to say if you're gonna use this app be careful.
-// Just another app microsoft uses to track people with. Project Terminator Genesis come to real life at it's utmost. It doesn't synch up phone > windows or windows > phone when behind a secure vpn. In order for it to work you need to disable VPN on both devices. Not on one or the other.. Talk about privacy violations? No thanks. Don't bother replying ms as it will be ignored.
-// Pretty good music app. Use to use audify music player and it breached privacy concerns. So far this app is going great with no privacy issues. Would give 5 star but it jumbles up my music so a little hard to find a specific song but overall great music app üëå
-// Easy to use. File management great in alphabetically organized Folders . File titles show enabling fast and easy folder scanning. Folders file by date of entry, so current work is on top of selected category. I really like security. I keep important info here for safe and fast reference. security easy and very good. Recommend it.
-// Privacy Alert! Uninstalled. This was a great app. I‚Äôve had it for over a year but the latest update is huge breach of trust, you can now only use the app while being registered, they would like you to use Facebook or an email address. For an app the tracks your phone usage, what apps you use and for how long, this mandatory registration is unacceptable.
-// DEVELOPERS PLEASE READ: This app is absolutely amazing.. Without it I would be completely disorganized. I am able to keep all my important information, documents, notes, and reminders in one place and not have to worry about privacy. There are two things I wish you would incorporate (Wether premium feature or free) - 1: Having the option to chose which screen the app opens to (Folders, All Notes, or Reminders). 2: Being able to upload and view PDF files without file being converted to text.
-// Serious privacy concerns (Updated June 2021) - issue needs addressing immediately! The app wouldn't let me view my text messages via my pc unless I gave FULL permissions for the app to see my call log and to make calls on my phone - A totally unrelated permission to text messaging. We should not have to grant all permissions in order to use unrelated features on the app. This is surely a matter of concern for our privacy. Be wary using this app
-// They require unnecessary permission to view anything. The permission is to know your number, your service provider, and more information to keep spying on you. Keep in mind that this is an IM app not phone calling or video conferencing app. They are clearly violating the users privacy!
-// Quick, simple, non intrusive... Samsung inter. beta with S. Search and DuckDuckGo is a must for private quick searches.Not a Google, FAR BETTER.Google=no privacy,over run by ads, share open mind set,great for shoppers and victims to trade private info Google has so many pop ups claiming to be the best all around, simply put coning you to allowing you to approve them to invade your every waking moment with every push of a button. That's why every add feels like their mindreaders...okaGoogleakaspy`
-// .split('\n').map((item, index) => ({ comment: item, id: index + 1}))
+const TOTAL_TRAINING = 20;
+const TOTAL_TESTING = 20;
+const categoryGroups = {
+  Beauty: ["Beauty", "Lifestyle"],
+  Business: ["Business"],
+  Education: ["Education", "Educational"],
+  Entertainment: ["Entertainment", "Photography"],
+  Finance: [
+    "Finance",
+    "Events",
+    "Action",
+    "Action & Adventure",
+    "Adventure",
+    "Arcade",
+    "Art & Design",
+    "Auto & Vehicles",
+    "Board",
+    "Books & Reference",
+    "Brain Games",
+    "Card",
+    "Casino",
+    "Casual",
+    "Comics",
+    "Creativity",
+    "House & Home",
+    "Libraries & Demo",
+    "News & Magazines",
+    "Parenting",
+    "Pretend Play",
+    "Productivity",
+    "Puzzle",
+    "Racing",
+    "Role Playing",
+    "Simulation",
+    "Strategy",
+    "Trivia",
+    "Weather",
+    "Word"
+  ],
+  "Food & Drink": ["Food & Drink"],
+  "Health & Fitness": ["Health & Fitness"],
+  "Maps & Navigation": ["Maps & Navigation"],
+  Medical: ["Medical"],
+  "Music & Audio": ["Music & Audio", "Video Players & Editors", "Music & Video", "Music"],
+  Shopping: ["Shopping"],
+  Social: ["Social", "Dating", "Communication"],
+  Sports: ["Sports"],
+  Tools: ["Tools", "Personalization"],
+  "Travel & Local": ["Travel & Local"]
+};
 
-const questions = [
+const categoriesCollection = [
   {
-    comment:
-      "The app has recently been updated or changed so as to no longer respect Android privacy settings. In order to schedule curbside pickup the app demands you change your settings to allow Amazon to monitor your location 24x7, even when the app is not in use. Previously it could be set to only get location access when the app was in use. This surveillance is highly disconcerting.",
-    id: 1
+    id: "1",
+    name: "Admin",
+    level: "1",
+    parent: "null",
+    keywords: [""]
   },
   {
-    comment:
-      "I'm not sure if Google is listening to my conversations or tracking everything happening near my fingertips and across all devices linked to my common networks but I'm thankful the news are quite relevant and best of all, free! Google does a way better job at showing relevant feeds than Facebook. As to privacy, I guess I just have to trust that Google won't abuse it. Huawei seems to be catching up pretty well too. Hopefully neither will put me behind bars for funny speculative reasons. Haha..",
-    id: 2
+    id: "2",
+    name: "Purchase",
+    level: "1",
+    parent: "null",
+    keywords: ["business", "commercial", "businesses", "purchase"]
   },
   {
-    comment:
-      "Chrome is where it's at, took me a long time to switch over from Firefox cause I've been a Firefox fan since like forever so finally I decided to give Chrome a shot. That was almost 5 year's ago I've pushed on ahead with Chrome and never looked back. I originally loved it cause I didn't have to always type in my google password but they have since changed this feature due to security concerns which bummed me out a lil bit. All and all a #1 browser for me.",
-    id: 3
+    id: "3",
+    name: "Education",
+    level: "1",
+    parent: "null",
+    keywords: [""]
   },
   {
-    comment:
-      "App doesn't work. Can't sign in on the app or the website via a laptop, yet I can sign in online via my phone - regardless of how often I reset passwords. This website and app has a significant amount of issues. Makes me concerned about their online security and whether they have any.",
-    id: 4
+    id: "4",
+    name: "Healthcare",
+    level: "1",
+    parent: "null",
+    keywords: [""]
   },
   {
-    comment:
-      "Do. Not. Use. This. It's just a remote connection to a single virtual desktop running old style gimp. Anything you save and actually can make will be saved on the public server and anybody can view it. Do not download. Lots of security problems possible here.",
-    id: 5
+    id: "5",
+    name: "Booking",
+    level: "1",
+    parent: "null",
+    keywords: ["booking"]
   },
   {
-    comment:
-      "This app is great I got to agree, it makes my screen look bigger, somehow. But, it doesn't work sometimes. So it's low security. Like anyone can access my phone anytime it stops working. Plus, I'd like it more if there was an option to remove the status bar and make the pin code circles bigger.                                    overall, it's a good app.",
-    id: 6
+    id: "6",
+    name: "Services",
+    level: "1",
+    parent: "null",
+    keywords: [""]
   },
   {
-    comment:
-      "I tried this app and it is really good functionality and concept-wise. However, my deal breaker is the absence of client-side encryption. Right now, a staff member from workflowy/hacker who has access to servers can read my notes. That is a HUGE no-no, from privacy perspective. Another bad thing is that my data might be used for advertising, even when I've paid for the premium. Due to this, I'm only going to use this app once client-side encryption is added.",
-    id: 7
+    id: "7",
+    name: "Marketing",
+    level: "1",
+    parent: "null",
+    keywords: [""]
   },
   {
-    comment:
-      "This app is pretty novel, but the author does not adequately explain how it works. GIMP is not run locally - it is run on the author's private server in the cloud via VNC and any image you open gets uploaded to him. This also uses a lot of bandwidth without warning the user. I would give 5 stars if this was communicated, but I value privacy and security too much to give any higher rating than this.",
-    id: 8
+    id: "8",
+    name: "Profiling",
+    level: "2",
+    parent: "1",
+    keywords: ["profile", "profiling"]
   },
   {
-    comment:
-      "I like the features of this app but it concerns me that there is no security information. The only information it gives you is telling you to read the Microsoft privacy statement which does not state anything about the your phone app. For an app that's designed to send personal data from one device to another I expect some explanation on how that information is being secured. For that reason I can't recommend this app at the moment.",
-    id: 9
+    id: "9",
+    name: "Analysis",
+    level: "2",
+    parent: "1",
+    keywords: ["Analytics", "analysis", "analyze", "analyse", "analyzing"]
   },
   {
-    comment:
-      "I very much enjoy this app and when I look on these ratings I feel like the only good ones are from people who accually work for this app but I can assure you that I am not a person that works for this company *I promise!!**anyway I thought that this app is exellent and I love having the privacy of a lock on my considering that I have a small one at home that would go on my phone and play on it I got tired of it so I got this app and it has done me good",
-    id: 10
+    id: "10",
+    name: "Statistical",
+    level: "2",
+    parent: "1",
+    keywords: ["Statistical", "statistics"]
   },
   {
-    comment:
-      "Very handy to schedule multiple SMS texts. Always works as advertised (nothing more, nothing less), and I'm extremely careful about security and privacy. This app appears squeeky clean to me, after a year of regular use, and even multiple app updates. Google: DO NOT REMOVE THIS APP! It shows the very body and spirit of apps that should be allowed to continue providing safe, robust options for Android users. Customizability is one of the few remaining features that sets Android above iOS.",
-    id: 11
+    id: "11",
+    name: "Advertisements",
+    level: "2",
+    parent: "1",
+    keywords: ["ads", "advertising", "advertisement", "advertisers"]
   },
   {
-    comment:
-      "Anyone can hack this app. The only security question  it ask is... what city where you born in, and I didn't even know that I was answering a freaking security Question  otherwise I would have put Tim Buck Two, But UNLESS YOU Want your PRIVACY invaded, DO NOT DOWNLOAD",
-    id: 12
+    id: "12",
+    name: "Maintenance",
+    level: "2",
+    parent: "1",
+    keywords: ["maintain", "maintenance", "maintained"]
   },
   {
-    comment:
-      "Probably one of the worst apps I've used. I just got suspended for absolutely no reason at all and there's no way to tell why this happened. Only a message that says my account was disabled but not exactly why. I've seen a lot of people complaining about this and it seems like the devs have implememted (very poorly) an automatic response to user messages (which raises a lot of privacy related questions) that disables accounts even if nobody has reported or has a problem with you. NOT RECOMMENDED",
-    id: 13
+    id: "13",
+    name: "Identifying",
+    level: "2",
+    parent: "1",
+    keywords: [
+      "identifier",
+      "identifying",
+      "authentication",
+      "authenticate",
+      "authenticates",
+      "identity",
+      "identities",
+      "identifiable",
+      "identifies"
+    ]
   },
   {
-    comment:
-      "The app seems like good in user experience but for my device it doesn't work at all. It runs Android lollipop and it's a xioami mi4i. I can move the slider but nothing happens. UPDATE! Turned on Display popup window permission in system settings. You should mention that in the app. Sone phones automatically disables security permissions. Now it works fine :)",
-    id: 14
+    id: "14",
+    name: "Testing/Troubleshooting",
+    level: "2",
+    parent: "1",
+    keywords: ["Troubleshooting", "tests", "testing", "troubleshoot"]
   },
   {
-    comment:
-      "It turns out that there is no way to keep the PC side of this application from running in the background. It is truly a shame that the developers, for all their posturing about respecting privacy and security, can't give the user control over this fairly essential aspect. Hence, I will uninstall. The app is otherwise ok. Access to pictures on the phone is a useful feature. The idea of controlling the phone from the PC is a bit odd. For most people, the phone is central and the PC is peripheral",
-    id: 15
+    id: "15",
+    name: "Payment",
+    level: "2",
+    parent: "2",
+    keywords: ["purchase", "purchasing", "payment"]
   },
   {
-    comment:
-      "Negative stars would be given if possible, do NOT use this app. Safety/security is AWFUL! Within an hour of starting to use the app, got a google notification another device had accessed my account!! As if that isn't bad enough, you can send a message to someone who has a listing you're interested in, but you can't access the reply unless you PAY! I'll stick with craigslist.",
-    id: 16
+    id: "16",
+    name: "Delivery",
+    level: "2",
+    parent: "2",
+    keywords: ["delivery", "shipping", "delivering"]
   },
   {
-    comment:
-      "It such a good application for me to learn English not only English but many languages and meet people all around the world. It is save and will keep our privacy if we need it. We can accept and neglect people who disagree with our passion",
-    id: 17
+    id: "17",
+    name: "Contacting",
+    level: "2",
+    parent: "2",
+    keywords: ["Contacting", "contacts", "contacted", "communications"]
   },
   {
-    comment:
-      "Unusable. Can't use it on a tablet. Does not work on wifi. MUST be connected to internet via 4g. Can't login to Tel$Tra account as keep getting 'turn off private mode' error message. I'm not in private mode', and what business does scumbag Telstra have telling me how to browse the web anyway. Typical over permissioned app that just never stops wanting to breach my privacy and suck private information out of you. Deleted and moving from boost.",
-    id: 18
+    id: "18",
+    name: "Research",
+    level: "2",
+    parent: "3",
+    keywords: ["research", "researching"]
   },
   {
-    comment:
-      "I really like this app. It connects and plays as soon as I get in my car. It sounds so much better than other music apps that I have downloaded on my phone. Recently I received a Privacy Alert from my Anti Virus stating that this app was sending some of my information to Facebook! NOT GOOD AT ALL!! What happened to the Shuffle and Repeat icons?",
-    id: 19
+    id: "19",
+    name: "Survey",
+    level: "2",
+    parent: "3",
+    keywords: ["survey"]
   },
   {
-    comment:
-      "MAKE SURE YOU WINDOWS share settings are enabled for sync to work. If you were like me and wanted to protect your privacy. You may have turned off that key feature that is required for the app to work. But not even the app knew that, I had to find it buried on the Microsoft website after 1hrs looking for a solution. However, when it does sync, having the ability to copy and past pictures right from your phone into documents is exceptionally convenient.",
-    id: 20
+    id: "20",
+    name: "Treatment",
+    level: "2",
+    parent: "4",
+    keywords: ["Treatment"]
   },
   {
-    comment:
-      "True Key has been a security time-saver for at least a year. It's always been a five star. I just had to uninstall to fix an andriod error on January 5th. And Google Store won't allow me to re-install because it states that I already have it downloaded and installed already. Google Play Store is making me to jump a hurdle.",
-    id: 21
+    id: "21",
+    name: "Diagnosis",
+    level: "2",
+    parent: "4",
+    keywords: ["diagnostics", "diagnosis"]
   },
   {
-    comment: `THIS APP IS A CLIPBOARD SNOOPER. The new version of Android implements a security feature that notifies you when an application accesses the contents of your clipboard. Almost every time I start this app I get a pop-up stating that "Krazy Coupon Lady pasted from your clipboard." There is absolutely no legit reason for this to be happening, and it's not trustworthy app behaviour. ETA: Clipboard access does NOT require any special permissions to be granted, as it's a basic OS function. The issue is that it's being accessed on startup, unexpectedly and unnecessarily. I'd paste a screenshot if I could, but anyone running Android 12 will see the same notification that their clipboard has been accessed. I'm not arguing that this app is necessarily misusing this feature, but as I have no way of knowing what it's doing with my data, I cannot trust it.`,
-    id: 22
+    id: "22",
+    name: "Medical",
+    level: "2",
+    parent: "4",
+    keywords: ["medical", "healthcare", "health care", "disease"]
   },
   {
-    comment:
-      "At the beginning I had to figure out how to have no security whatsoever. Then I firgued it out and now I am loving it. Easy and simple to use. But the only thing That I don't really like is the buttons. You can't really see them properly‚ù§",
-    id: 23
+    id: "23",
+    name: "Improving quality",
+    level: "2",
+    parent: "6",
+    keywords: ["improve", "improving", "improvement"]
   },
   {
-    comment:
-      "Perfect. I mean, It has a email as recovery. Not security questions. So I don't forget the security Questions. I can just type the code from my VIA Email",
-    id: 24
+    id: "24",
+    name: "Developing the new services",
+    level: "2",
+    parent: "6",
+    keywords: ["new service", "new product", "new feature", "new functions"]
   },
   {
-    comment:
-      "after missing with it and crashing, conflicts with systems I had to install it to my sd card and bypass Google security install from unknown places, if you download your videos thin use this app it should work for you but after that or before that I don't know, this app is really neat. Be careful not to delete it your systems my steal it by not reading your sd correctly, again a nice job.",
-    id: 25
+    id: "25",
+    name: "Direct Email",
+    level: "2",
+    parent: "7",
+    keywords: ["direct && email"]
   },
   {
-    comment:
-      "Very invasive, intrusive app. You can only log in with facebook, and the app pulls all your private info from your facebook that you would normally share with your close friends, and displays it on your roomster profile for all to see. This is a gross breach of privacy. I would advise others not to use this app.",
-    id: 26
+    id: "26",
+    name: "Direct Phone",
+    level: "2",
+    parent: "7",
+    keywords: ["direct && phone"]
   },
   {
-    comment:
-      "Only App that gives an Air Index forecast. And, it's as reliable as most weather forecasts. I like the simplicity and ease of navigating across the various menu options. A quick scan of, yet not a deep dive into, the Privacy Policy looked acceptable. I'm gonna keep it. Check w/me in Fifteen minutes, hours, days et cetera. More is often revealed, in time... 8>)",
-    id: 27
-  },
-  {
-    comment:
-      "While the app itself loads and seems useful, it is supposed to be a Radar Widget. In this regard, it will load data and gives me the retry attempt which has failed each time. Please work to fix as this and it will be amazing, because you cannot find Apps that do this other than Rain Viewer which is good, but has its own glitches. (Dvlpr Note: Samsung A50 w/ Android 10++ Verizon Security Updates)",
-    id: 28
-  },
-  {
-    comment:
-      "Its easy to use and the wallpapers are lovely. Although i think a security measure  setting should be added in the case that someone attempts to delete the app.",
-    id: 29
-  },
-  {
-    comment:
-      "I thought it was very nicely designed. I wish I was able to trust it to secure my phone. It doesn't.... it does a few times here and there but its pretty useless for security. Only thing is nice is the design. I will uninstall until it can be a reliable app to lock my phone.",
-    id: 30
-  },
-  {
-    comment:
-      "Junk! Main purpose seems to get you to accept their SPAM and automated billing. Their Network Troubleshooting is a invasion of your privacy as it requires their router and logs into it. This would grant them access to anything on your network. There's more to network diagnostics then router configurations and should warn users before attempting anything this intrusive.",
-    id: 31
-  },
-  {
-    comment:
-      "Music sounds amazing no matter what device I'm using and love the security! It I don't use the app for a while I can choose what accesses my equalizer! Love this app!",
-    id: 32
-  },
-  {
-    comment:
-      "i have sold cars and also bought cars through this jiji app, it is the best place of selling and buying, my advice to you, don't give rooms to 419 people, make your security stronger. I am giving you my 5 Star...thanks to the producer of the app.",
-    id: 33
-  },
-  {
-    comment: `I will never use this app again! It is the most confusing app I have ever used. I went around and around registering the app so that I could retrieve e-tickets to a spring training baseball game that I paid for.  My credit card had been charged. I created a new account on VividSeats and went to retrieve the tickets. the app asked for my user name & password (that I had just created). I entered it and received a message of "invalid email address" (I also received a verification of registering in my normal email so I know that I entered the email address correctly.) I contacted support and was told that I had a "security problem" in my computer. I tried again from the Macintosh, from a cell phone, then from an iPad. I received the same error on all three devices. Support then said that I have a "security problem" in my network. In the cell phone, I switched off wi-fi so that I was now using the cell company's network.  Same problem. Support suggested I have somebody look at my network problem. On all 3 devices, using 2 different networks?   I managed to transfer the messages to my account, according to a message on screen. But the tickets still do not show in my app.`,
-    id: 34
-  },
-  {
-    comment:
-      "Was not sure how this would compare to PasswordBox which was my previous app for this type of stuff.  So far not as bad as I thought.  Still does all the things I used to do,  but now with a better choice of Internet apps to use to open logins in (previous app was just inapp or in Chrome).  The PC version won't work on company laptop however due to internal IT security settings (Not Intel's issue!)   Overall have to say this is a good app which just takes getting used to (no one likes change!)",
-    id: 35
-  },
-  {
-    comment:
-      "Very good app, fairly easy to use. The company behind it can at times have less than ideal practices such as agressive online tracking and advertising, but people who are a little privacy focused can easily adjust that, so I use it with pleasure.",
-    id: 36
-  },
-  {
-    comment:
-      "Worked great before update, Doesn't work ever since update. Tried reinstalling several times, double checking privacy settings, clearing cache, clearing data... And because of covid this is the only easy to order panda and they never answer their phone. Guess I'm not ordering panda ever again until app is fixed.",
-    id: 37
-  },
-  {
-    comment:
-      "Recent version of app intrudes privacy, location permissions are required to enable Bluetooth, a serious non-voluntary privacy violation. Please revert to old app permissions, so my daughter can keep using her Sonicare!",
-    id: 38
-  },
-  {
-    comment:
-      "Too many scams. You'd think that because it's a paid service their security and account verification would be optimal, but in my week of using it I have yet to actually be in contact with a real person actually renting. And I paid for premium.",
-    id: 39
-  },
-  {
-    comment:
-      "The search depth is vary good. The only thing I don't like is the third party advertising companies who also track my searches and target me to sell my data. Effective privacy issues are convoluted enough to be almost nonexistent. But that is the world we trufally have no REAL control over with any search program.",
-    id: 40
-  },
-  {
-    comment:
-      "Basic app for password management and lacks some freatures which are offered by other opensource apps like keypass. E.g: Passwords copied from True Key are stored clipboard until they are replaced. The Android App has no support for Firefox. In my view, a security app which does not have support for firefox os a joke. Cannot save a generated password directly in the same window of password generator. Obe has to copy password and go back to homescreen to save.",
-    id: 41
-  },
-  {
-    comment: `This app is full of scammers. I've had multiple people tell me that they had what I was looking for and told me that I needed to give them a security deposit of whatever amount before they can "save the room for me". Fortunatly I never ended up giving them a deposit. I just want to say if you're gonna use this app be careful.`,
-    id: 42
-  },
-  {
-    comment:
-      "Just another app microsoft uses to track people with. Project Terminator Genesis come to real life at it's utmost. It doesn't synch up phone > windows or windows > phone when behind a secure vpn. In order for it to work you need to disable VPN on both devices. Not on one or the other.. Talk about privacy violations? No thanks. Don't bother replying ms as it will be ignored.",
-    id: 43
-  },
-  {
-    comment:
-      "Pretty good music app. Use to use audify music player and it breached privacy concerns. So far this app is going great with no privacy issues. Would give 5 star but it jumbles up my music so a little hard to find a specific song but overall great music app üëå",
-    id: 44
-  },
-  {
-    comment:
-      "Easy to use. File management great in alphabetically organized Folders . File titles show enabling fast and easy folder scanning. Folders file by date of entry, so current work is on top of selected category. I really like security. I keep important info here for safe and fast reference. security easy and very good. Recommend it.",
-    id: 45
-  },
-  {
-    comment:
-      "Privacy Alert! Uninstalled. This was a great app. I‚Äôve had it for over a year but the latest update is huge breach of trust, you can now only use the app while being registered, they would like you to use Facebook or an email address. For an app the tracks your phone usage, what apps you use and for how long, this mandatory registration is unacceptable.",
-    id: 46
-  },
-  {
-    comment:
-      "DEVELOPERS PLEASE READ: This app is absolutely amazing.. Without it I would be completely disorganized. I am able to keep all my important information, documents, notes, and reminders in one place and not have to worry about privacy. There are two things I wish you would incorporate (Wether premium feature or free) - 1: Having the option to chose which screen the app opens to (Folders, All Notes, or Reminders). 2: Being able to upload and view PDF files without file being converted to text.",
-    id: 47
-  },
-  {
-    comment:
-      "Serious privacy concerns (Updated June 2021) - issue needs addressing immediately! The app wouldn't let me view my text messages via my pc unless I gave FULL permissions for the app to see my call log and to make calls on my phone - A totally unrelated permission to text messaging. We should not have to grant all permissions in order to use unrelated features on the app. This is surely a matter of concern for our privacy. Be wary using this app",
-    id: 48
-  },
-  {
-    comment:
-      "They require unnecessary permission to view anything. The permission is to know your number, your service provider, and more information to keep spying on you. Keep in mind that this is an IM app not phone calling or video conferencing app. They are clearly violating the users privacy!",
-    id: 49
-  },
-  {
-    comment:
-      "Quick, simple, non intrusive... Samsung inter. beta with S. Search and DuckDuckGo is a must for private quick searches.Not a Google, FAR BETTER.Google=no privacy,over run by ads, share open mind set,great for shoppers and victims to trade private info Google has so many pop ups claiming to be the best all around, simply put coning you to allowing you to approve them to invade your every waking moment with every push of a button. That's why every add feels like their mindreaders...okaGoogleakaspy",
-    id: 50
+    id: "27",
+    name: "Booking",
+    level: "2",
+    parent: "5",
+    keywords: ["booking"]
   }
 ];
 
-const QUESTION_NUM = 5;
-export default {
-  questions,
-  QUESTION_NUM
+const categoriesThirdParty = [
+  {
+    id: "0",
+    name: "Third party",
+    level: "0",
+    parent: "null",
+    keywords: ["Third-party", "3rd parties", "third party", "third parties", "3rd party"]
+  },
+  {
+    id: "2",
+    name: "Purpose",
+    level: "1",
+    parent: "null",
+    keywords: [""]
+  },
+  {
+    id: "10",
+    name: "Payment",
+    level: "2",
+    parent: "2",
+    keywords: ["payment; purchase; order; credit card"]
+  },
+  {
+    id: "11",
+    name: "Delivery",
+    level: "2",
+    parent: "2",
+    keywords: ["diliver; delivery; deliverer"]
+  },
+  {
+    id: "12",
+    name: "Marketing",
+    level: "2",
+    parent: "2",
+    keywords: ["marketing"]
+  },
+  {
+    id: "13",
+    name: "Advertisement",
+    level: "2",
+    parent: "2",
+    keywords: ["Advertising; ads; advertisement; advertiser;"]
+  },
+  {
+    id: "14",
+    name: "Analysis",
+    level: "2",
+    parent: "2",
+    keywords: ["Analysis; analytical; analysed; analyzed; analytics; market research"]
+  }
+];
+// id, name, level, parent
+const collections = [
+  ["1", "personal data", "1", "null"],
+  ["2", "name", "2", "1"],
+  ["3", "phone number", "2", "1"],
+  ["4", "email", "2", "1"],
+  ["5", "location", "2", "1"],
+  ["6", "age", "2", "1"],
+  ["7", "gender", "2", "1"],
+  ["8", "health data", "1", "null"],
+  ["9", "steps", "2", "8"],
+  ["10", "heart rate", "2", "8"],
+  ["11", "weight", "2", "8"],
+  ["12", "height", "2", "8"],
+  ["13", "SPO2", "2", "8"],
+  ["14", "calories", "2", "8"],
+  ["15", "sugar level", "2", "8"],
+  ["16", "fat level", "2", "8"],
+  ["17", "travel distance", "2", "8"],
+  ["18", "sleep", "2", "8"],
+  ["19", "health goal", "2", "8"]
+];
+const permissions = [
+  ["1", "device", "1", "null"],
+  ["2", "Bluetooth", "2", "1"],
+  ["3", "Camera", "2", "1"],
+  ["4", "Location", "2", "1"],
+  ["5", "File Storage", "2", "1"],
+  ["6", "Microphone", "2", "1"],
+  ["7", "Sensors", "2", "1"],
+  ["8", "Wifi", "2", "1"],
+  ["9", "Identity", "2", "1"],
+  ["10", "Contacts", "2", "1"]
+];
+const interactions = [
+  ["1", "outdoor", "1", "null"],
+  ["2", "playing sport", "2", "1"],
+  ["3", "relaxing", "2", "1"],
+  ["4", "doing daily activities", "2", "1"],
+  ["5", "indoor", "1", "null"],
+  ["6", "at home", "2", "5"],
+  ["7", "at work", "2", "5"],
+  ["8", "having treatment at home", "2", "5"],
+  ["9", "at the hospital", "2", "5"],
+  ["10", "under an emergency", "2", "5"],
+  ["11", "friends", "3", "2,3,4,6,7,8,9,10"],
+  ["12", "family", "3", "2,3,4,6,7,8,9,10"],
+  ["13", "doctors", "3", "2,3,4,6,7,8,9,10"],
+  ["14", "nurses", "3", "2,3,4,6,7,8,9,10"],
+  ["15", "location", "4", "11,12,13,14"],
+  ["16", "steps", "4", "11,12,13,14"],
+  ["17", "heart rate", "4", "11,12,13,14"],
+  ["18", "weight", "4", "11,12,13,14"],
+  ["19", "height", "4", "11,12,13,14"],
+  ["20", "SPO2", "4", "11,12,13,14"],
+  ["21", "calories", "4", "11,12,13,14"],
+  ["22", "sugar level", "4", "11,12,13,14"],
+  ["23", "fat level", "4", "11,12,13,14"],
+  ["24", "travel distance", "4", "11,12,13,14"],
+  ["25", "sleep quality", "4", "11,12,13,14"],
+  ["26", "health goals", "4", "11,12,13,14"]
+];
+const services = [
+  ["1", "Phone Application", "1", "null"],
+  ["2", "Communication", "2", "1"],
+  ["3", "Dating", "2", "1"],
+  ["4", "Education", "2", "1"],
+  ["5", "Entertainment", "2", "1"],
+  ["6", "Events", "2", "1"],
+  ["7", "Finance", "2", "1"],
+  ["8", "Food & Drink", "2", "1"],
+  ["9", "Health & Fitness", "2", "1"],
+  ["10", "House & Home", "2", "1"],
+  ["11", "Libraries & Demo", "2", "1"],
+  ["12", "Lifestyle", "2", "1"],
+  ["13", "Maps & Navigation", "2", "1"],
+  ["14", "Medical", "2", "1"],
+  ["15", "Music & Audio", "2", "1"],
+  ["16", "News & Magazines", "2", "1"],
+  ["17", "Parenting", "2", "1"],
+  ["18", "Personalization", "2", "1"],
+  ["19", "Photography", "2", "1"],
+  ["20", "Productivity", "2", "1"],
+  ["21", "Shopping", "2", "1"],
+  ["22", "Social", "2", "1"],
+  ["23", "Sports", "2", "1"],
+  ["24", "Tools", "2", "1"],
+  ["25", "Travel & Local", "2", "1"],
+  ["26", "Video Players & Editors", "2", "1"],
+  ["27", "Wear OS", "2", "1"],
+  ["28", "Weather", "2", "1"],
+  ["29", "Services", "1", "null"],
+  ["30", "Education", "2", "29"],
+  ["31", "Government", "2", "29"],
+  ["32", "Marketing/Advertising", "2", "29"],
+  ["33", "Product Development", "2", "29"],
+  ["34", "Scientific Research", "2", "29"],
+  ["35", "Treatment", "2", "29"],
+  ["36", "Analytics", "2", "29"],
+  ["37", "Apps' functional", "2", "29"]
+];
+const STAGES = {
+  question: "question",
+  training1: "training1",
+  testing1: "testing1",
+  training2: "training2",
+  testing2: "testing2",
+  training3: "training3",
+  testing3: "testing3",
+  training4: "training4",
+  testing4: "testing4",
+  training5: "training5",
+  testing5: "testing5",
+  end: "end"
+};
+
+const ACTIVITIES = [
+  "playing sport",
+  "relaxing",
+  "doing daily activities",
+  "at home",
+  "at work",
+  "having treatment at home",
+  "at the hospital",
+  "under an emergency"
+];
+
+const APP_CATEGORIES = [
+  "Beauty",
+  "Business",
+  "Education",
+  "Entertainment",
+  "Finance",
+  "Food & Drink",
+  "Health & Fitness",
+  "Maps & Navigation",
+  "Medical",
+  "Music & Audio",
+  "Shopping",
+  "Social",
+  "Sports",
+  "Tools",
+  "Travel & Local"
+];
+
+const PERSONAL_DATA_TYPE = [
+  "Telephony",
+  "Location",
+  "Fitness",
+  "Connection",
+  "Hardware",
+  "Calendar",
+  "Storage",
+  "Media"
+];
+
+const THIRD_PARTIES = [
+  "a.applovin.com",
+  "aarki.net",
+  "active.mobi",
+  "adactioninteractive.com",
+  "Adcolony",
+  "addthis.com",
+  "adfalcon.com",
+  "adjust.com",
+  "admin.appnext.com",
+  "admixer.co.kr",
+  "admobgeek.com",
+  "Adobe",
+  "adroll.com",
+  "adrta.com",
+  "Ads Moloco",
+  "Ads Server",
+  "Ads Symptotic",
+  "AdSafeProtected",
+  "agkn.com",
+  "airpush.com",
+  "akamaihd.net",
+  "algovid.com",
+  "Altitude-arena",
+  "altrooz.com",
+  "Amazon",
+  "api reporting review mobile ads",
+  "api.pingstart.com",
+  "App Adsp",
+  "app.appsflyer.com",
+  "apperol.com",
+  "applovin.com",
+  "appmakertw",
+  "appnext.com",
+  "appsflyer.com",
+  "AppsGeyser",
+  "apptrknow.com",
+  "appwalls.mobi",
+  "apsalar.com",
+  "aptrk.com",
+  "Avocarrot",
+  "Baidu",
+  "beacon.krxd.net",
+  "beaconsinspace.com",
+  "bidswitch.net",
+  "Bluekai.com",
+  "bttrack.com",
+  "casalemedia.com",
+  "cauly.co",
+  "chartbeat.net",
+  "choices.truste.com",
+  "clinkadtracking.com",
+  "control.kochava.com",
+  "cootek.com",
+  "criteo.com",
+  "cs.gssprt.jp",
+  "cs.nend.net",
+  "DoubleVerify",
+  "dpm.demdex.net",
+  "Dribbble",
+  "everesttech.net",
+  "Facebook",
+  "feedmob.com",
+  "Google Ads",
+  "Google Analytics",
+  "Google Data API",
+  "Google Doc",
+  "Google Firebase",
+  "Google Fonts",
+  "Google Map",
+  "Google Play",
+  "Google Tag Manager",
+  "Google Video",
+  "Google Vision",
+  "Google Youtube",
+  "gstatic.com",
+  "guest.wireless.cmu.edu",
+  "haloapps.com",
+  "Heyzap",
+  "http://timmystudios.com/",
+  "i-mobile.co.jp",
+  "impact.applifier.com",
+  "inmobi.com",
+  "inmobicdn.net",
+  "Instagram",
+  "intentiq.com",
+  "jennywsplash.com",
+  "Kakao",
+  "kika-backend.com",
+  "kikakeyboard.com",
+  "Kiosked",
+  "Leadbolt Ads",
+  "leadboltapps.net",
+  "lenzmx.com",
+  "lfstmedia.com",
+  "liftoff.io",
+  "lkqd.net",
+  "ludei.com",
+  "Microsoft",
+  "mixpanel.com",
+  "Moat Ads",
+  "mobile-up-date.com",
+  "mobile.btrll.com",
+  "mobilecore.com",
+  "Mobincube",
+  "mookie1.com",
+  "MoPub",
+  "mxptint.net",
+  "Mydas Mobi",
+  "Myi Ads",
+  "mysearch-online.com",
+  "Native Ads",
+  "nend.net",
+  "newoffer2017.com",
+  "nexac.com",
+  "online-metrix.net",
+  "paperlit.com",
+  "Payco",
+  "phonegame.so",
+  "play.king.com",
+  "Pub Ads",
+  "pubmatic.com",
+  "quantcount.com",
+  "Quiztapp",
+  "rayjump.com",
+  "sappsuma.com",
+  "sc.iasds01.com",
+  "Scorecard Research",
+  "searchmobileonline.com",
+  "Securepub Ads",
+  "silvermob.com",
+  "simpli.fi",
+  "sm-trk.com",
+  "smaato",
+  "smartadserver",
+  "Spotify",
+  "Start App Service",
+  "stat.appioapp.com",
+  "Sticky ads TV",
+  "sumatoad.com",
+  "SuperSonic Ads",
+  "Sync",
+  "tapad.com",
+  "tapjoy.com",
+  "tappx.com",
+  "Taptica",
+  "Te Ads",
+  "theappsgalore.com",
+  "tinyhoneybee.com",
+  "tlnk.io",
+  "turn.com",
+  "Twitter",
+  "Unity Ads",
+  "Unknown",
+  "vdopia.com",
+  "volo-mobile.com",
+  "vungle.com",
+  "w55c.net",
+  "www.appyet.com",
+  "www.blogger.com",
+  "www.cdnstabletransit.com",
+  "www.cmu.edu",
+  "www.gamefeat.net",
+  "www.nexogen.in",
+  "www.searchmobileonline.com",
+  "www.ssacdn.com",
+  "www.startappexchange.com",
+  "Yahoo",
+  "Yandex",
+  "ymtracking.com",
+  "yyapi.net"
+];
+
+const PEOPLE = [
+  "friends",
+  "family memebers",
+  "doctors",
+  "nurses",
+  "Personal training",
+  "Colleague"
+];
+
+const PURPOSES = [
+  "Advertisements",
+  "Analysis",
+  "Authentication",
+  "Authorization",
+  "Communicating with malware",
+  "Connection",
+  "Maintenance",
+  "Management",
+  "Marketing",
+  "Remote",
+  "Statistical",
+  "Storage",
+  "Tracking"
+];
+
+export {
+  TOTAL_TESTING,
+  TOTAL_TRAINING,
+  interactions,
+  permissions,
+  collections,
+  services,
+  categoryGroups,
+  categoriesCollection,
+  categoriesThirdParty,
+  STAGES,
+  ACTIVITIES,
+  APP_CATEGORIES,
+  PERSONAL_DATA_TYPE,
+  THIRD_PARTIES,
+  PEOPLE,
+  PURPOSES
 };

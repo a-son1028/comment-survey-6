@@ -366,3 +366,20 @@ export const DATA_PURPOSES = {
   },
 };
 export const QUESTION_NUM = 5;
+
+export const TITLES_BY_STAGE = {
+  training1: "Survey on the collection of personal data by the apps",
+  testing1: "Survey on the collection of personal data by the apps",
+
+  training2: "Survey on sharing of personal data by apps",
+  testing2: "Survey on sharing of personal data by apps",
+
+  training3: "Survey on sharing information for different objects in different contexts",
+  testing3: "Survey on sharing information for different objects in different contexts",
+
+  training4: "Survey on allowing data collection by different purposes",
+  testing4: "Survey on allowing data collection by different purposes",
+
+  training5: "Survey on allowing data sharing by different purposes",
+  testing5: "Survey on allowing data sharing by different purposes",
+};

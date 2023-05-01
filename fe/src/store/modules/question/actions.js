@@ -9,22 +9,22 @@ import {
 import api from "@/services/api";
 
 export default {
-  [STORE_ANSWER](store, question) {
+  [STORE_ANSWER](store, data) {
     return api({
       headers: { Authorization: localStorage.token },
     })
-      .post("/handle-questions", { question })
+      .post("/handle-questions", data)
       .then((response) => {
         store.commit("setAnswer", {
           questions: response.data,
         });
       });
   },
-  [GET_QUESTIONS](store) {
+  [GET_QUESTIONS](store, params = {}) {
     return api({
       headers: { Authorization: localStorage.token },
     })
-      .post("/questions")
+      .get(`/questions`, { params })
       .then((response) => {
         store.commit("setQuestions", response.data);
       });

@@ -7,14 +7,14 @@
       @submit="confirm"
     >
       <div>
-        <div>Do you have the other comments for this survey?</div>
+        <div>Are you satisfied with the purposes of this survey?</div>
         <UIRadioGroup
-          v-model="isHasComment"
+          v-model="isSatisfied"
           :options="questionOptions2"
         />
 
-        <div v-if="isHasComment">
-          Please provide this in the textbox below: 
+        <div v-if="!isSatisfied">
+          Give our work some comments to improve the quality of the survey.
           <UITextarea v-model="comment" />
         </div>
       </div>
@@ -51,7 +51,7 @@ export default({
     QUESTION_NUM,
     isLoading: true,
     questionOptions2,
-    isHasComment: null,
+    isSatisfied: null,
     comment: ""
   }),
   computed: {
@@ -65,11 +65,11 @@ export default({
     answer(answer) {
       if(!answer) return
       
-      this.isHasComment = answer.isHasComment
+      this.isSatisfied = answer.isSatisfied
       this.comment = answer.comment
     },
     userInfo(userInfo) {
-      if(userInfo.currentQuestion < this.QUESTION_NUM) this.$router.push('/questions')
+      if(userInfo.currentStage !== 'testing5') { this.$router.push('/') }
     }
   },
   mounted() {
@@ -83,7 +83,7 @@ export default({
       e.preventDefault();
       this.isLoading = true
 
-      this.$store.dispatch(CONFIRM, { isHasComment: this.isHasComment, comment: this.comment})
+      this.$store.dispatch(CONFIRM, { isSatisfied: this.isSatisfied, comment: this.comment})
       .then(() => this.$router.push('/success'))
     }
   }

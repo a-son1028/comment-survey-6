@@ -28,10 +28,12 @@
     "getcommentProd": "node --expose-gc --max_old_space_size=12192 dist/modules/getcomment.js",
     "test": "babel-watch src/modules/test.js",
     "test2": "babel-watch src/modules/test2.js",
+    "test3": "babel-watch src/modules/test3.js",
     "test2-node": "node --max_old_space_size=12192 dist/modules/test2.js"
   },
   "heroku-prebuild": "rm -rf node_modules",
   "dependencies": {
+    "@joegesualdo/get-youtube-subtitles-node": "^0.1.0",
     "@sentry/node": "^5.15.4",
     "axios": "^0.21.1",
     "bcrypt": "^4.0.0",
@@ -52,7 +54,9 @@
     "express": "~4.16.1",
     "express-session": "^1.17.0",
     "express-validator": "^6.4.0",
+    "fast-csv": "^4.3.6",
     "frameguard": "^3.1.0",
+    "googleapis": "^118.0.0",
     "helmet": "^3.22.0",
     "http-errors": "~1.6.3",
     "http-status-codes": "^1.4.0",
@@ -83,7 +87,8 @@
     "request-promise": "^4.2.5",
     "slug": "^2.1.1",
     "uuid": "^3.4.0",
-    "word2vec": "^1.1.5"
+    "word2vec": "^1.1.5",
+    "youtube-dl": "^3.5.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

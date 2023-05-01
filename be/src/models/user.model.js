@@ -43,9 +43,11 @@ var userSchema = new Schema(
       type: Boolean,
       default: false
     },
-    version: {
-      type: String
-    }
+    currentStage: {
+      type: String,
+      default: "question"
+    },
+    questionIds: [String]
   },
   {
     timestamps: true,
@@ -61,4 +63,4 @@ userSchema.virtual("answers", {
 
 userSchema.plugin(findOrCreate);
 
-export default mongoose.model("user5", userSchema);
+export default mongoose.model("userv2", userSchema);

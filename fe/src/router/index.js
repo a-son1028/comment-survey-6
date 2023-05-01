@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import Question from "@/views/question/Question.vue";
-import Introduce from "@/views/introduce/Introduce.vue";
+// import Introduce from "@/views/introduce/Introduce.vue";
 import NotFound from "@/components/NotFound.vue";
 import Login from "@/views/Login.vue";
 import SignUp from "@/views/SignUp.vue";
@@ -27,12 +27,12 @@ const routes = [
     component: DefaultLayout,
     beforeEnter: checkAuth,
     children: [
+      // {
+      //   path: "",
+      //   component: Introduce,
+      // },
       {
-        path: "",
-        component: Introduce,
-      },
-      {
-        path: "/questions",
+        path: "/",
         component: Question,
       },
       {

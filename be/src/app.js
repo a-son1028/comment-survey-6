@@ -27,9 +27,7 @@ app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 app.use(requestIp.mw());
 app.use(cors());
-app.use(
-  frameguard({ action: "allow-from", domain: "https://ttv.microworkers.com" })
-);
+app.use(frameguard({ action: "allow-from", domain: "https://ttv.microworkers.com" }));
 app.use(compression());
 app.use(logger("dev"));
 app.use(express.json({ limit: "50mb" }));
@@ -50,8 +48,7 @@ app.use(
   })
 );
 Sentry.init({
-  dsn:
-    "https://b5ac925f14564fe3a19315362582f9ce@o378215.ingest.sentry.io/5201298"
+  dsn: "https://b5ac925f14564fe3a19315362582f9ce@o378215.ingest.sentry.io/5201298"
 });
 
 // The request handler must be the first middleware on the app
@@ -69,6 +66,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log(err);
   // render the error page
   res.status(err.status || 500);
   res.json({

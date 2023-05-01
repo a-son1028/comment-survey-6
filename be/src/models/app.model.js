@@ -57,7 +57,9 @@ var schema = new Schema(
     needRunBert: Boolean,
     isTest5: Boolean,
     appInfo: Schema.Types.Mixed,
-    isUpdatedInfo: Boolean
+    isUpdatedInfo: Boolean,
+    paragraph: String,
+    staticApis: []
   },
   {
     timestamps: true,

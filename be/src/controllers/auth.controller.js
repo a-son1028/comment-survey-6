@@ -3,6 +3,7 @@ import Utils from "../utils";
 import bcrypt from "bcrypt";
 import Services from "../services";
 import { validationResult } from "express-validator";
+import * as constants from "../utils/constants";
 
 class AuthController {
   async login(req, res, next) {
@@ -49,6 +50,9 @@ class AuthController {
       } = req.body;
       // hash password
 
+      const appSurvey = await Models.AppSurvey.findOne({ isSelected: false });
+      if (!appSurvey) throw new Error("There is no survey");
+
       let user = await Models.User.create({
         email,
         fullName,
@@ -60,7 +64,12 @@ class AuthController {
         fieldOfWork,
         hasExperience,
         currentQuestion: 1,
-        version: "v1"
+        appSurveyId: appSurvey.id,
+        currentStage: constants.STAGES.training1
+      });
+
+      await appSurvey.update({
+        isSelected: true
       });
 
       if (!user)
@@ -81,8 +90,7 @@ class AuthController {
       const { email, pass } = req.body;
 
       let user = await Models.User.findOne({
-        email,
-        version: "v1"
+        email
       });
 
       if (!user)

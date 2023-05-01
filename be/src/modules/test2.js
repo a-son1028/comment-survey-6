@@ -5,9 +5,11 @@ import puppeteer from "puppeteer";
 import * as cheerio from "cheerio";
 import Models from "../models";
 import { Promise } from "bluebird";
-import _ from "lodash";
+import _, { isEmpty, isInteger, isNumber } from "lodash";
 import natural from "natural";
-
+import fs from "fs";
+import Services from "../services";
+const fastCSV = require("fast-csv");
 const csv = require("csvtojson");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
@@ -222,7 +224,1243 @@ const QUESTION4 = {
     ""
 };
 
-updateHtmlPrivacyPolicy();
+
+main();
+async function main() {
+  // await getSurveyStatPercent()
+  // await getAppSelectionPercent()
+  // await getUserSelectionPercent()
+  // await getFirstQuestionStat()
+  // await getQuestionStatByGroup()
+  await transferPreprocessData()
+  // await getDataSet()
+  // await getEMAccuracy()
+
+  // await mergeFiles() 
+  // await mergeFiles2() 
+  // await testData()
+}
+async function mergeFiles2() {
+  const header = [
+      {
+        id: "stt",
+        title: "",
+      },
+      {
+        id: "ticker",
+        title: "Ticker",
+      },
+      {
+        id: "companyName",
+        title: "Company Common Name",
+      },
+      {
+        id: "ISIN",
+        title: "ISIN",
+      },
+    ];
+  const [[, ...data], [,...ISINCompanies]] = await Promise.all([
+    csv({
+      noheader: true,
+      output: "csv"
+    }).fromFile("/Users/a1234/Downloads/List-_1_.csv"),
+    csv({
+      noheader: true,
+      output: "csv"
+    }).fromFile("/Users/a1234/Downloads/Allcomp-_1_.csv")
+  ]);
+
+  const rows = data.map((similities, i) => {
+    let ISINRecord
+    let companyName
+    similities.forEach(simility => {
+      if(!ISINRecord) {
+        ISINRecord = ISINCompanies.find(item => item[1] === simility)
+        companyName = simility
+      }
+    })
+
+    if(!companyName) {
+      companyName = similities[1]
+    }
+  
+    return {
+      stt: i + 1,
+      ticker: ISINRecord ? ISINRecord[0] : "",
+      companyName,
+       ISIN: ISINRecord ? ISINRecord[2] : ""
+    }
+  })
+  const csvWriter = createCsvWriter({
+      path: `./merged-file.csv`,
+      header,
+    });
+  csvWriter.writeRecords(rows);
+  console.log("DONE")
+}
+
+async function testData() {
+  const data = await fs.readFileSync('/Users/a1234/Downloads/app-paragraph.json', { encoding: 'utf8' })
+  const dataJson = JSON.parse(data)
+
+  fs.writeFileSync("./app-paragraph(1).json", JSON.stringify(dataJson.splice(0, 2846)))
+  fs.writeFileSync("./app-paragraph(2).json", JSON.stringify(dataJson.splice(0, 2846)))
+  fs.writeFileSync("./app-paragraph(3).json", JSON.stringify(dataJson.splice(0, 2846)))
+  fs.writeFileSync("./app-paragraph(4).json", JSON.stringify(dataJson))
+}
+async function mergeFiles() {
+  const header = [
+      {
+        id: "securityName",
+        title: "SecurityName",
+      },
+      {
+        id: "type",
+        title: "_TYPE_",
+      },
+      {
+        id: "freq",
+        title: "_FREQ_",
+      },
+      {
+        id: "holdingWeight",
+        title: "Holding_Weight",
+      },
+      {
+        id: "holdingShares",
+        title: "Holding_Shares",
+      },
+      {
+        id: "holdingValue",
+        title: "Holding_Value",
+      },
+      {
+        id: "holdingShareChange",
+        title: "Holding_Share_change",
+      },
+      {
+        id: "length",
+        title: "length",
+      },
+      {
+        id: "year",
+        title: "year",
+      },
+      {
+        id: "ISIN",
+        title: "ISIN",
+      },
+    ];
+  const [[, ...data], [,...similities], [,...ISINCompanies]] = await Promise.all([
+    csv({
+      noheader: true,
+      output: "csv"
+    }).fromFile("/Users/a1234/Downloads/listfile.csv"),
+    csv({
+      noheader: true,
+      output: "csv"
+    }).fromFile("/Users/a1234/Downloads/List.csv"),
+    csv({
+      noheader: true,
+      output: "csv"
+    }).fromFile("/Users/a1234/Downloads/Allcomp.csv")
+  ]);
+
+  const rows = data.map(row => {
+    const [securityName, type, freq, holdingWeight, holdingShares, holdingValue, holdingShareChange, length, year] = row
+
+    const similitiesBysecurityName = similities.find(item => item.includes(securityName))
+
+    let ISIN
+    if(similitiesBysecurityName) {
+      const ISINBySecurityName =  ISINCompanies.find(item => similitiesBysecurityName.includes(item[1]))
+
+      if(ISINBySecurityName) {
+        ISIN = ISINBySecurityName[2]
+      }
+    }
+    return {
+      securityName, type, freq, holdingWeight, holdingShares, holdingValue, holdingShareChange, length, year, ISIN: ISIN || ""
+    }
+  })
+
+  const csvWriter = createCsvWriter({
+      path: `./merged-file.csv`,
+      header,
+    });
+  csvWriter.writeRecords(rows);
+  console.log("DONE")
+}
+
+async function getDataSet() {
+  const algorithms = [
+    "EM", 
+    // "SVM", 
+    // "GradientBoostingClassifier", 
+    // "AdaBoostClassifier",
+    //  "GradientBoostingRegressor"
+  ]
+
+  const getDataSetByAlgorithms = async (algorithm) => {
+    console.log(algorithm)
+
+    const data = await csv({
+      noheader: true,
+      output: "csv"
+    }).fromFile("./pre-process.csv");
+
+    const [header, ...rows] = data
+     const newHeader = [
+      {
+        id: 'id',
+        title: algorithm
+      }
+    ]
+
+    const trainingRows = rows.splice(0, 930)
+    const testingRows = rows.map(row => {
+      row[row.length - 1] = "-1"
+      return row
+    })
+
+    let result;
+    switch (algorithm) {
+      case "EM":
+        result = await Services.Prediction.getPredictEM({
+          train: trainingRows,
+          test: testingRows
+        })
+        break;
+      case "SVM":
+        result = await Services.Prediction.getPredictSVM({
+          train: trainingRows,
+          test: testingRows
+        })
+        break;
+      case "GradientBoostingClassifier":
+        result = await Services.Prediction.getPredictGradientBoostingClassifier({
+          train: trainingRows,
+          test: testingRows
+        })
+      case "AdaBoostClassifier":
+        result = await Services.Prediction.getPredictAdaBoostClassifier({
+          train: trainingRows,
+          test: testingRows
+        })
+      case "GradientBoostingRegressor":
+        result = await Services.Prediction.getPredictGradientBoostingRegressor({
+          train: trainingRows,
+          test: testingRows
+        })
+        break;
+    }
+
+    let newRows = []
+    Array.from({ length: 930 }, () => {
+      newRows.push({
+        id: ""
+      })
+    })
+    result.forEach(item => {
+      newRows.push({
+        id: item[0] == "0" ? "0" : "1"
+      })
+    })
+    const csvWriter = createCsvWriter({
+        path: `./pre-process-${algorithm}.csv`,
+        header: newHeader,
+      });
+    csvWriter.writeRecords(newRows);
+  }
+ 
+  await Promise.map(algorithms, getDataSetByAlgorithms, { concurrency: 2 })
+
+
+
+  console.log("DONE")
+}
+
+async function getEMAccuracy() {
+  const algorithms = ["EM", 
+  "SVM", 
+  // "GradientBoostingClassifier", "AdaBoostClassifier", "GradientBoostingRegressor"
+]
+
+  for (let i = 0; i < algorithms.length; i++) {
+    const algorithm = algorithms[i];
+    
+    const header = [
+      {
+        id: "stt",
+        title: "#",
+      },
+      {
+        id: "label",
+        title: "Label",
+      },
+      {
+        id: "predictLabel",
+        title: "Predict label",
+      },
+    ];
+    const testResult = await csv({
+      noheader: true,
+      output: "csv",
+    }).fromFile(`./pre-process-${algorithm}.csv`);
+
+    const testingFile = await csv({
+      noheader: true,
+      output: "csv",
+    }).fromFile("./pre-process.csv");
+
+    const rows = []
+    testingFile.forEach((item, index) => {
+      if(index !== 0 && testResult[index]) {
+        const predictLabel = testResult[index][0] === "0" ? "0" : "1"
+
+        console.log(predictLabel)
+        rows.push({
+          stt: index + 1,
+          label: _.last(item),
+          predictLabel,
+        })
+      }
+    })
+
+    const csvWriter = createCsvWriter({
+      path: "./report-label-merged-predict-label.csv",
+      header,
+    });
+    await csvWriter.writeRecords(rows);
+    
+    let X = 0,
+      Y = 0,
+      Z = 0,
+      W = 0;
+    testingFile.forEach((item, index) => {
+      if(index !== 0 && testResult[index]) {
+        const predictLabel = Number(testResult[index][0] === "0" ? "0" : "1")
+        const label = Number(_.last(item))
+
+        if (predictLabel === 0 && label === 0) X++;
+        else if (predictLabel === 1 && label === 0) Y++;
+        else if (predictLabel === 0 && label === 1) Z++;
+        else if (predictLabel === 1 && label === 1) W++;
+      }
+    })
+
+    const PrecisionBenign = X / (X + Z);
+    const RecallBenign = X / (X + Y);
+    const F1Benign =
+      (2 * (PrecisionBenign * RecallBenign)) / (PrecisionBenign + RecallBenign);
+
+    const Accuracy = (X + W) / (X + Y + Z + W);
+
+    const headerAccuracy = [
+      {
+        id: "name",
+        title: "",
+      },
+      {
+        id: "begin",
+        title: "",
+      },
+    ];
+
+    const rowsAccuracy = [
+      {
+        name: "Percision",
+        begin: PrecisionBenign,
+      },
+      {
+        name: "Recall",
+        begin: RecallBenign,
+      },
+      {
+        name: "F1",
+        begin: F1Benign,
+      },
+      {
+        name: "Accuracy",
+        begin: Accuracy,
+      },
+    ];
+
+    const csvWriterAccuracy = createCsvWriter({
+      path: `${algorithm}-Accuracy.csv`,
+      header: headerAccuracy,
+    });
+    await csvWriterAccuracy.writeRecords(rowsAccuracy);
+
+  }
+	
+	console.log("DONE") 
+
+}
+
+async function transferPreprocessData() {
+  const data = await csv({
+    noheader: true,
+    output: "csv"
+  }).fromFile("/Users/a1234/Downloads/Macro.csv");
+
+  const [header,...rows] = data
+
+  const temp = header.reduce((acc, headerName, index) => {
+
+    const values = rows.reduce((acc, row) => {
+      acc.push(row[index]);
+      return acc
+    }, [])
+
+    const validValues = values.map(item => Number(item)).filter(item => item && isInteger(item))
+
+    acc[headerName] =  { 
+      data: {},
+      count: (_.max(validValues) + 1) || 0
+    }
+    return acc
+  }, {})
+
+  let newRows = []
+  rows.forEach((row, index) => {
+    const newRow = {}
+    row.forEach((item, index2) => {
+      const headerName = header[index2]
+      const headerNameSlug = _.kebabCase(headerName)
+      const isIntegerItem = isInteger(Number(item))
+      
+      if(item && isIntegerItem) {
+        newRow[headerNameSlug] = item
+      } else {
+        const tempHeader = temp[headerName]
+
+        if(tempHeader.data[item] === undefined) {
+          tempHeader.data[item] = temp[headerName].count++
+        }
+
+        newRow[headerNameSlug] = tempHeader.data[item]
+      }
+    })
+
+    newRows.push(newRow)
+  })
+
+  newRows = newRows.map(item => {
+    item['relationshipto-shooter'] = item['relationshipto-shooter'] === '0' ? '0' : '1'
+
+    return item
+  })
+
+  const newHeader = header.reduce((acc, headerName) => {
+    acc.push({
+      id: _.kebabCase(headerName),
+      title: headerName
+    })
+
+    return acc
+  }, [])
+
+  let text = ''
+  Object.entries(temp).forEach(([headerName, { data}]) => {
+    if(!isEmpty(data)) {
+      text += `"${headerName}"\n`
+      Object.entries(data).forEach(([name, value]) => {
+        text += `"${name}", ${value} \n`
+      })
+
+      text += `============================`
+      text += `\n`
+    }
+  })
+  fs.writeFileSync('./process-note-Marco.txt', text, { encoding: 'utf-8' })
+
+  const csvWriter = createCsvWriter({
+      path: `./pre-process-Marco.csv`,
+      header: newHeader,
+      fieldDelimiter: ",",
+      alwaysQuote: true,
+    });
+  csvWriter.writeRecords(newRows);
+
+  console.log("DONE")
+}
+
+
+async function getQuestionStatByGroup() {
+  const dataTypeNames = Object.keys(DATA_TYPES)
+  const purposeNames = Object.keys(DATA_PURPOSES)
+   const header = []
+  
+  // add header 
+  dataTypeNames.forEach(dataTypeName => {
+    header.push({
+      id: `${dataTypeName}.collection`,
+      title: `${dataTypeName}.Collection`
+    })
+  })
+  dataTypeNames.forEach(dataTypeName => {
+     header.push({
+      id: `${dataTypeName}.sharing`,
+      title: `${dataTypeName}.Sharing`
+    })
+  })
+
+  dataTypeNames.forEach(dataTypeName => {
+    purposeNames.forEach(purposeName => {
+      header.push({
+        id: `${dataTypeName}.collection.${purposeName}`,
+        title: `${dataTypeName}.Collection.${purposeName}`
+      })
+    })
+  })
+
+  dataTypeNames.forEach(dataTypeName => {
+    purposeNames.forEach(purposeName => {
+      header.push({
+        id: `${dataTypeName}.sharing.${purposeName}`,
+        title: `${dataTypeName}.Sharing.${purposeName}`
+      })
+    })
+  })
+
+  const answers = await Models.Answer.find({
+    _id: { $ne: "63f34befa59453001352999d" }
+  })
+
+  const types = ['yes', 'no']
+  for (let k = 0; k < types.length; k++) {
+    const result = {}
+    const type = types[k];
+    
+    for (let i = 0; i < answers.length; i++) {
+      const { questions, userId, survey } = answers[i];
+      
+      for (let j = 0; j < questions.length; j++) {
+        const { appId, responses: { question1, question2, question3, question4, question5 } } = questions[j];
+        
+        if(question1 && question1.name && ((type === 'yes' && question1.value === 1) || (type === 'no' && question1.value === 0))) {
+          // question2
+          dataTypeNames.forEach(dataTypeName => {
+            const itemsOfDataType = Object.entries(question2 || {}).filter(([nameSlug]) => {
+              const [name] = nameSlug.split("+")
+
+              return name === _.kebabCase(dataTypeName)
+            }).map(item => item[1])
+
+            const sectionType = 'collection'
+            if(!result[sectionType]) result[sectionType] = {}
+            if(!result[sectionType][dataTypeName]) {
+              result[sectionType][dataTypeName] = {
+                yes: 0,
+                no: 0,
+                maybe: 0,
+              }
+            }
+
+            const yesApp = _.map(itemsOfDataType, 'value').filter(value => value > 3).length
+            const noApp = _.map(itemsOfDataType, 'value').filter(value => value < 3).length
+            const maybeApp = _.map(itemsOfDataType, 'value').filter(value => value === 3).length
+
+          
+            const  { yes, no, maybe} = result[sectionType][dataTypeName]
+            result[sectionType][dataTypeName] = {
+              yes: yes + yesApp,
+              no: no + noApp,
+              maybe: maybe + maybeApp,
+            }
+          })
+
+          // question3
+          dataTypeNames.forEach(dataTypeName => {
+            const itemsOfDataType = Object.entries(question3 || {}).filter(([nameSlug]) => {
+              const [name] = nameSlug.split("+")
+
+              return name === _.kebabCase(dataTypeName)
+            }).map(item => item[1])
+
+            const sectionType = 'collectionPurpose'
+            if(!result[sectionType]) result[sectionType] = {}
+
+            if(!result[sectionType][dataTypeName]) result[sectionType][dataTypeName] = {}
+
+            purposeNames.forEach(purposeName => {
+              const itemsOfPurpose = itemsOfDataType.filter(({name: nameSlug}) => {
+                const name = nameSlug.split("+").pop()
+
+                return name === _.kebabCase(purposeName)
+              })
+              
+              if(!result[sectionType][dataTypeName][purposeName]) {
+                result[sectionType][dataTypeName][purposeName] = {
+                  yes: 0,
+                  no: 0,
+                  maybe: 0,
+                }
+              }
+
+              const yesApp = _.map(itemsOfPurpose, 'value').filter(value => value > 3).length
+              const noApp = _.map(itemsOfPurpose, 'value').filter(value => value < 3).length
+              const maybeApp = _.map(itemsOfPurpose, 'value').filter(value => value === 3).length
+
+            
+              const  { yes, no, maybe} = result[sectionType][dataTypeName][purposeName]
+              result[sectionType][dataTypeName][purposeName] = {
+                yes: yes + yesApp,
+                no: no + noApp,
+                maybe: maybe + maybeApp,
+              }
+            })
+          })
+
+          // question4
+          dataTypeNames.forEach(dataTypeName => {
+            const itemsOfDataType = Object.entries(question4 || {}).filter(([nameSlug]) => {
+              const [name] = nameSlug.split("+")
+
+              return name === _.kebabCase(dataTypeName)
+            }).map(item => item[1])
+
+            const sectionType = 'sharing'
+            if(!result[sectionType]) result[sectionType] = {}
+            if(!result[sectionType][dataTypeName]) {
+              result[sectionType][dataTypeName] = {
+                yes: 0,
+                no: 0,
+                maybe: 0,
+              }
+            }
+
+            const yesApp = _.map(itemsOfDataType, 'value').filter(value => value > 3).length
+            const noApp = _.map(itemsOfDataType, 'value').filter(value => value < 3).length
+            const maybeApp = _.map(itemsOfDataType, 'value').filter(value => value === 3).length
+
+            const  { yes, no, maybe} = result[sectionType][dataTypeName]
+            result[sectionType][dataTypeName] = {
+              yes: yes + yesApp,
+              no: no + noApp,
+              maybe: maybe + maybeApp,
+            }
+          })
+
+          // question5
+          dataTypeNames.forEach(dataTypeName => {
+            const itemsOfDataType = Object.entries(question5 || {}).filter(([nameSlug]) => {
+              const [name] = nameSlug.split("+")
+
+              return name === _.kebabCase(dataTypeName)
+            }).map(item => item[1])
+
+            const sectionType = 'sharingPurpose'
+            if(!result[sectionType]) result[sectionType] = {}
+
+            if(!result[sectionType][dataTypeName]) result[sectionType][dataTypeName] = {}
+
+            purposeNames.forEach(purposeName => {
+              const itemsOfPurpose = itemsOfDataType.filter(({name: nameSlug}) => {
+                const name = nameSlug.split("+").pop()
+
+                return name === _.kebabCase(purposeName)
+              })
+              
+              if(!result[sectionType][dataTypeName][purposeName]) {
+                result[sectionType][dataTypeName][purposeName] = {
+                  yes: 0,
+                  no: 0,
+                  maybe: 0,
+                }
+              }
+
+              const yesApp = _.map(itemsOfPurpose, 'value').filter(value => value > 3).length
+              const noApp = _.map(itemsOfPurpose, 'value').filter(value => value < 3).length
+              const maybeApp = _.map(itemsOfPurpose, 'value').filter(value => value === 3).length
+
+            
+              const  { yes, no, maybe} = result[sectionType][dataTypeName][purposeName]
+              result[sectionType][dataTypeName][purposeName] = {
+                yes: yes + yesApp,
+                no: no + noApp,
+                maybe: maybe + maybeApp,
+              }
+            })
+          })
+        }
+      
+      }
+    }
+
+    const rows = []
+    const row = {}
+    const { collection, collectionPurpose, sharing, sharingPurpose } = result
+    // collection 
+    Object.entries(collection || {}).forEach(([dataType, { yes, no, maybe }]) => {
+      
+      if(yes + no + maybe !== 0) {
+        row[`${dataType}.collection`] = `Yes(${yes} apps - ${(yes / (yes + no + maybe) * 100).toFixed(2)}%) - Maybe(${maybe} apps - ${(maybe / (yes + no + maybe) * 100).toFixed(2)}%) - No(${no} apps - ${(no / (yes + no + maybe) * 100).toFixed(2)}%)`
+      }
+    })
+
+    // sharing 
+    Object.entries(sharing || {}).forEach(([dataType, { yes, no, maybe }]) => {
+      
+      if(yes + no + maybe !== 0) {
+        row[`${dataType}.sharing`] = `Yes(${yes} apps - ${(yes / (yes + no + maybe) * 100).toFixed(2)}%) - Maybe(${maybe} apps - ${(maybe / (yes + no + maybe) * 100).toFixed(2)}%) - No(${no} apps - ${(no / (yes + no + maybe) * 100).toFixed(2)}%)`
+      }
+    })
+
+    // collectionPurpose
+    Object.entries(collectionPurpose || {}).forEach(([dataType, purposes]) => {
+      Object.entries(purposes).forEach(([purposeName, { yes, no, maybe }]) => {
+        if(yes + no + maybe !== 0) {
+          row[`${dataType}.collection.${purposeName}`] = `Yes(${yes} apps - ${(yes / (yes + no + maybe) * 100).toFixed(2)}%) - Maybe(${maybe} apps - ${(maybe / (yes + no + maybe) * 100).toFixed(2)}%) - No(${no} apps - ${(no / (yes + no + maybe) * 100).toFixed(2)}%)`
+        }
+      })
+    })
+
+    // sharingPurpose
+    Object.entries(sharingPurpose || {}).forEach(([dataType, purposes]) => {
+      Object.entries(purposes).forEach(([purposeName, { yes, no, maybe }]) => {
+        if(yes + no + maybe !== 0) {
+          row[`${dataType}.sharing.${purposeName}`] = `Yes(${yes} apps - ${(yes / (yes + no + maybe) * 100).toFixed(2)}%) - Maybe(${maybe} apps - ${(maybe / (yes + no + maybe) * 100).toFixed(2)}%) - No(${no} apps - ${(no / (yes + no + maybe) * 100).toFixed(2)}%)`
+        }
+      })
+    })
+    rows.push(row)
+
+
+    const csvWriter = createCsvWriter({
+      path: `./question-stat-by-group(${type}).csv`,
+      header,
+    });
+    csvWriter.writeRecords(rows);
+  }
+  console.log("DONE");
+}
+
+async function getFirstQuestionStat() {
+ const answers = await Models.Answer.find({
+    _id: { $ne: "63f34befa59453001352999d" }
+  })
+
+  const result = {
+    yes: 0,
+    no: 0
+  }
+  for (let i = 0; i < answers.length; i++) {
+    const { questions, userId, survey } = answers[i];
+
+    for (let j = 0; j < questions.length; j++) {
+      const { appId, responses: { question1 } } = questions[j];
+
+      if(question1 && question1.name) {
+        if(question1.value === 1) {
+          result.yes++
+        } else {
+          result.no++
+        }
+      }
+    }
+  }
+
+  const { yes, no } = result
+  const content = `Yes: ${(yes / (no + yes) * 100).toFixed(2)}% - No: ${(no / (no + yes) * 100).toFixed(2)}%`
+  fs.writeFileSync('./first-question-stat.txt', content, { encoding: 'utf-8' })
+  console.log("DONE")
+}
+
+async function getUserSelectionPercent() {
+  const dataTypeNames = Object.keys(DATA_TYPES)
+  const purposeNames = Object.keys(DATA_PURPOSES)
+  
+  const result = {}
+  const answers = await Models.Answer.find({
+    _id: { $ne: "63f34befa59453001352999d" }
+  })
+
+  for (let i = 0; i < answers.length; i++) {
+    const { questions, userId, survey } = answers[i];
+    result[userId] = {}
+    
+    for (let j = 0; j < questions.length; j++) {
+      const { appId, responses: { question2, question3, question4, question5 } } = questions[j];
+
+      // question2
+      dataTypeNames.forEach(dataTypeName => {
+        const itemsOfDataType = Object.entries(question2 || {}).filter(([nameSlug]) => {
+          const [name] = nameSlug.split("+")
+
+          return name === _.kebabCase(dataTypeName)
+        }).map(item => item[1])
+
+        const sectionType = 'collection'
+        if(!result[userId][sectionType]) result[userId][sectionType] = {}
+        if(!result[userId][sectionType][dataTypeName]) {
+          result[userId][sectionType][dataTypeName] = {
+            nec: 0,
+            unnect: 0,
+            totalNec: 0,
+            totalUnnect: 0
+          }
+        }
+
+        const necApp = _.map(itemsOfDataType, 'value').filter(value => value >= 3).length
+        const unnecApp = _.map(itemsOfDataType, 'value').filter(value => value < 3).length
+
+       
+        const  { nec, unnect, totalNec, totalUnnect} = result[userId][sectionType][dataTypeName]
+        result[userId][sectionType][dataTypeName] = {
+          nec: nec + necApp,
+          unnect: unnect + unnecApp,
+          totalNec: necApp > 0 ? totalNec + 1 : totalNec,
+          totalUnnect: unnecApp > 0 ? totalUnnect + 1 : totalUnnect,
+        }
+      })
+
+      // question3
+      dataTypeNames.forEach(dataTypeName => {
+        const itemsOfDataType = Object.entries(question3 || {}).filter(([nameSlug]) => {
+          const [name] = nameSlug.split("+")
+
+          return name === _.kebabCase(dataTypeName)
+        }).map(item => item[1])
+
+        const sectionType = 'collectionPurpose'
+        if(!result[userId][sectionType]) result[userId][sectionType] = {}
+
+        if(!result[userId][sectionType][dataTypeName]) result[userId][sectionType][dataTypeName] = {}
+
+        purposeNames.forEach(purposeName => {
+          const itemsOfPurpose = itemsOfDataType.filter(({name: nameSlug}) => {
+            const name = nameSlug.split("+").pop()
+
+            return name === _.kebabCase(purposeName)
+          })
+          
+          if(!result[userId][sectionType][dataTypeName][purposeName]) {
+            result[userId][sectionType][dataTypeName][purposeName] = {
+              nec: 0,
+              unnect: 0,
+              totalNec: 0,
+              totalUnnect: 0
+            }
+          }
+
+          const necApp = _.map(itemsOfPurpose, 'value').filter(value => value >= 3).length
+          const unnecApp = _.map(itemsOfPurpose, 'value').filter(value => value < 3).length
+
+        
+          const  { nec, unnect, totalNec, totalUnnect} = result[userId][sectionType][dataTypeName][purposeName]
+          result[userId][sectionType][dataTypeName][purposeName] = {
+            nec: nec + necApp,
+            unnect: unnect + unnecApp,
+            totalNec: necApp > 0 ? totalNec + 1 : totalNec,
+            totalUnnect: unnecApp > 0 ? totalUnnect + 1 : totalUnnect,
+          }
+        })
+      })
+
+
+      // question4
+      dataTypeNames.forEach(dataTypeName => {
+        const itemsOfDataType = Object.entries(question4 || {}).filter(([nameSlug]) => {
+          const [name] = nameSlug.split("+")
+
+          return name === _.kebabCase(dataTypeName)
+        }).map(item => item[1])
+
+        const sectionType = 'sharing'
+        if(!result[userId][sectionType]) result[userId][sectionType] = {}
+        if(!result[userId][sectionType][dataTypeName]) {
+          result[userId][sectionType][dataTypeName] = {
+            nec: 0,
+            unnect: 0,
+            totalNec: 0,
+            totalUnnect: 0
+          }
+        }
+
+        const necApp = _.map(itemsOfDataType, 'value').filter(value => value >= 3).length
+        const unnecApp = _.map(itemsOfDataType, 'value').filter(value => value < 3).length
+
+       
+        const  { nec, unnect, totalNec, totalUnnect} = result[userId][sectionType][dataTypeName]
+        result[userId][sectionType][dataTypeName] = {
+          nec: nec + necApp,
+          unnect: unnect + unnecApp,
+          totalNec: necApp > 0 ? totalNec + 1 : totalNec,
+          totalUnnect: unnecApp > 0 ? totalUnnect + 1 : totalUnnect,
+        }
+      })
+
+      // question5
+      dataTypeNames.forEach(dataTypeName => {
+        const itemsOfDataType = Object.entries(question5 || {}).filter(([nameSlug]) => {
+          const [name] = nameSlug.split("+")
+
+          return name === _.kebabCase(dataTypeName)
+        }).map(item => item[1])
+
+        const sectionType = 'sharingPurpose'
+        if(!result[userId][sectionType]) result[userId][sectionType] = {}
+
+        if(!result[userId][sectionType][dataTypeName]) result[userId][sectionType][dataTypeName] = {}
+
+        purposeNames.forEach(purposeName => {
+          const itemsOfPurpose = itemsOfDataType.filter(({name: nameSlug}) => {
+            const name = nameSlug.split("+").pop()
+
+            return name === _.kebabCase(purposeName)
+          })
+          
+          if(!result[userId][sectionType][dataTypeName][purposeName]) {
+            result[userId][sectionType][dataTypeName][purposeName] = {
+              nec: 0,
+              unnect: 0,
+              totalNec: 0,
+              totalUnnect: 0
+            }
+          }
+
+          const necApp = _.map(itemsOfPurpose, 'value').filter(value => value >= 3).length
+          const unnecApp = _.map(itemsOfPurpose, 'value').filter(value => value < 3).length
+
+        
+          const  { nec, unnect, totalNec, totalUnnect} = result[userId][sectionType][dataTypeName][purposeName]
+          result[userId][sectionType][dataTypeName][purposeName] = {
+            nec: nec + necApp,
+            unnect: unnect + unnecApp,
+            totalNec: necApp > 0 ? totalNec + 1 : totalNec,
+            totalUnnect: unnecApp > 0 ? totalUnnect + 1 : totalUnnect,
+          }
+        })
+      })
+    }
+
+    const { question1, question2, question3, question4 } = survey
+
+    // question1
+    result[userId]['question1'] = {}
+    dataTypeNames.forEach((dataTypeName, i) => {
+      const value = question1[`question1${i + 1}`]?.value
+
+      if(value) result[userId]['question1'][dataTypeName] = value
+    })
+
+    // question2
+    result[userId]['question2'] = {}
+    purposeNames.forEach((purposeName, i) => {
+      const value = question2[`question2${i + 1}`]?.value
+
+      if(value) result[userId]['question2'][purposeName] = value
+    })
+  }
+
+  const getLabelFor3Value = value => {
+    return `${value === 1 ? "Y" : value === 0 ? "N" : "M"}`;
+  }
+  const header = [
+    {
+      id: "stt",
+      title: "#"
+    },
+    {
+      id: "email",
+      title: "Email"
+    },
+  ]
+  
+  // add header 
+  dataTypeNames.forEach(dataTypeName => {
+    header.push({
+      id: `${dataTypeName}.collection`,
+      title: `${dataTypeName}.Collection`
+    })
+  })
+  dataTypeNames.forEach(dataTypeName => {
+     header.push({
+      id: `${dataTypeName}.sharing`,
+      title: `${dataTypeName}.Sharing`
+    })
+  })
+
+  dataTypeNames.forEach(dataTypeName => {
+    purposeNames.forEach(purposeName => {
+      header.push({
+        id: `${dataTypeName}.collection.${purposeName}`,
+        title: `${dataTypeName}.Collection.${purposeName}`
+      })
+    })
+  })
+
+  dataTypeNames.forEach(dataTypeName => {
+    purposeNames.forEach(purposeName => {
+      header.push({
+        id: `${dataTypeName}.sharing.${purposeName}`,
+        title: `${dataTypeName}.Sharing.${purposeName}`
+      })
+    })
+  })
+  
+  const rows = []
+  const users = Object.entries(result)
+  for (let i = 0; i < users.length; i++) {
+    const [userId, { collection, collectionPurpose, sharing, sharingPurpose, question1, question2 }] = users[i];
+
+    const user = await Models.User.findById(userId).select('email')
+    const row = {
+      stt: i + 1,
+      email: user.email
+    }
+    
+    // collection 
+    Object.entries(collection || {}).forEach(([dataType, { nec, unnect, totalNec, totalUnnect }]) => {
+      
+      if(totalNec + totalUnnect !== 0) {
+        row[`${dataType}.collection`] = `${getLabelFor3Value(question1[dataType])} - Un(${totalUnnect} apps - ${(unnect / (nec + unnect) * 100).toFixed(2)}%) - Nec(${totalNec} apps - ${(nec / (nec + unnect) * 100).toFixed(2)}%)`
+      }
+    })
+
+    // sharing 
+    Object.entries(sharing || {}).forEach(([dataType, { nec, unnect, totalNec, totalUnnect }]) => {
+      
+      if(totalNec + totalUnnect !== 0) {
+        row[`${dataType}.sharing`] = `${getLabelFor3Value(question1[dataType])} - Un(${totalUnnect} apps - ${(unnect / (nec + unnect) * 100).toFixed(2)}%) - Nec(${totalNec} apps - ${(nec / (nec + unnect) * 100).toFixed(2)}%)`
+      }
+    })
+
+    // collectionPurpose
+    Object.entries(collectionPurpose || {}).forEach(([dataType, purposes]) => {
+      Object.entries(purposes).forEach(([purposeName, { nec, unnect, totalNec, totalUnnect }]) => {
+        if(totalNec + totalUnnect !== 0) {
+          row[`${dataType}.collection.${purposeName}`] = `${getLabelFor3Value(question2[purposeName])} - Un(${totalUnnect} apps - ${(unnect / (nec + unnect) * 100).toFixed(2)}%) - Nec(${totalNec} apps - ${(nec / (nec + unnect) * 100).toFixed(2)}%)`
+        }
+      })
+    })
+
+    // sharingPurpose
+    Object.entries(sharingPurpose || {}).forEach(([dataType, purposes]) => {
+      Object.entries(purposes).forEach(([purposeName, { nec, unnect, totalNec, totalUnnect }]) => {
+        if(totalNec + totalUnnect !== 0) {
+          row[`${dataType}.sharing.${purposeName}`] = `${getLabelFor3Value(question2[purposeName])} - Un(${totalUnnect} apps - ${(unnect / (nec + unnect) * 100).toFixed(2)}%) - Nec(${totalNec} apps - ${(nec / (nec + unnect) * 100).toFixed(2)}%)`
+        }
+      })
+    })
+
+    rows.push(row)
+  }
+
+
+  const csvWriter = createCsvWriter({
+    path: "./user-selection.csv",
+    header,
+  });
+  csvWriter.writeRecords(rows);
+
+  console.log("DONE");
+}
+async function getAppSelectionPercent() {
+  const header = [
+    {
+      id: "stt",
+      title: "#"
+    },
+    {
+      id: "appName",
+      title: "App Name"
+    },
+    {
+      id: "agree",
+      title: "Agree"
+    },
+    {
+      id: "disagree",
+      title: "Disagree"
+    }
+  ];
+  let rows = []
+  const answers = await Models.Answer.find({
+    _id: { $ne: "63f34befa59453001352999d" }
+  })
+
+  let stt = 1
+  for (let i = 0; i < answers.length; i++) {
+    const {questions} = answers[i];
+    
+    for (let j = 0; j < questions.length; j++) {
+      const { appId, responses: { question2, question3, question4, question5 } } = questions[j];
+      const app = await Models.App.findById(appId).select('appName')
+
+      let agree = 0, disagree = 0
+
+      const valueArr = [...Object.values(question2 || {}), ...Object.values(question3 || {}), ...Object.values(question4 || {}), ...Object.values(question5 || {})]
+      valueArr.forEach(item => {
+        if(item.value >= 3) agree++
+        else disagree++
+      })
+
+      if(agree + disagree !== 0) {
+         rows.push({
+          stt: stt++,
+          appName: app.appName,
+          agree: Number((agree / (agree + disagree) * 100).toFixed(2)),
+          disagree: Number((disagree / (agree + disagree) * 100).toFixed(2)),
+        })
+      }
+    }
+  }
+  
+  rows = _.orderBy(rows, ['agree', 'disagree'], ['desc', 'desc'])
+  console.log(rows)
+
+  rows = rows.map((row, i) => {
+    return {
+      ...row,
+      stt: i+ 1
+    }
+  })
+  const csvWriter = createCsvWriter({
+    path: "./app-selection(percent).csv",
+    header,
+  });
+  csvWriter.writeRecords(rows);
+  console.log("DONE")
+}
+async function getSurveyStatPercent() {
+const answers = await Models.Answer.find({
+  _id: { $ne: "63f34befa59453001352999d" }
+})
+
+  let content = ''
+  let result = {
+    question1: {},
+    question2: {},
+    question3: {},
+    question4: {},
+  };
+  for (let i = 0; i < answers.length; i++) {
+    const answer = answers[i];
+    const {
+      survey: { question1, question2, question3, question4 }
+    } = answer;
+
+    // console.log(question2)
+    // question1
+    Array.from({ length: 14 }, (v, i) => {
+      if(!result.question1[ i+ 1]) {
+        result.question1[ i+ 1] = {
+      0: 0,
+      1: 0,
+      2: 0,
+    }
+      }
+      const userValue = question1?.[`question1${i+1}`]?.value
+      
+      if(userValue) {
+        result.question1[i+ 1][userValue]++
+      }
+    });
+
+    // question2
+    Array.from({ length: 7 }, (v, i) => {
+      if(!result.question2[ i+ 1]) {
+        result.question2[ i+ 1] = {
+      0: 0,
+      1: 0,
+      2: 0,
+    }
+      }
+      const userValue = question2?.[`question2${i+1}`]?.value
+      
+      if(userValue) {
+        result.question2[i+ 1][userValue]++
+      }
+    });
+
+    // question3
+    Array.from({ length: 4 }, (v, i) => {
+      if(!result.question3[ i+ 1]) {
+        result.question3[ i+ 1] = {
+      0: 0,
+      1: 0,
+      2: 0,
+    }
+      }
+      const userValue = question3?.[`question3${i+1}`]?.value
+      
+      if(userValue) {
+        result.question3[i+ 1][userValue]++
+      }
+    });
+
+    // question4
+    Array.from({ length: 5 }, (v, i) => {
+      if(!result.question4[ i+ 1]) {
+        result.question4[ i+ 1] = {
+      0: 0,
+      1: 0,
+      2: 0,
+    }
+      }
+      const userValue = question4?.[`question4${i+1}`]?.value
+      
+      if(userValue) {
+        result.question4[i+ 1][userValue]++
+      }
+    });
+  }
+
+  console.log(result)
+
+  const indexToAlpha = (num = 1) => {
+   // ASCII value of first character
+   const A = 'A'.charCodeAt(0);
+   let numberToCharacter = number => {
+      return String.fromCharCode(A + number);
+   };
+   return numberToCharacter(num).toLowerCase();
+};
+  // question1
+  content += `I - Which of the following information do you think is your personal information (i.e., access restrictions) when you using the apps on the Android platform? \n`
+  Object.entries(DATA_TYPES).forEach(([name], i) => {
+    const questionResult = result.question1[i + 1]
+    const total = _.sum(Object.values(questionResult))
+
+    content += `1.${indexToAlpha(i)}) ${name} #Yes (${((questionResult[1] / total) * 100).toFixed(2)}%) #No (${((questionResult[0] / total) * 100).toFixed(2)}%) #Maybe (${((questionResult[2] / total) * 100).toFixed(2)}%)\n`
+  })
+
+  // question2
+  content += `\nII - Which of the following purposes do you think is essential when collecting/sharing your personal data when you use apps on the Android platform? \n`
+  Object.entries(DATA_PURPOSES).forEach(([name], i) => {
+    const questionResult = result.question2[i + 1]
+    const total = _.sum(Object.values(questionResult))
+
+    content += `2.${indexToAlpha(i)}) ${name} #Yes (${((questionResult[1] / total) * 100).toFixed(2)}%) #No (${((questionResult[0] / total) * 100).toFixed(2)}%) #Maybe (${((questionResult[2] / total) * 100).toFixed(2)}%)\n`
+  })
+
+  // question3
+  content += `\nIII - Do you think the following actions are not considered as collecting user data (i.e., apps’ data collection behavior)? \n`
+  Object.entries(QUESTION3).forEach(([name], i) => {
+    const questionResult = result.question3[i + 1]
+    const total = _.sum(Object.values(questionResult))
+
+    content += `3.${indexToAlpha(i)}) ${name} 
+    #Yes (${((questionResult[1] / total) * 100).toFixed(2)}%) #No (${((questionResult[0] / total) * 100).toFixed(2)}%) #Maybe (${((questionResult[2] / total) * 100).toFixed(2)}%)\n`
+  })
+
+  // question4
+  content += `\nIV - Do you think the following actions are not considered as sharing user data (i.e., apps’ data sharing behavior)? \n`
+  Object.entries(QUESTION4).forEach(([name], i) => {
+    const questionResult = result.question4[i + 1]
+    const total = _.sum(Object.values(questionResult))
+
+    content += `4.${indexToAlpha(i)}) ${name} 
+    #Yes (${((questionResult[1] / total) * 100).toFixed(2)}%) #No (${((questionResult[0] / total) * 100).toFixed(2)}%) #Maybe (${((questionResult[2] / total) * 100).toFixed(2)}%)\n`
+  })
+  
+
+  fs.writeFileSync('./survey-stat(percent).txt', content, { encoding: 'utf8' })
+}
+// updateHtmlPrivacyPolicy();
 async function updateHtmlPrivacyPolicy() {
   let apps = [];
 
@@ -266,37 +1504,164 @@ async function updateHtmlPrivacyPolicy() {
   console.log("DONE");
 }
 
-// getParagraphs();
-async function getParagraphs() {
+// updateParagraphs();
+async function updateParagraphs() {
+  // const header = [
+  //   {
+  //     id: "stt",
+  //     title: "#"
+  //   },
+  //   {
+  //     id: "paragraph",
+  //     title: "Paragraph"
+  //   },
+  //   {
+  //     id: "appName",
+  //     title: "App Name"
+  //   },
+  //   {
+  //     id: "link",
+  //     title: "Link"
+  //   }
+  // ];
   const apps = await Models.App.find({
     htmlPrivacyPolicy: { $ne: "" },
-    isUpdatedHtmlPrivacyPolicy: true
-  }).limit(1);
+    isUpdatedHtmlPrivacyPolicy: true,
+    paragraph: {
+      $exists: false
+    }
+  }).select("htmlPrivacyPolicy privacyLink appName");
+  // .limit(1);
 
   for (let i = 0; i < apps.length; i++) {
     const app = apps[i];
-    const { htmlPrivacyPolicy, privacyLink } = app;
+    const { htmlPrivacyPolicy, privacyLink, appName } = app;
     const $ = await cheerio.load(htmlPrivacyPolicy);
-
-    console.log(privacyLink);
+    let content = "";
 
     $("p").each((index, element) => {
       const $element = $(element);
       const pTagContent = $element.text();
-      const $nextElement = $element.next();
+      const isSecurity = checkSententIncludeSecurity(pTagContent);
 
-      const $nextParentElement = $element.parent().next();
-      if ($nextElement.is("ul")) {
-        const ulTagContent = $nextElement.html();
-        // console.log(ulTagContent);
+      if (isSecurity) {
+        content += `${pTagContent}`;
+
+        const $nextElement = $element.next();
+        const $nextParentElement = $element.parent().next();
+        if (pTagContent.includes(":") && $nextElement.is("ul")) {
+          content += `${$nextElement.text()} \n`;
+        } else if (pTagContent.includes(":") && $nextParentElement.is("ul")) {
+          content += `${$nextParentElement.text()} \n`;
+        }
       }
     });
+
+    await Models.App.updateOne(
+      {
+        _id: app.id
+      },
+      {
+        paragraph: content
+      }
+    );
   }
+
+  // const csvWriter = createCsvWriter({
+  //   path: "./app-paragraph.csv",
+  //   header,
+  //   fieldDelimiter: ",",
+  //   alwaysQuote: true,
+  //   encoding: "utf8"
+  // });
+  // csvWriter.writeRecords(rows);
+
   console.log("DONE");
 }
 
+// getParagraphs();
+async function getParagraphs() {
+  const apps = await Models.App.find({
+    paragraph: {
+      $ne: "",
+      $exists: true
+    }
+  }).select("paragraph privacyLink appName");
+  // .limit(1);
+  const rows = [];
+  for (let i = 0; i < apps.length; i++) {
+    const app = apps[i];
+
+    let { paragraph, privacyLink, appName } = app;
+
+    paragraph = boldWordsIncludeSecurity(paragraph);
+
+    rows.push({
+      stt: i + 1,
+      paragraph: paragraph.replace(/\n/g, "<br />"),
+      appName,
+      link: privacyLink
+    });
+  }
+
+  fs.writeFileSync("app-paragraph.json", JSON.stringify(rows), { encoding: "utf8" });
+
+  console.log("DONE");
+}
+
+function boldWordsIncludeSecurity(sentent) {
+  const keywords = [
+    "security",
+    "privacy",
+    "keyword",
+    "privaci",
+    "person",
+    "secur",
+    "collect",
+    "protect",
+    "parti",
+    "third",
+    "access",
+    "cooki",
+    "share",
+    "purpos",
+    "identifi",
+    "address",
+    "store",
+    "email",
+    "advertis",
+    "locat",
+    "permiss",
+    "confidenti",
+    "safeti",
+    "sell",
+    "purchas",
+    "password",
+    "identif",
+    "encrypt",
+    "policyprivaci",
+    "policyi",
+    "securityi",
+    "privat",
+    "defend",
+    "securityw",
+    "policythi"
+  ];
+
+  const stemmer = natural.PorterStemmer;
+
+  const words = sentent.split(" ");
+
+  const formatedWords = words.map(word => {
+    if (keywords.includes(stemmer.stem(word))) return `<strong>${word}</strong>`;
+
+    return word;
+  });
+
+  return formatedWords.join(" ");
+}
 // checkSententIncludeSecurity("le thanh tuan security privacy");
-async function checkSententIncludeSecurity(sentent) {
+function checkSententIncludeSecurity(sentent) {
   const keywords = [
     "security",
     "privacy",
@@ -341,7 +1706,7 @@ async function checkSententIncludeSecurity(sentent) {
 }
 
 // main();
-async function main() {
+async function main1() {
   console.log(1);
 
   const apps = await Models.App.find({
@@ -657,6 +2022,7 @@ async function getStat() {
     path: "./survey-stats.csv",
     header
   });
+
   csvWriter.writeRecords(rows);
   console.log("DONE");
 }

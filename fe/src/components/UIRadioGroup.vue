@@ -46,10 +46,5 @@ export default ({
     },
   },
   emits: ['input'],
-  watch: {
-    picked(data) {
-      console.log(data)
-    }
-  }
 })
 </script>

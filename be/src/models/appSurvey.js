@@ -3,13 +3,12 @@ var Schema = mongoose.Schema;
 
 var groupSchema = new Schema(
   {
-    apps: [
-      {
-        appId: Schema.Types.ObjectId,
-        commentIds: [Schema.Types.ObjectId],
-        stt: Number
-      }
-    ],
+    questionIds: [],
+    type1: [],
+    type2: [],
+    type3: [],
+    type4: [],
+    type5: [],
     isDone: {
       type: Boolean,
       default: false
@@ -25,4 +24,4 @@ var groupSchema = new Schema(
   }
 );
 
-export default mongoose.model("appSurvey5", groupSchema);
+export default mongoose.model("appSurveyv2", groupSchema);
