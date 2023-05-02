@@ -6,13 +6,16 @@
       @submit="next"
     >
       <div
-        v-if="userQuestions.length"
+        v-if="userQuestions.length && !lodash.isEmpty(questions)"
       >
         <h5
           class="text-center"
           style="text-transform: capitalize;"
-        > <span class="pagingInfo"> <span style="color: #FF9800; font-size: 30px">{{ STAGES.indexOf(currentStage) + 1 }}</span> / 10</span></h5>
-        
+        > 
+          <span class="pagingInfo"> <span style="color: #FF9800; font-size: 30px">{{ STAGES.indexOf(currentStage) + 1 }}</span> / 10</span>
+         
+        </h5>
+        <div class="text-center">{{ PHRASES[currentStage] }}</div>
         <div class="mt-2 mb-2">
           <div>
             <b>{{ TITLES_BY_STAGE[currentStage] }}</b>
@@ -30,11 +33,7 @@
             :key="index"
             class="mb-2"
           >
-            <div>You are <b>{{ question.params[0] }}</b>. Do you allow <span
-              v-b-tooltip.hover
-              v-b-tooltip.hover.html="true"
-              :title="question.params[1].description"
-            ><b>{{ question.params[1].appName }}</b></span> app to access your <b>{{ question.params[2] }}</b>?</div>
+            <QuestionType1 :question="question" />
             <div>
               <div>
                 <UIRadioGroup
@@ -56,11 +55,7 @@
             :key="index"
             class="mb-2"
           >
-            <div>You are <b>{{ question.params[0] }}</b>. Do you allow <span
-              v-b-tooltip.hover
-              v-b-tooltip.hover.html="true"
-              :title="question.params[1].description"
-            ><b>{{ question.params[1].appName }}</b> app to share your <b>{{ question.params[3] }}</b> to <b>{{ question.params[4] }}</b>?</span></div>
+            <QuestionType2 :question="question" />
             <div>
               <div>
                 <UIRadioGroup
@@ -82,7 +77,7 @@
             :key="index"
             class="mb-2"
           >
-            <div>You are <b>{{ question.params[0] }}</b>. Do you want to share your <b>{{ question.params[1] }}</b> with <b>{{ question.params[2] }}</b>?</div>
+            <QuestionType3 :question="question" />
             <div>
               <div>
                 <UIRadioGroup
@@ -104,11 +99,7 @@
             :key="index"
             class="mb-2"
           >
-            <div>Do you want your <b>{{ question.params[0] }}</b> to be collected by <span
-              v-b-tooltip.hover
-              v-b-tooltip.hover.html="true"
-              :title="question.params[1].description"
-            ><b>{{ question.params[1].appName }}</b></span> app for<b>{{ question.params[2] }}</b> purposes?</div>
+            <QuestionType4 :question="question" />
             <div>
               <div>
                 <UIRadioGroup
@@ -122,56 +113,101 @@
         </ol>
 
         <!-- training5 -->
-        <ol
-          v-if="currentStage === 'training5'"
-        >
-          <li
-            v-for="(question, index) in userQuestions"
-            :key="index"
-            class="mb-2"
-          >
-            <div>Do you want your <b>{{ question.params[0] }}</b> to be shared to <b>{{ question.params[1] }}</b> for <b>{{ question.params[2] }}</b> purposes?</div>
-            <div>
+        <div v-if="currentStage === 'training5'">
+          <ol>
+            <li
+              v-for="(question, index) in userQuestions"
+              :key="index"
+              class="mb-2"
+            >
+              <QuestionType5 :question="question" />
               <div>
-                <UIRadioGroup
-                  v-model="questions[question._id].allow"
-                  :name="`questions-${index}`"
-                  :options="questionOptions"
-                />
+                <div>
+                  <UIRadioGroup
+                    v-model="questions[question._id].allow"
+                    :name="`questions-${index}`"
+                    :options="questionOptions"
+                  />
+                </div>
               </div>
-            </div>
-          </li>
-        </ol>
-        <ol
+            </li>
+          </ol>
+        </div>
+
+
+        <div
           v-else-if="currentStage.includes('testing')"
-        >
-          <li
-            v-for="(question, index) in userQuestions"
-            :key="index"
-            class="mb-2"
+        > 
+          <div
+            v-for="(approachNumber) in [1, 2 ,3]"
+            :key="approachNumber"
           >
-            <div>Based on our prediction approach 1, your answer for this question is: {{ question.ourPrediction }}
-              <div>Are you satisfied with our prediction approach 1?</div>
-            </div>
-            <div>
-              <div>
-                <UIRadioGroup
-                  v-model="questions[question._id].agree"
-                  :name="`questions-testing-${index}`"
-                  :options="questionOptions1"
+            <div><b>Arroach {{ approachNumber }}</b></div>
+            <ol>
+              <li
+                v-for="(question, index) in userQuestions.slice((approachNumber - 1) * 3, approachNumber * 3)"
+                :key="index"
+                class="mb-2"
+              >
+                <QuestionType1
+                  v-if="currentStage === 'testing1'"
+                  :question="question"
                 />
-              </div>
-              <div v-if="questions[question._id].agree === 0">
-                Please provide the correct answer?
-                <UIRadioGroup
-                  v-model="questions[question._id].allow"
-                  :name="`questions-testing-alow-${index}`"
-                  :options="questionOptions.filter(item => item.value != question.ourPrediction)"
+                <QuestionType2
+                  v-else-if="currentStage === 'testing2'"
+                  :question="question"
                 />
-              </div>
-            </div>
-          </li>
-        </ol>
+                <QuestionType3
+                  v-else-if="currentStage === 'testing3'"
+                  :question="question"
+                />
+                <QuestionType4
+                  v-else-if="currentStage === 'testing4'"
+                  :question="question"
+                />
+                <QuestionType5
+                  v-else-if="currentStage === 'testing5'"
+                  :question="question"
+                />
+
+
+                <div>Based on our prediction, your answer for this question is:
+                  <UIRadioGroup
+                    v-model="question.ourPrediction"
+                    :disabled="true"
+                    :name="`questions-prediction-${approachNumber}-${index}`"
+                    :options="questionOptions"
+                  />
+                  <div>Do you agree for this prediction?</div>
+                </div>
+                <div>
+                  <div>
+                    <UIRadioGroup
+                      v-model="questions[question._id].agree"
+                      :name="`questions-testing-${approachNumber}-${index}`"
+                      :options="questionOptions1"
+                    />
+                  </div>
+                  <div v-if="questions[question._id].agree === 0">
+                    Please provide the correct answer?
+                    <UIRadioGroup
+                      v-model="questions[question._id].allow"
+                      :name="`questions-testing-allow-${approachNumber}-${index}`"
+                      :options="questionOptions.filter(item => item.value != question.ourPrediction)"
+                    />
+                  </div>
+                </div>
+              </li>
+            </ol>
+            <div>Are you satisfied with our prediction approach?</div>
+            <div> <UIRadioGroup
+              v-model="questions[`satisfied-approach-${approachNumber}`]"
+              :name="`questions-satisfied-approach-${approachNumber}`"
+              :options="questionOptions2"
+            /></div>
+          </div>
+      
+        </div>
       </div>
 
       <div style="position: relative">
@@ -199,16 +235,22 @@ import UINextButton from '@/components/UINextButton.vue'
 import UILoader from '@/components/UILoader.vue'
 import UIRadioGroup from '@/components/UIRadioGroup.vue'
 // import UITextarea from '@/components/UITextarea.vue'
+import QuestionType1 from './components/QuestionType1.vue'
+import QuestionType2 from './components/QuestionType2.vue'
+import QuestionType3 from './components/QuestionType3.vue'
+import QuestionType4 from './components/QuestionType4.vue'
+import QuestionType5 from './components/QuestionType5.vue'
 import { GET_QUESTIONS } from '@/store/modules/question/action.type.js'
 import { 
   GET_ANSWER, 
   STORE_ANSWER
 } from '@/store/modules/question/action.type.js'
 import { GET_USER_INFO } from '@/store/modules/user/action.type.js'
-import { QUESTION_NUM, DATA_TYPES, DATA_PURPOSES, TITLES_BY_STAGE } from '@/constants'
+import { QUESTION_NUM, DATA_TYPES, DATA_PURPOSES, TITLES_BY_STAGE, PHRASES } from '@/constants'
 
 const questionOptions = [{label: 'Yes (Full)', value: 1},  {label: 'No (Not allow)', value: 0}, {label: 'Partial or under user’s control', value: 2} ]
-const questionOptions1 = [{label: 'Yes', value: 1},  {label: 'No', value: 0}, {label: 'Maybe', value: 2}]
+const questionOptions1 = [{label: 'Yes', value: 1},  {label: 'No', value: 0}]
+const questionOptions2 = [{label: 'Yes', value: 1},  {label: 'No', value: 0}, {label: 'Maybe', value: 2}]
 
 const STAGES = ["training1", "testing1", "training2", "testing2","training3", "testing3","training4", "testing4","training5", "testing5"]
 
@@ -218,6 +260,11 @@ export default {
     UILoader,
     UIRadioGroup,
     // UITextarea,
+    QuestionType1,
+    QuestionType2,
+    QuestionType3,
+    QuestionType4,
+    QuestionType5,
   },
   data: () => ({
     lodash: _,
@@ -228,9 +275,11 @@ export default {
     DATA_PURPOSES,
     STAGES,
     TITLES_BY_STAGE,
+    PHRASES,
     isLoading: true,
     questionOptions,
     questionOptions1,
+    questionOptions2,
     commentQuestions: [],
     questions: {},
     dataCollections: [],
@@ -260,7 +309,8 @@ export default {
         this.questions = userQuestions.reduce((acc, question) => {
           acc[question._id] = {
             allow: null,
-            agree: null
+            agree: null,
+            ourPrediction: question.ourPrediction || null
           }
 
           return acc

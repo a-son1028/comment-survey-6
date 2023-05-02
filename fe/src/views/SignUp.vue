@@ -131,19 +131,23 @@
             aria-hidden="true"
           /></span></div><!-- address-->
           <!-- city and country// country-->
-          <div
-            class="wrap-input100 validate-input"
-            data-validate="Country is required"
-          ><input
-            v-model="country"
-            class="input100"
-            type="text"
-            placeholder="Country*"
-            required
-          ><span class="focus-input100" /><span class="symbol-input100"><i
-            class="fa fa-globe"
-            aria-hidden="true"
-          /></span></div>
+          <div class="wrap-input100 validate-input mt-3"><b class="mr-2">Country: </b>
+            <div class="form-check form-check-inline ml-4"><select
+              v-model="country"
+              class="input100"
+              placeholder="Country*"
+              required
+            >
+              <option
+                v-for="(countryItem, index) in COUNTRIES"
+                :key="index"
+                :value="countryItem.name"
+              >{{ countryItem.name }}</option>
+            </select></div>
+          </div>
+
+       
+          
           <div class="container-login100-form-btn"><button
             class="login100-form-btn"
           >Create account</button></div>
@@ -164,6 +168,8 @@
 <script>
 import UILoader from '@/components/UILoader.vue'
 import { SIGNUP } from '@/store/modules/user/action.type.js'
+import { COUNTRIES } from '@/constants/country'
+
 export default({
   components: {
     UILoader,
@@ -180,6 +186,7 @@ export default({
       country: '',
       hasExperience: '',
       isLoading: false,
+      COUNTRIES,
     }
   },
   watch: {

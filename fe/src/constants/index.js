@@ -383,3 +383,20 @@ export const TITLES_BY_STAGE = {
   training5: "Survey on allowing data sharing by different purposes",
   testing5: "Survey on allowing data sharing by different purposes",
 };
+
+export const PHRASES = {
+  training1: "I - Training",
+  testing1: "I - Testing",
+
+  training2: "II - Training",
+  testing2: "II - Testing",
+
+  training3: "III - Training",
+  testing3: "III - Testing",
+
+  training4: "IV - Training",
+  testing4: "IV - Testing",
+
+  training5: "V - Training",
+  testing5: "V - Testing",
+};

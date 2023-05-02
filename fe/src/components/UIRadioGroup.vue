@@ -10,6 +10,7 @@
     >{{ option.label }}
       <input
         :id="name + index"
+        :disabled="disabled"
         :name="name"
         class="type-question"
         type="radio"
@@ -35,6 +36,10 @@ export default ({
     name: {
       type: String,
       default: ""
+    },
+    disabled: {
+       type: Boolean,
+      default: false
     },
     value: {
       type: [Number, String],

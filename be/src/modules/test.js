@@ -28,15 +28,16 @@ const people = [
   "Colleague"
 ];
 
+// 8 * 6 * 8;
 // main();
 async function main() {
   await createQuestions();
 
-  await createSurvey();
+  // await createSurvey();
   console.log("DONE");
 }
 async function createQuestions() {
-  await Models.Question.deleteMany({});
+  // await Models.Question.deleteMany({});
 
   let DataItemLabel = await csv({
     noheader: truncate,
@@ -132,7 +133,7 @@ async function createQuestions() {
   console.log(`type3: ${questions.filter(item => item.type === "type3").length}`);
   console.log(`type4: ${questions.filter(item => item.type === "type4").length}`);
   console.log(`type5: ${questions.filter(item => item.type === "type5").length}`);
-  await Models.Question.insertMany(questions);
+  // await Models.Question.insertMany(questions);
 }
 
 async function createSurvey() {
