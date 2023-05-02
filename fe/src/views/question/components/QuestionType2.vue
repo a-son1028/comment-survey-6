@@ -3,7 +3,7 @@
     v-b-tooltip.hover
     v-b-tooltip.hover.html="true"
     :title="question.params[1].description"
-  ><b>{{ question.params[1].appName }}</b> app to share your <b>{{ question.params[3] }}</b> to <b>{{ question.params[4] }}</b>?</span></div>
+  ><b>{{ question.params[1].appName }}</b> app to share your <b>{{ question.params[2] }}(i.e., {{ question.params[4].join(', ') }})</b> to <b>{{ question.params[3] }}</b>?</span></div>
 </template>
 
 <script>

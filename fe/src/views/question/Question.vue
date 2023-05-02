@@ -348,15 +348,14 @@ export default {
       this.$store.dispatch(STORE_ANSWER, data)
       .then(() => {
         if(this.currentStage === 'testing5') {
-            return this.$router.push('/confirm')
+          return this.$router.push('/confirm')
         }
         else if(this.$route.query.currentStage) {
           window.location.href = `?currentStage=${this.STAGES[this.STAGES.indexOf(this.currentStage) + 1]}`
         } else {
-            window.location.href = "/"
+          window.location.href = "/"
         }
       
-        this.isLoading = false
         this.clearFormData()
       })
     },

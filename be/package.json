@@ -26,7 +26,7 @@
     "getdataitem": "babel-node --max_old_space_size=12192 modules/getdataitem.js",
     "getcomment": "babel-node --max_old_space_size=12192 src/modules/getcomment.js",
     "getcommentProd": "node --expose-gc --max_old_space_size=12192 dist/modules/getcomment.js",
-    "test": "babel-watch src/modules/test.js",
+    "test": "babel-node --max_old_space_size=12192 src/modules/test.js",
     "test2": "babel-watch src/modules/test2.js",
     "test3": "babel-watch src/modules/test3.js",
     "test2-node": "node --max_old_space_size=12192 dist/modules/test2.js"
