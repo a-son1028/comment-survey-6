@@ -310,7 +310,7 @@ export default {
           acc[question._id] = {
             allow: null,
             agree: null,
-            ourPrediction: question.ourPrediction || null
+            ourPrediction: question.ourPrediction
           }
 
           return acc
