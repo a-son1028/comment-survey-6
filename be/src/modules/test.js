@@ -312,7 +312,7 @@ function getDataTypeItem(dataType) {
 }
 main();
 async function main() {
-  await createQuestions();
+  // await createQuestions();
 
   await createSurvey();
   console.log("DONE");
@@ -346,11 +346,13 @@ async function createQuestions() {
       // type 1
       activities.forEach(activity => {
         personalData.forEach(personalItem => {
-          const childPersonalItems = _.sampleSize(DATA_TYPE_ITEMS[personalItem], 3);
-          questions.push({
-            question: `You are ${activity}. Do you allow ${appName} app to access your ${personalItem}?`,
-            type: "type1",
-            params: [activity, app, personalItem, childPersonalItems]
+          const dataTypeChunkItem = getDataTypeItem(personalItem);
+          dataTypeChunkItem.forEach(childPersonalItems => {
+            questions.push({
+              question: `You are ${activity}. Do you allow ${appName} app to access your ${personalItem}?`,
+              type: "type1",
+              params: [activity, app, personalItem, childPersonalItems]
+            });
           });
         });
       });
@@ -359,11 +361,13 @@ async function createQuestions() {
       activities.forEach(activity => {
         personalData.forEach(personalItem => {
           thirdPartiesHP.forEach(thirdParty => {
-            const childPersonalItems = _.sampleSize(DATA_TYPE_ITEMS[personalItem], 3);
-            questions.push({
-              question: `You are ${activity}. Do you allow ${appName} app to share your ${personalItem} to ${thirdParty}?`,
-              type: "type2",
-              params: [activity, app, personalItem, thirdParty, childPersonalItems]
+            const dataTypeChunkItem = getDataTypeItem(personalItem);
+            dataTypeChunkItem.forEach(childPersonalItems => {
+              questions.push({
+                question: `You are ${activity}. Do you allow ${appName} app to share your ${personalItem} to ${thirdParty}?`,
+                type: "type2",
+                params: [activity, app, personalItem, thirdParty, childPersonalItems]
+              });
             });
           });
         });
@@ -372,11 +376,14 @@ async function createQuestions() {
       // type 4
       personalData.forEach(personalItem => {
         purposesHP.forEach(purpose => {
-          const childPersonalItems = _.sampleSize(DATA_TYPE_ITEMS[personalItem], 3);
-          questions.push({
-            question: `Do you want your ${personalItem} to be collected by ${appName} for ${purpose} purposes?`,
-            type: "type4",
-            params: [personalItem, app, purpose, childPersonalItems]
+          const dataTypeChunkItem = getDataTypeItem(personalItem);
+
+          dataTypeChunkItem.forEach(childPersonalItems => {
+            questions.push({
+              question: `Do you want your ${personalItem} to be collected by ${appName} for ${purpose} purposes?`,
+              type: "type4",
+              params: [personalItem, app, purpose, childPersonalItems]
+            });
           });
         });
       });
@@ -428,7 +435,7 @@ async function createQuestions() {
 }
 
 async function createSurvey() {
-  await Models.AppSurvey.deleteMany({});
+  // await Models.AppSurvey.deleteMany({});
 
   let questions = await Models.Question.find();
   questions = _.sampleSize(questions, questions.length);
