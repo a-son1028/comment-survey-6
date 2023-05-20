@@ -1,7 +1,7 @@
 import "../configs/mongoose.config";
 import Models from "../models";
 import csv from "csvtojson";
-import _ from "lodash";
+import _, { isObject } from "lodash";
 import fs from "fs";
 import { ObjectID } from "mongodb";
 import * as constants from "../utils/constants";
@@ -9,6 +9,7 @@ import * as constants from "../utils/constants";
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
 import Services from "../services";
+import { Promise } from "bluebird";
 
 main();
 
@@ -16,10 +17,321 @@ async function main() {
   // await getTranningData();
   // await getEMAccuracy();
 
-  await generateAccuracyReports();
-  // await generateSatisfiedReports();
-  // await generateFinalQuestionReports();
+  await Promise.all([
+    generateAccuracyReports(),
+    generateSatisfiedReports(),
+    generateFinalQuestionReports(),
+    getParticipantFeedback(),
+    partipantInfos(),
+    participantCharacteristic()
+  ]);
+
   console.log("DONE");
+}
+
+async function participantCharacteristic() {
+  const users = await Models.User.find();
+
+  const userGroupByCountries = _.groupBy(users, "country");
+  const userGroupByAges = _.groupBy(users, "age");
+  const userGroupByGenders = _.groupBy(users, "gender");
+  const userGroupByFieldOfWorkTypes = _.groupBy(users, "fieldOfWorkType");
+
+  let content = `* Nationality: (${users.length})\n`;
+  Object.entries(userGroupByCountries).forEach(([country, usersByCounty]) => {
+    content += `  - ${country}: ${usersByCounty.length}(${(usersByCounty.length / users.length) *
+      100}%) \n`;
+  });
+  content += "\n";
+
+  content += `* Age: (${users.length})\n`;
+  Object.entries(userGroupByAges).forEach(([age, usersByAge]) => {
+    content += `  - ${age}: ${usersByAge.length}(${(usersByAge.length / users.length) * 100}%) \n`;
+  });
+  content += "\n";
+
+  content += `* Gender: (${users.length})\n`;
+  Object.entries(userGroupByGenders).forEach(([gender, usersByAge]) => {
+    content += `  - ${gender}: ${usersByAge.length}(${(usersByAge.length / users.length) *
+      100}%) \n`;
+  });
+  content += "\n";
+
+  content += `* Field of work: (${users.length})\n`;
+  Object.entries(userGroupByFieldOfWorkTypes).forEach(([gender, usersByAge]) => {
+    content += `  - ${gender}: ${usersByAge.length}(${(usersByAge.length / users.length) *
+      100}%) \n`;
+  });
+
+  fs.writeFileSync("./report/participant-characteristic.txt", content);
+}
+async function partipantInfos() {
+  const users = await Models.User.find();
+
+  const header = [
+    {
+      id: "stt",
+      title: "STT"
+    },
+    {
+      id: "fullName",
+      title: "full name"
+    },
+    {
+      id: "email",
+      title: "email"
+    },
+    {
+      id: "age",
+      title: "age"
+    },
+    {
+      id: "gender",
+      title: "gender"
+    },
+    {
+      id: "fieldOfWorkType",
+      title: "field of work"
+    },
+    {
+      id: "education",
+      title: "educational quanlification"
+    },
+    {
+      id: "country",
+      title: "country"
+    }
+  ];
+  const rows = [];
+
+  for (let i = 0; i < users.length; i++) {
+    const user = users[i];
+
+    rows.push({
+      stt: i + 1,
+      ...user.toJSON()
+    });
+  }
+
+  const csvWriter = createCsvWriter({
+    path: "./report/partipant-infos.csv",
+    header
+  });
+  csvWriter.writeRecords(rows);
+}
+async function getParticipantFeedback() {
+  const answers = await Models.Answer.find();
+
+  const dataFromMicro = await csv({
+    noheader: true,
+    output: "csv"
+  }).fromFile("/Users/a1234/Downloads/CSVReport_644f697fb36c_B_Page#1_With_PageSize#5000 (1).csv");
+
+  const header = [
+    {
+      id: "stt",
+      title: "STT"
+    },
+    {
+      id: "id",
+      title: "ID of microworker"
+    },
+    {
+      id: "email",
+      title: "email"
+    },
+    {
+      id: "satisfied",
+      title: "Satisfied"
+    },
+    {
+      id: "comment",
+      title: "Comment"
+    },
+    {
+      id: "finished",
+      title: "Finished"
+    },
+    {
+      id: "time",
+      title: "Time"
+    }
+  ];
+  const rows = [];
+
+  Array.from({ length: 10 }).forEach((v, i) => {
+    header.push({
+      id: `training1-Q${i + 1}`,
+      title: `training1-Q${i + 1}`
+    });
+  });
+  Array.from({ length: 9 }).forEach((v, i) => {
+    header.push({
+      id: `testing1-Q${i + 1}`,
+      title: `testing1-Q${i + 1}`
+    });
+  });
+
+  Array.from({ length: 10 }).forEach((v, i) => {
+    header.push({
+      id: `training2-Q${i + 1}`,
+      title: `training2-Q${i + 1}`
+    });
+  });
+  Array.from({ length: 9 }).forEach((v, i) => {
+    header.push({
+      id: `testing2-Q${i + 1}`,
+      title: `testing2-Q${i + 1}`
+    });
+  });
+
+  Array.from({ length: 10 }).forEach((v, i) => {
+    header.push({
+      id: `training3-Q${i + 1}`,
+      title: `training3-Q${i + 1}`
+    });
+  });
+  Array.from({ length: 9 }).forEach((v, i) => {
+    header.push({
+      id: `testing3-Q${i + 1}`,
+      title: `testing3-Q${i + 1}`
+    });
+  });
+
+  Array.from({ length: 10 }).forEach((v, i) => {
+    header.push({
+      id: `training4-Q${i + 1}`,
+      title: `training4-Q${i + 1}`
+    });
+  });
+  Array.from({ length: 9 }).forEach((v, i) => {
+    header.push({
+      id: `testing4-Q${i + 1}`,
+      title: `testing4-Q${i + 1}`
+    });
+  });
+
+  Array.from({ length: 10 }).forEach((v, i) => {
+    header.push({
+      id: `training5-Q${i + 1}`,
+      title: `training5-Q${i + 1}`
+    });
+  });
+  Array.from({ length: 9 }).forEach((v, i) => {
+    header.push({
+      id: `testing5-Q${i + 1}`,
+      title: `testing5-Q${i + 1}`
+    });
+  });
+
+  for (let i = 0; i < answers.length; i++) {
+    const {
+      training1 = {},
+      training2 = {},
+      training3 = {},
+      training4 = {},
+      training5 = {},
+      testing1 = {},
+      testing2 = {},
+      testing3 = {},
+      testing4 = {},
+      testing5 = {},
+      userId,
+      isSatisfied,
+      comment
+    } = answers[i];
+
+    const user = await Models.User.findById(userId);
+    const resultInMicro = dataFromMicro.find(
+      item => item[2].toLowerCase().trim() === user.email.toLowerCase().trim()
+    );
+
+    const row = {
+      stt: i + 1,
+      id: resultInMicro ? resultInMicro[0] : "",
+      email: user.email,
+      satisfied: [true, false].includes(isSatisfied) ? (isSatisfied ? "Yes" : "No") : "",
+      comment: comment || "",
+      finished: [true, false].includes(isSatisfied) ? "Yes" : "No",
+      time: resultInMicro ? resultInMicro[1] : ""
+    };
+
+    Object.values(training1).forEach((value, i) => {
+      row[`training1-Q${i + 1}`] = getLabelText(value.allow);
+    });
+    Object.values(training2).forEach((value, i) => {
+      row[`training2-Q${i + 1}`] = getLabelText(value.allow);
+    });
+    Object.values(training3).forEach((value, i) => {
+      row[`training3-Q${i + 1}`] = getLabelText(value.allow);
+    });
+    Object.values(training4).forEach((value, i) => {
+      row[`training4-Q${i + 1}`] = getLabelText(value.allow);
+    });
+    Object.values(training5).forEach((value, i) => {
+      row[`training5-Q${i + 1}`] = getLabelText(value.allow);
+    });
+
+    Object.values(testing1).forEach((value, i) => {
+      if (isObject(value)) {
+        row[`testing1-Q${i + 1}`] = `Agree: ${value.agree == 1 ? "Yes" : "No"} ${
+          value.agree == 0
+            ? "- " + getLabelText(Number(value.agree == 1 ? value.ourPrediction || 0 : value.allow))
+            : ""
+        }`;
+      }
+    });
+    Object.values(testing2).forEach((value, i) => {
+      if (isObject(value)) {
+        row[`testing2-Q${i + 1}`] = `Agree: ${value.agree == 1 ? "Yes" : "No"} ${
+          value.agree == 0
+            ? "- " + getLabelText(Number(value.agree == 1 ? value.ourPrediction || 0 : value.allow))
+            : ""
+        }`;
+      }
+    });
+    Object.values(testing3).forEach((value, i) => {
+      if (isObject(value)) {
+        row[`testing3-Q${i + 1}`] = `Agree: ${value.agree == 1 ? "Yes" : "No"} ${
+          value.agree == 0
+            ? "- " + getLabelText(Number(value.agree == 1 ? value.ourPrediction || 0 : value.allow))
+            : ""
+        }`;
+      }
+    });
+    Object.values(testing4).forEach((value, i) => {
+      if (isObject(value)) {
+        row[`testing4-Q${i + 1}`] = `Agree: ${value.agree == 1 ? "Yes" : "No"} ${
+          value.agree == 0
+            ? "- " + getLabelText(Number(value.agree == 1 ? value.ourPrediction || 0 : value.allow))
+            : ""
+        }`;
+      }
+    });
+    Object.values(testing5).forEach((value, i) => {
+      if (isObject(value)) {
+        row[`testing5-Q${i + 1}`] = `Agree: ${value.agree == 1 ? "Yes" : "No"} ${
+          value.agree == 0
+            ? "- " + getLabelText(Number(value.agree == 1 ? value.ourPrediction || 0 : value.allow))
+            : ""
+        }`;
+      }
+    });
+
+    rows.push(row);
+  }
+
+  const csvWriter = createCsvWriter({
+    path: "./report/partipant-feedbacks.csv",
+    header
+  });
+  csvWriter.writeRecords(rows);
+}
+
+function getLabelText(number) {
+  if (number == 1) return "Yes";
+  else if (number == 2) return "Maybe";
+  else return "No";
 }
 async function generateFinalQuestionReports() {
   const answers = await Models.Answer.find();
@@ -73,8 +385,8 @@ async function generateSatisfiedReports() {
   };
 
   for (let i = 0; i < answers.length; i++) {
-    const { testing1, testing2, testing3, testing4, testing5, _id } = answers[i];
-
+    const { testing1, testing2, testing3, testing4, testing5, _id, isSatisfied } = answers[i];
+    if (![true, false].includes(isSatisfied)) continue;
     results["satisfied-approach-1"][testing1["satisfied-approach-1"]]++;
     results["satisfied-approach-2"][testing1["satisfied-approach-2"]]++;
     results["satisfied-approach-3"][testing1["satisfied-approach-3"]]++;
@@ -169,28 +481,32 @@ async function generateAccuracyReports() {
       testing4,
       testing5,
       _id,
-      userId
+      userId,
+      isSatisfied
     } = answers[i];
+
+    if (![true, false].includes(isSatisfied)) continue;
+
     const user = await Models.User.findById(userId);
     const appSurvey = await Models.AppSurvey.findById(user.appSurveyId);
 
-    const testing1Values = Object.values(testing1);
-    const testing2Values = Object.values(testing2);
-    const testing3Values = Object.values(testing3);
-    const testing4Values = Object.values(testing4);
-    const testing5Values = Object.values(testing5);
+    const testing1Values = Object.values(testing1 || {});
+    const testing2Values = Object.values(testing2 || {});
+    const testing3Values = Object.values(testing3 || {});
+    const testing4Values = Object.values(testing4 || {});
+    const testing5Values = Object.values(testing5 || {});
 
-    const training1WithKey = updateWithKey(training1);
-    const training2WithKey = updateWithKey(training2);
-    const training3WithKey = updateWithKey(training3);
-    const training4WithKey = updateWithKey(training4);
-    const training5WithKey = updateWithKey(training5);
+    const training1WithKey = updateWithKey(training1 || {});
+    const training2WithKey = updateWithKey(training2 || {});
+    const training3WithKey = updateWithKey(training3 || {});
+    const training4WithKey = updateWithKey(training4 || {});
+    const training5WithKey = updateWithKey(training5 || {});
 
-    const testing1WithKey = updateWithKey(testing1);
-    const testing2WithKey = updateWithKey(testing2);
-    const testing3WithKey = updateWithKey(testing3);
-    const testing4WithKey = updateWithKey(testing4);
-    const testing5WithKey = updateWithKey(testing5);
+    const testing1WithKey = updateWithKey(testing1 || {});
+    const testing2WithKey = updateWithKey(testing2 || {});
+    const testing3WithKey = updateWithKey(testing3 || {});
+    const testing4WithKey = updateWithKey(testing4 || {});
+    const testing5WithKey = updateWithKey(testing5 || {});
     const testing1Ids = getQuestionIdByType(constants.STAGES.testing1, appSurvey);
     const testing2Ids = getQuestionIdByType(constants.STAGES.testing2, appSurvey);
     const testing3Ids = getQuestionIdByType(constants.STAGES.testing3, appSurvey);
@@ -573,6 +889,27 @@ async function generateAccuracyReports() {
 }
 
 function getQuestionIdByType(currentStage, appSurvey) {
+  if (currentStage === constants.STAGES.training1) {
+    const questionIds = appSurvey.questionIds.slice(0, 10);
+    return questionIds;
+  }
+  if (currentStage === constants.STAGES.training2) {
+    const questionIds = appSurvey.questionIds.slice(16, 26);
+    return questionIds;
+  }
+  if (currentStage === constants.STAGES.training3) {
+    const questionIds = appSurvey.questionIds.slice(32, 42);
+    return questionIds;
+  }
+  if (currentStage === constants.STAGES.training4) {
+    const questionIds = appSurvey.questionIds.slice(48, 58);
+    return questionIds;
+  }
+  if (currentStage === constants.STAGES.training5) {
+    const questionIds = appSurvey.questionIds.slice(64, 74);
+    return questionIds;
+  }
+
   if (currentStage === constants.STAGES.testing1) {
     const trainingQuestionIds = appSurvey.questionIds.slice(0, 10);
     const questionIds = [
